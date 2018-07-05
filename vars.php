@@ -5,8 +5,6 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-define('ROOT_DIR', dirname(__DIR__));
-
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $domainName = $_SERVER['HTTP_HOST'].'/';
 $siteURL= $protocol.$domainName;
@@ -14,7 +12,6 @@ $siteURL= $protocol.$domainName;
 define('SITE_URL', $siteURL);
 $GLOBALS['URL']=SITE_URL;
 $domainName=str_ireplace("/", "", $domainName);
-define('ROOT', dirname(__DIR__));
 define('FW_DIR', ROOT . DS . 'bi');
 define('PROJECT_DIR', ROOT . DS . 'src');
 define('APP_DIR', PROJECT_DIR);
