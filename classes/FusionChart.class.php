@@ -157,7 +157,7 @@ class FusionCharts{
 			}
 			
 		    $this->chartID=$chartType . $chartCounter;
-				session_start();
+				session_start(); //Fusion charts
 			$_SESSION['chartcount']=++$chartCounter;
 			session_write_close();
 			
