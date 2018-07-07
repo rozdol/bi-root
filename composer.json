@@ -8,6 +8,8 @@
     },
     "require": {
         "php": ">=5.3",
-        "composer/installers": "^1.1"
+        "composer/installers": "^1.1",
+        "usmanhalalit/pixie": "^2.0",
+        "firebase/php-jwt": "^5.0"
     }
 }

@@ -203,3 +203,19 @@ if ($debug==1) {
     echo "</pre>";
     exit;
 }
+// composer requires usmanhalalit/pixie
+// https://github.com/usmanhalalit/pixie
+new \Pixie\Connection(
+    'pgsql',
+    array(
+    'driver'   => 'pgsql',
+    'host'     => $_ENV['DB_SERVER'],
+    'database' => $_ENV['DB_NAME'],
+    'username' => $_ENV['DB_USER'],
+    'password' => $_ENV['DB_PASS'],
+    'charset'  => 'utf8',
+    'prefix'   => '',
+    'schema'   => 'public',
+    ),
+    'QB'
+);
