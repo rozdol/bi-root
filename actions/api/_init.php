@@ -1,4 +1,6 @@
 <?php
+use \Firebase\JWT\JWT;
+
 error_reporting(E_ERROR);
 
 header('Pragma: no-cache');
@@ -14,9 +16,12 @@ $filtered=[];
 //$filtered=$this->html->readRQj('data');
 $JSONData=null;
 $inputs=$filtered;
+$php_input = json_decode(file_get_contents('php://input'), true);
 
-// echo json_encode($_POST);
-// exit;
+if ($php_input) {
+    $_POST = array_merge($php_input, $_POST);
+}
+
 
 unset($_POST[data]);
 foreach ($_POST as $key => $value) {
@@ -24,23 +29,36 @@ foreach ($_POST as $key => $value) {
     //$inputs[$key]=filter_var($value, $filters[$key], $options[$key]);
 }
 
-
-
 if ($inputs[api_key]=='') {
     $username=$inputs[user];
     $password=$inputs[pass];
 
-    $sql = "SELECT * FROM users WHERE username='$username' order by id asc limit 1";
-    $user=$this->db->GetRow($sql);
+    $query = QB::table('users')
+        ->where('username', $username)
+        ->where('active', '1')
+        ->orderBy('id', 'ASC');
+    $user = get_object_vars($query->first());
+
     $good_hash=$user[password_hash];
 
     $ok=$this->crypt->validate_password($password, $good_hash)*1;
     if ($ok > 0) {
-        $sql="SELECT * from apis where user_id='$user[id]' and active='t'";
-        $api=$this->db->getrow($sql);
+        $token =
+        [
+            'sub' => $user[id],
+            'unm' => $user[username],
+            'exp' => time() + 604800 //1 week
+        ];
+        $jwt = JWT::encode($token, $_ENV[APP_SALT]);
+
+        $query = QB::table('apis')
+            ->where('user_id', $user[id])
+            ->where('active', 't');
+        $api = get_object_vars($query->first());
+
         if ($api[id]>0) {
             $funcs=explode(',', $api[functions]);
-            echo json_encode(['api_key'=>$api[key],'funcs'=>$funcs]);
+            echo json_encode(['api_key'=>$api[key], 'authorization'=>"Bearer $jwt",'funcs'=>$funcs]);
             exit;
         } else {
             echo json_encode(['error'=>"No api key for user $username"]);
@@ -56,26 +74,51 @@ if ($inputs[api_key]=='') {
     exit;
 }
 //$this->data->api(2,'get_consent_status,get_balance,get_recepients,get_companies,run_session');
-$sql="SELECT * from apis where key='$inputs[api_key]' and active='t'";
-$api=$this->db->getrow($sql);
 
-//?act=api&user=username&pass=pass
-//?act=api
-// user=username
-// api_key=key
-// func=get_rate
-// date=01.01.2018
 
-// func=view
-// table=partners
+$query = QB::table('apis')
+    ->where('key', $inputs[api_key])
+    ->where('active', 't');
+$api = get_object_vars($query->first());
 
-//?act=api&what=test&data={"api_key":"; delete from apis;---'","user":"admin","func":"get_consent_status","param":"it@example.com"}
 
 if (!$api[id]) {
     echo json_encode(['error'=>'No api']);
     exit;
 }
-$user=$this->db->getrow("SELECT * from users where id='$api[user_id]' and active='1'");
+
+$http_authorization_arr=explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+if ($http_authorization_arr[0]=="Bearer") {
+    $http_authorization=$http_authorization_arr[1];
+}
+
+if ($http_authorization=='') {
+    echo json_encode(['error'=>'No authorization string supplied']);
+    exit;
+}
+try {
+    $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
+} catch (Exception $e) {
+    echo json_encode(['error'=>'Error']);
+    exit;
+}
+
+if ($decoded->sub!=$api[user_id]) {
+    echo json_encode(['error'=>'Auth not matched with api']);
+    exit;
+}
+
+if ($decoded->exp<time()) {
+    echo json_encode(['error'=>'Auth expired']);
+    exit;
+}
+
+$query = QB::table('users')
+    ->where('id', $decoded->sub)
+    ->where('username', $decoded->unm)
+    ->where('active', '1');
+$user = get_object_vars($query->first());
+
 if (!$user[id]) {
     echo json_encode(['error'=>'No user']);
     exit;
@@ -84,6 +127,7 @@ if ($user[username]!=$inputs[user]) {
     echo json_encode(['error'=>'Not allowed']);
     exit;
 }
+
 $GLOBALS[uid]=$user[id];
 $functions=explode(',', $api[functions]);
 $functions[]='update';

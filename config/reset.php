@@ -10,6 +10,14 @@ $default_conn = @pg_connect("host=".$_ENV['DB_SERVER']."
 if ((!$default_conn)) {
     return $this->html->error("No connection to one of the DBs");
 }
+$sql_disconnect="SELECT pg_terminate_backend(pg_stat_activity.pid)
+    FROM pg_stat_activity
+    WHERE pg_stat_activity.datname = '".$_ENV['DB_NAME']."'
+      AND pid <> pg_backend_pid();";
+if (!($cursor = pg_query($default_conn, $sql_disconnect))) {
+    $this->html->SQL_error($sql_disconnect);
+}
+
 $sql_reset="DROP DATABASE ".$_ENV['DB_NAME'].";";
 if (!($cursor = pg_query($default_conn, $sql_reset))) {
     $this->html->SQL_error($sql_reset);

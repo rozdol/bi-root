@@ -11,16 +11,29 @@ if ($act=='edit') {
         $res=$this->db->getrow("SELECT * from apis where user_id=$refid limit 1");
         if ($res[id]>0) {
         } else {
-            $funcs='get_rate';
-            if ($GLOBALS[app_name]=='fastconsent') {
-                $funcs='get_rate,get_consent_status,get_balance,get_recepients,get_companies,run_session';
+            $filenames[]='get_rate';
+            $dir = APP_DIR.DS.'actions'.DS.'api';
+            $files = scandir($dir);
+            foreach ($files as $file) {
+                if ($this->utils->contains('.php', $file)) {
+                    $filename=explode('.', $file);
+                    if ($filename[0]!='test') {
+                        $filenames[]=$filename[0];
+                    }
+                }
             }
+
+            $funcs=implode(',', $filenames);
+            // if ($GLOBALS[app_name]=='fastconsent') {
+            //     $funcs='get_rate,get_consent_status,get_balance,get_recepients,get_companies,run_session';
+            // }
             
             $key=$this->data->api($refid, $funcs);
             $res=$this->db->getrow("SELECT * from apis where user_id=$refid and key='$key'");
         }
     }
 }
+
 
 //echo $this->html->pre_display($refid,"$reference");
 $form_opt['well_class']="span11 columns form-wrap";

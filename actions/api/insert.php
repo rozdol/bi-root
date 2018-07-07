@@ -32,13 +32,20 @@ if ($this->data->field_exists($table, 'user_id')) {
     $vals[user_id]=$GLOBALS[uid];
 }
 
-$id=$this->db->insert_DB($table, $vals);
-$new_vals=$this->data->get_row($table, $id);
-
+//$id=$this->db->insert_DB($table, $vals);
+$id = QB::table($table)->insert($vals);
+//$new_vals=$this->data->get_row($table, $id);
+$new_vals = QB::table($table)->find($id);
+if (is_object($new_vals)) {
+    $new_vals=get_object_vars($new_vals);
+}
 foreach ($vals as $key => $value) {
     $inserted[$key]=$new_vals[$key];
 }
-$new_vals=$this->data->get_row($table, $id);
+$new_vals = QB::table($table)->find($id);
+if (is_object($new_vals)) {
+    $new_vals=get_object_vars($new_vals);
+}
 
 $JSONData=[
     'user_id'=>$GLOBALS[uid],

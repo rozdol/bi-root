@@ -1,5 +1,4 @@
 <?php
-$sql="";
 $help=$this->html->readRQn('help');
 if ($help) {
     $func=$this->html->readRQs('func');
@@ -26,23 +25,48 @@ if (!$GLOBALS["access"]["view_$table"]) {
     exit;
 }
 
+$q = QB::table($table);
 
-$vals=$this->html->readRQj('values');
+$fields=$this->html->readRQcsv('fields', '', 0, 0);
+if (count($fields)) {
+    $q = $q->select($fields);
+}
 
+$filters=$this->html->readRQcsv('filters', '', 0, 0);
+foreach ($filters as $filter) {
+    $f++;
+    $filter=explode(' ', $filter);
+    $count=count($filter);
+    $count2=$count-3;
+    $ors=$count2/4;
 
-//return $JSONData=['ok'=>'ok'];
-
-if ($this->data->field_exists($table, 'user_id')) {
-    $sql.=" and user_id=$GLOBALS[uid]";
+    if ($count==3) {
+        $q = $q->where($filter[0], $filter[1], $filter[2]);
+    }
+    if (($count>3)&&($count2 % 4 == 0)) {
+        $q = $q->where(function ($q2) use ($filter, $ors) {
+            $q2->where($filter[0], $filter[1], $filter[2]);
+                // You can provide a closure on these wheres too, to nest further.
+            for ($i=1; $i <=$ors; $i++) {
+                $q2->orWhere($filter[$i*4], $filter[$i*4+1], $filter[$i*4+2]);
+            }
+        });
+    }
 }
 
 
-//return $JSONData=['ok'=>'ok'];
+if ($this->data->field_exists($table, 'user_id')) {
+    $q = $q->where('user_id', '=', $GLOBALS['uid']);
+}
 
-$sql="SELECT * from $table where id>0 $sql order by id asc";
+$rows=$q->get();
+
+$queryObj = $q->getQuery();
+$sql=$queryObj->getRawSql();
 
 $result=$this->db->GetResults($sql);
-$pd= $this->html->pre_display($result, "result");
-return $JSONData=[$table=>$result];
+//$JSONData['sql']=$sql;
+$JSONData[$table]=$rows;
+return $JSONData;
 
-return $JSONData=$result;
+//return $JSONData=$result;

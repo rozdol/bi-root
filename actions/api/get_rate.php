@@ -1,5 +1,4 @@
 <?php
-//$new_vals=$this->db->getrow("SELECT * from rates order by date desc limit 1");
 $help=$this->html->readRQn('help');
 if ($help) {
     $func=$this->html->readRQs('func');
@@ -17,13 +16,14 @@ $date=$this->html->readRQd('date', 1);
 
 $new_vals['date']=$date;
 $new_vals['help']=$help;
-$sql2="select * from listitems where list_id=6 order by id";
-if (!($cur2 = pg_query($sql2))) {
-    $this->html->SQL_error($sql2);
-}
-while ($row2 = pg_fetch_array($cur2)) {
-    $currency=$row2[name];
-    $rate=$this->data->get_rate($row2[id], $date);
+
+$query = QB::table('listitems')
+    ->where('list_id', 6)
+    ->orderBy('id', 'ASC');
+$result = $query->get();
+foreach ($result as $row) {
+    $currency=$row->name;
+    $rate=$this->data->get_rate($row->id, $date);
     $new_vals[$currency]=$rate;
 }
 
