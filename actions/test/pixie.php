@@ -7,7 +7,7 @@ $query = QB::table($table)
     ->select('user_id')
     ->where('user_id', $GLOBALS[uid])
     ->where('id', $id);
-$user_id = $query->first();
+$user_id = $query->first()->user_id;
 echo $this->html->pre_display($user_id, "user_id");
 
 $q = QB::table('entities');
