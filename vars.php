@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.0.3";
+$GLOBALS['app_version']="8.1.1";
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
