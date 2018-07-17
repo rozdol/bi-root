@@ -58,7 +58,9 @@ class Numbers_Words
      */
     function toWords($num, $locale = 'en_US') {
 
-        include_once(FW_DIR.'/vendor/'."Numbers/Words/lang.${locale}.php");
+        $locale_file=CLASSES_DIR.DS.'Numbers'.DS.'Words'.DS."lang.${locale}.php";
+
+        include_once($locale_file);
 
         $classname = "Numbers_Words_${locale}";
 

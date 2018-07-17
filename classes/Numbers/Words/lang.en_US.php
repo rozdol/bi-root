@@ -32,7 +32,8 @@
 /**
  * Include needed files
  */
-require_once(FW_DIR.'/vendor/'."Numbers/Words.php");
+$numbers_class=CLASSES_DIR.DS.'Numbers'.DS.'Words.php';
+require_once($numbers_class);
 
 /**
  * Class for translating numbers into American English.
