@@ -84,10 +84,11 @@ while ($row = pg_fetch_array($cur, null, PGSQL_ASSOC)) {
     $out.= "<td>$i</td>";
     $out.= "<td>$name</td>";
     if (!$used_reports[$name]) {
-        $row[link]='#';
+        //$row[link]='#';
     }
     $out.= "<td><a href='$row[link]'>$row[name]</a></td>";
     $out.= "<td>".$used_reports[$name]."</td>";
+    $out.= "<td><a href='?act=edit&what=menuitems&id=$row[id]'>E</a></td>";
     $out.= "</tr>";
 }
 $this->livestatus('');
