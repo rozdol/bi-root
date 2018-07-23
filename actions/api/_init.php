@@ -99,7 +99,7 @@ if ($http_authorization=='') {
 try {
     $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
 } catch (Exception $e) {
-    echo json_encode(['error'=>'Error']);
+    echo json_encode(['error'=>'No Auth']);
     exit;
 }
 
