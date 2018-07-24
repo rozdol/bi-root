@@ -6,6 +6,40 @@
     $value=$this->html->readRQ('value');
     $is_money=$this->html->readRQn('is_money');
     $action=$this->html->readRQ('action');
+    $is_json=$this->html->readRQn('is_json');
+
+
+if($is_json>0){
+    $domain=$this->html->readRQ('domain');
+    $trail=explode('->',$domain);
+    array_shift($trail);
+    $pd=$this->html->pre_display($trail);
+    $count=count($trail);
+    $array=json_decode($this->data->get_val($table,$field,$id),true);
+    if($count==1){
+        $array[$trail[0]]=$value;
+    }
+    if($count==2){
+        $array[$trail[0]][$trail[1]]=$value;
+    }
+    if($count==3){
+        $array[$trail[0]][$trail[1]][$trail[2]]=$value;
+    }
+    if($count==4){
+        $array[$trail[0]][$trail[1]][$trail[2]][$trail[3]]=$value;
+    }
+    if($count==5){
+        $array[$trail[0]][$trail[1]][$trail[2]][$trail[3]][$trail[4]]=$value;
+    }
+
+
+
+    $json=json_encode($array);
+    $this->db->update_db($table, $id, ["$field" => $json]);
+    echo "$value";
+    exit;
+}
+
 if ($table=='no_table') {
     $value=$this->data->save_from_inline();
     $out.= $value;
