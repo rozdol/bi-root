@@ -136,10 +136,21 @@ $db_name=$db_app[0];
 
 $GLOBALS['project']=$app_name;
 
+if (defined($_SERVER['RDS_HOSTNAME'])) {
+  define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
+  define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
+  define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
+  define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
+  $db_name=$_SERVER['RDS_DB_NAME'];
+
+  $_ENV['DB_SERVER']=$_SERVER['RDS_HOSTNAME'];
+  $_ENV['DB_USER']=$_SERVER['RDS_USERNAME'];
+  $_ENV['DB_PASS']=$_SERVER['RDS_PASSWORD'];
+  $_ENV['DB_NAME']=$_SERVER['RDS_DB_NAME'];
+}
 
 define('APP_NAME', $app_name);
 define('DB_NAME', $db_name);
-
 
 
 $GLOBALS['db']['name']=$db_name;
@@ -174,18 +185,22 @@ foreach ($_POST as $key => $value) {
 $GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
 //require_once(APP_DIR.'/settings.php');
 
-$GLOBALS['db']['server']=getenv('DB_SERVER');
-$GLOBALS['db']['port']=getenv('DB_PORT');
-if ($GLOBALS['db']['name']=="") {
-    $GLOBALS['db']['name']=getenv('DB_NAME');
-}
-if ($GLOBALS['db']['name2']=="") {
-    $GLOBALS['db']['name2']=getenv('DB_SERVER2');
-}
-$GLOBALS['db']['user']=getenv('DB_USER');
-$GLOBALS['db']['pass']=getenv('DB_PASS');
+// if (!defined($_SERVER['RDS_HOSTNAME'])) {
+//     $GLOBALS['db']['server']=getenv('DB_SERVER');
+//     $GLOBALS['db']['port']=getenv('DB_PORT');
+//     if ($GLOBALS['db']['name']=="") {
+//         $GLOBALS['db']['name']=getenv('DB_NAME');
+//     }
+//     if ($GLOBALS['db']['name2']=="") {
+//         $GLOBALS['db']['name2']=getenv('DB_SERVER2');
+//     }
+//     $GLOBALS['db']['user']=getenv('DB_USER');
+//     $GLOBALS['db']['pass']=getenv('DB_PASS');
+// }
 //Vars
 $GLOBALS['settings']['dev_mode']=getenv('DEV_MODE');
+
+
 
 
 if ($debug==1) {
