@@ -3,9 +3,9 @@
 // https://github.com/paragonie/easydb
 // composer require paragonie/easydb:^2
 $edb = \ParagonIE\EasyDB\Factory::create(
-    'pgsql:host='.$_ENV['DB_SERVER'].';dbname='.$_ENV['DB_NAME'],
-    $_ENV['DB_USER'],
-    $_ENV['DB_PASS']
+    'pgsql:host='.$GLOBALS['DB']['DB_SERVER'].';dbname='.$GLOBALS['DB']['DB_NAME'],
+    $GLOBALS['DB']['DB_USER'],
+    $GLOBALS['DB']['DB_PASS']
 );
 //$rows = $edb->run('SELECT ?', [1]);
 echo $this->html->pre_display($rows, "rows2");

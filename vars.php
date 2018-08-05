@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.1.1";
+$GLOBALS['app_version']="8.2.0"; //Use RDS AWS
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -116,8 +116,8 @@ function get_app_db($domain)
         $app_name = basename($dirs[0]);
     }
 
-    if ($_ENV['DB_NAME']!='') {
-        $db_name=$_ENV['DB_NAME'];
+    if ($GLOBALS['DB']['DB_NAME']!='') {
+        $db_name=$GLOBALS['DB']['DB_NAME'];
     }
     if ($_ENV['APP_NAME']!='') {
         $app_name=$_ENV['APP_NAME'];
@@ -136,17 +136,23 @@ $db_name=$db_app[0];
 
 $GLOBALS['project']=$app_name;
 
-if (defined($_SERVER['RDS_HOSTNAME'])) {
-  define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
-  define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
-  define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
-  define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
-  $db_name=$_SERVER['RDS_DB_NAME'];
+$GLOBALS['DB']['DB_SERVER']=$_ENV['DB_SERVER'];
+$GLOBALS['DB']['DB_USER']=$_ENV['DB_USER'];
+$GLOBALS['DB']['DB_PASS']=$_ENV['DB_PASS'];
+$GLOBALS['DB']['DB_NAME']=$_ENV['DB_NAME'];
+$GLOBALS['DB']['DB_PORT']=$_ENV['DB_PORT'];
 
-  $_ENV['DB_SERVER']=$_SERVER['RDS_HOSTNAME'];
-  $_ENV['DB_USER']=$_SERVER['RDS_USERNAME'];
-  $_ENV['DB_PASS']=$_SERVER['RDS_PASSWORD'];
-  $_ENV['DB_NAME']=$_SERVER['RDS_DB_NAME'];
+if (defined($_SERVER['RDS_HOSTNAME'])) {
+    define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
+    define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
+    define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
+    define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
+    $db_name=$_SERVER['RDS_DB_NAME'];
+
+    $GLOBALS['DB']['DB_SERVER']=$_SERVER['RDS_HOSTNAME'];
+    $GLOBALS['DB']['DB_USER']=$_SERVER['RDS_USERNAME'];
+    $GLOBALS['DB']['DB_PASS']=$_SERVER['RDS_PASSWORD'];
+    $GLOBALS['DB']['DB_NAME']=$_SERVER['RDS_DB_NAME'];
 }
 
 define('APP_NAME', $app_name);
@@ -216,21 +222,31 @@ if ($debug==1) {
     echo "<pre>";
     print_r($_SERVER);
     echo "</pre>";
+    echo 'DB VARS<br>';
+    echo '===============<br>';
+    echo "<pre>";
+    print_r($GLOBALS['DB']);
+    echo "</pre>";
     exit;
 }
 // composer requires usmanhalalit/pixie
 // https://github.com/usmanhalalit/pixie
-new \Pixie\Connection(
-    'pgsql',
-    array(
-    'driver'   => 'pgsql',
-    'host'     => $_ENV['DB_SERVER'],
-    'database' => $_ENV['DB_NAME'],
-    'username' => $_ENV['DB_USER'],
-    'password' => $_ENV['DB_PASS'],
-    'charset'  => 'utf8',
-    'prefix'   => '',
-    'schema'   => 'public',
-    ),
-    'QB'
-);
+try {
+    new \Pixie\Connection(
+        'pgsql',
+        array(
+        'driver'   => 'pgsql',
+        'host'     => $GLOBALS['DB']['DB_SERVER'],
+        'database' => $GLOBALS['DB']['DB_NAME'],
+        'username' => $GLOBALS['DB']['DB_USER'],
+        'password' => $GLOBALS['DB']['DB_PASS'],
+        'charset'  => 'utf8',
+        'prefix'   => '',
+        'schema'   => 'public',
+        ),
+        'QB'
+    );
+} catch (Exception $e) {
+    //die(nl2br($e));
+    return false;
+}

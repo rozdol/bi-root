@@ -24,7 +24,7 @@ echo $this->html->pre_display($select->getStatement(), "sql");
 echo $this->html->pre_display($select->getBindValues(), "sql");
 
 
-$pdo = new PDO("pgsql:dbname=".$_ENV['DB_NAME'].";host=".$_ENV['DB_SERVER'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+$pdo = new PDO("pgsql:dbname=".$GLOBALS['DB']['DB_NAME'].";host=".$GLOBALS['DB']['DB_SERVER'], $GLOBALS['DB']['DB_USER'], $GLOBALS['DB']['DB_PASS']);
 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
