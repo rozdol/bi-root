@@ -148,6 +148,7 @@ if ($_SERVER['RDS_HOSTNAME']!='') {
     $GLOBALS['DB']['DB_USER']=$_SERVER['RDS_USERNAME'];
     $GLOBALS['DB']['DB_PASS']=$_SERVER['RDS_PASSWORD'];
     $GLOBALS['DB']['DB_NAME']=$_SERVER['RDS_DB_NAME'];
+    $GLOBALS['DB']['DB_PORT']='5432';
 }
 
 define('APP_NAME', $app_name);
