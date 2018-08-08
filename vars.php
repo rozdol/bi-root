@@ -1,9 +1,14 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.2.0"; //Use RDS AWS
+$GLOBALS['app_version']="8.2.1"; //Use RDS AWS
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
+// $_SERVER['RDS_HOSTNAME']='BLAH';
+// $_SERVER['RDS_PORT']='2222';
+// $_SERVER['RDS_USERNAME']='PARTGR';
+// $_SERVER['RDS_DB_NAME']='DB';
+// $_SERVER['RDS_PASSWORD']='PASS';
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $domainName = $_SERVER['HTTP_HOST'].'/';
@@ -41,7 +46,7 @@ if (file_exists(APP_DIR.DS.'.env')) {
     }
 }
 if ($debug==1) {
-    echo 'USER DEFINED<br>';
+    echo 'USER DEFINED ($_ENV)<br>';
     echo '===============<br>';
     echo "<pre>";
     print_r($_ENV);
@@ -213,12 +218,12 @@ if ($debug==1) {
     echo "<pre>";
     print_r(get_defined_constants(true)[user]);
     echo "</pre>";
-    echo 'SERVER VARS<br>';
+    echo 'SERVER VARS ($_SERVER)<br>';
     echo '===============<br>';
     echo "<pre>";
     print_r($_SERVER);
     echo "</pre>";
-    echo 'DB VARS<br>';
+    echo 'DB VARS ($GLOBALS[\'DB\'])<br>';
     echo '===============<br>';
     echo "<pre>";
     print_r($GLOBALS['DB']);
