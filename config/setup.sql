@@ -155,8 +155,8 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
-ALTER FUNCTION add_new_list(bigint, text, text, text[])
-OWNER TO postgres;
+-- ALTER FUNCTION add_new_list(bigint, text, text, text[])
+-- OWNER TO postgres;
 
 --SELECT "add_new_list" (2, 'Etity type','entity',array['Client','Pharmacy','Laboratory','Hospital','Insurance']);
 
