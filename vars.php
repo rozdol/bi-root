@@ -213,7 +213,9 @@ $GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
 //Vars
 $GLOBALS['settings']['dev_mode']=getenv('DEV_MODE');
 
-
+if (($GLOBALS['settings']['dev_mode'])) {
+    error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+}
 
 
 if ($debug==1) {
