@@ -57,7 +57,7 @@ if ($what == 'notify') {
 					<div id='hiddenfield' style='display: none;'>
 					<dt><label>Groups:</label><textarea name='groupslist' id='groupslist'>$groupslist</textarea></dt>
 					</div>
-					<dt><label>Groups:<br><img src='".APP_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"groupslist\").innerHTML=\"\";
+					<dt><label>Groups:<br><img src='".ASSETS_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"groupslist\").innerHTML=\"\";
 					document.getElementById(\"groupsnamelist\").innerHTML=\"\";'></label><textarea name='groupsnamelist' id='groupsnamelist' >$groupsnamelist</textarea></dt>
 				    <dt><label>Groups</label>$groupid</dt>
 				 <div class='spacer'></div>
@@ -65,7 +65,7 @@ if ($what == 'notify') {
 						<div id='hiddenfield' style='display: none;'>
 						<dt><label>Users:</label><textarea name='userslist' id='userslist'>$userslist</textarea></dt>
 						</div>
-						<dt><label>Users:<br><img src='".APP_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"userslist\").innerHTML=\"\";
+						<dt><label>Users:<br><img src='".ASSETS_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"userslist\").innerHTML=\"\";
 						document.getElementById(\"usersnamelist\").innerHTML=\"\";'></label><textarea name='usersnamelist' id='usersnamelist' >$groupsnamelist</textarea></dt>
 					    <dt><label>Users</label>$userid</dt>
 						$sendalert

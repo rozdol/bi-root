@@ -38,7 +38,7 @@ if ($what == 'sendmail'){
         $out.= "\t\t<td>$res[filename]</td>\n";
         $out.= "\t\t<td>$res[descr]</td>\n";
         $out.= "\t\t<td>$res[filesize]</td>\n";
-        $out.= "\t\t<td><a href='?act=details&what=uploads&opt=nowrap&id=$res[id]'><img src='".APP_URI."/assets/img/custom/download.gif'></a></td>\n";
+        $out.= "\t\t<td><a href='?act=details&what=uploads&opt=nowrap&id=$res[id]'><img src='".ASSETS_URI."/assets/img/custom/download.gif'></a></td>\n";
         $out.= "\t\t<td>$res[tablename] [$res[refid]]</td>\n";
         $out.= "\t\t<td><label><input type='checkbox' name='item$res[id]' value='$res[id]' $checked /></label></td>\n";
         $out.= "\t</tr>\n";

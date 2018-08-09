@@ -41,11 +41,11 @@ while ($row = pg_fetch_array($cur)) {
 	$out.= "  <td>$i</td><td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
 	$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\">$row[name]</td><td>$row[date]</td><td>$row[size]</td><td>$row[substr]</td><td>$row[username]</td>";
 	if($document[block_download]=='f'){
-		$out.= "<td><a href='?act=details&what=uploads&id=$row[id]'><img src='".APP_URI."/assets/img/download.png'></a></td>";
+		$out.= "<td><a href='?act=details&what=uploads&id=$row[id]'><img src='".ASSETS_URI."/assets/img/download.png'></a></td>";
 		$out.=$this->html->HT_editicons($what, $row[id]);
 	}else{
 		if(($access[main_admin])||($access[block_download])){
-			$out.= "<td><a href='?act=details&what=uploads&id=$row[id]'><img src='".APP_URI."/assets/img/download.png'></a></td>";
+			$out.= "<td><a href='?act=details&what=uploads&id=$row[id]'><img src='".ASSETS_URI."/assets/img/download.png'></a></td>";
 			$out.=$this->html->HT_editicons($what, $row[id]);
 		}
 	}
@@ -53,7 +53,7 @@ while ($row = pg_fetch_array($cur)) {
 	$csv.="$row[id]	$row[name]\t$row[descr]\n";
 	$totals[2]+=$row[qty];
 	if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];	
-	//$responce.= "<a href='?act=details&what=uploads&id=$id'><img src='".APP_URI."/assets/img/download.png'></a>";		
+	//$responce.= "<a href='?act=details&what=uploads&id=$id'><img src='".ASSETS_URI."/assets/img/download.png'></a>";
 }
 include(FW_DIR.'/helpers/end_table.php');
 //$out.= "<a href='?act=add&what=importtrips'>Import</a> .::. <a href='?act=tools&what=export	trips'>Export</a>"; 

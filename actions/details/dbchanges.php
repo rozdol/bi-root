@@ -33,7 +33,7 @@ if ($what == 'dbchanges') {
         $out.= "Description:<br><pre>$res[descr]</pre>";
     }
     $out.=$this->data->details_bar($what, $id);
-        $out.="<div class='alert alert-info'>$fav :: <a href='?act=edit&table=$what&id=$id'><img src='".APP_URI."/assets/img/custom/edit.png'> Edit </a> :: <a href='?act=edit&table=notify&refid=$id&tablename=$what'><img src='".APP_URI."/assets/img/custom/MailSend.png'> Notify </a>$isnotified</div>";
+        $out.="<div class='alert alert-info'>$fav :: <a href='?act=edit&table=$what&id=$id'><img src='".ASSETS_URI."/assets/img/custom/edit.png'> Edit </a> :: <a href='?act=edit&table=notify&refid=$id&tablename=$what'><img src='".ASSETS_URI."/assets/img/custom/MailSend.png'> Notify </a>$isnotified</div>";
 
         ;
 }

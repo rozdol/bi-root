@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.2.1"; //Use RDS AWS
+$GLOBALS['app_version']="8.3.0"; //Use AWS S3 for ASSETS_URI
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -185,6 +185,12 @@ define('SIGNS_DIR', DATA_DIR .'signatures'. DS);
 $app_uri=str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 //if($app_uri=='')$app_uri='/';
 define(APP_URI, $app_uri);
+if($_ENV['ASSETS_URI']!=''){
+    define(ASSETS_URI, $_ENV['ASSETS_URI']);
+}else{
+    define(ASSETS_URI, $app_uri);
+}
+
 $formdata='';
 foreach ($_POST as $key => $value) {
     $formdata="$formdata&$key=$value";

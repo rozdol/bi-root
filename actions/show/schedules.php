@@ -24,12 +24,12 @@ if ($gid>3) {
     $sql = "$sql and (userid='$uid' or usersinvolved ~* '$uid,')";
 }
 $sql1="select id, name, tablename, nextdate, usersinvolved, type, userid, refid, descr, qty, active as act,
-CASE WHEN a.active='t' THEN $$<img src='".APP_URI."/assets/img/custom/ok.gif'>$$
-ELSE $$<img src='".APP_URI."/assets/img/custom/cancel.gif'>$$
+CASE WHEN a.active='t' THEN $$<img src='".ASSETS_URI."/assets/img/custom/ok.gif'>$$
+ELSE $$<img src='".ASSETS_URI."/assets/img/custom/cancel.gif'>$$
 END as active,
 
-CASE WHEN a.confirm='t' THEN $$<img src='".APP_URI."/assets/img/custom/ok.gif'>$$
-ELSE $$<img src='".APP_URI."/assets/img/custom/cancel.gif'>$$
+CASE WHEN a.confirm='t' THEN $$<img src='".ASSETS_URI."/assets/img/custom/ok.gif'>$$
+ELSE $$<img src='".ASSETS_URI."/assets/img/custom/cancel.gif'>$$
 END as confirm";
 $sql=" from $what a where id>0 $sql";
 $sqltotal=$sql;

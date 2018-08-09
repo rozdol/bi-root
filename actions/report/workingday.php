@@ -40,7 +40,7 @@ if ($what == 'workingday') {
         }
         $dispay=1;
         $next=$hour+1;
-        $graph="<p><img src='".APP_URI."/assets/img/custom/bar.gif' height='10' width='$row[hits]'></p>";
+        $graph="<p><img src='".ASSETS_URI."/assets/img/custom/bar.gif' height='10' width='$row[hits]'></p>";
             $out.= "<tr class='$col_col' onMouseOver=\"this.className='highlight'\" onMouseOut=\"this.className='$col_col'\">						
 						<td>$hour - $next</td><td>$row[hits]</td><td>$graph</td></tr>";
             $prevhour=$hour;

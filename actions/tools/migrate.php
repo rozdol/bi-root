@@ -64,7 +64,7 @@ if (($what == 'migrate')&&($access['main_admin'])) {
     $file_c = str_replace('$body.= "$out";', '', $file_c);
     $file_c = str_replace('$out.=$out;', '', $file_c);
     $file_c = str_replace('$fav=isinfavorites($what,$id);', '$out.=$this->data->details_bar($what,$id);', $file_c);
-    $file_c = str_replace('$out.= "<div class=\'alert alert-info\'>$fav :: <a href=\'?act=edit&table=$what&id=$id\'><img src=\'".APP_URI."/assets/img/custom/edit.png\'> Edit </a> :: <a href=\'?act=edit&table=notify&refid=$id&tablename=$what\'><img src=\'".APP_URI."/assets/img/custom/MailSend.png\'> Notify </a>$isnotified</div>";', '', $file_c);
+    $file_c = str_replace('$out.= "<div class=\'alert alert-info\'>$fav :: <a href=\'?act=edit&table=$what&id=$id\'><img src=\'".ASSETS_URI."/assets/img/custom/edit.png\'> Edit </a> :: <a href=\'?act=edit&table=notify&refid=$id&tablename=$what\'><img src=\'".ASSETS_URI."/assets/img/custom/MailSend.png\'> Notify </a>$isnotified</div>";', '', $file_c);
     
     
     
@@ -133,7 +133,7 @@ if (($what == 'migrate')&&($access['main_admin'])) {
     $file_c = str_replace('readconfig(', '$this->data->readconfig(', $file_c);
     $file_c = str_replace('writeconfig(', '$this->data->writeconfig(', $file_c);
     
-    $file_c = str_replace('../assets', '".APP_URI."/assets', $file_c);
+    $file_c = str_replace('../assets', '".ASSETS_URI."/assets', $file_c);
     
     $file_c = str_replace('DB_show(', '$out.=$this->show(', $file_c);
     $file_c = str_replace('DB_details(', '$out.=$this->details(', $file_c);

@@ -15,7 +15,7 @@
 
 // $body.=$out;
 //
-$wait="<img src=".APP_URI."/assets/img/ajax-loader-bar.gif>";
+$wait="<img src=".ASSETS_URI."/assets/img/ajax-loader-bar.gif>";
 $arr=[
     'user'=>'admin',
     'pass'=>'Pass1234',

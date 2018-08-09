@@ -35,7 +35,7 @@ $data = json_decode($json);
 foreach($data as $key=>$value){
 	$FC->addChartData($value,"label=$key");
 }
- echo "	<script src='".APP_URI."/assets/js/FusionCharts/FusionCharts.js'></script>
+ echo "	<script src='".ASSETS_URI."/assets/js/FusionCharts/FusionCharts.js'></script>
 	<script>FusionCharts.setCurrentRenderer('javascript');</script>";
 	ob_flush();flush();
 

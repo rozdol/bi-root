@@ -32,7 +32,7 @@ $response="<div align='center' class='text'>
 	<param name='movie' value='Charts$type?registerWithJS=1'/>		
 	<param name='FlashVars' value='&chartWidth=$w&chartHeight=$h&debugMode=0&dataURL=$strDataURL' />
 	<param name='quality' value='high' />
-	<embed src='".APP_URI."/assets/swf/$type?registerWithJS=1' FlashVars='&chartWidth=$w&chartHeight=$h&debugMode=0&dataURL=$strDataURL' quality='high' width='$w' height='$h' name='sampleChart' allowScriptAccess='always' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer' />
+	<embed src='".ASSETS_URI."/assets/swf/$type?registerWithJS=1' FlashVars='&chartWidth=$w&chartHeight=$h&debugMode=0&dataURL=$strDataURL' quality='high' width='$w' height='$h' name='sampleChart' allowScriptAccess='always' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer' />
 </object>
 	</div>
 	";

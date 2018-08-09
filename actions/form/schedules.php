@@ -90,7 +90,7 @@ if ($what == 'schedules') {
 						<div id='hiddenfield' style='display: none;'>
 						<label>Users:</label><textarea name='userslist' id='userslist'>$userslist</textarea>
 						</div>
-						<label>Users:<br><img src='".APP_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"userslist\").innerHTML=\"\";
+						<label>Users:<br><img src='".ASSETS_URI."/assets/img/custom/cancel.png' onclick='document.getElementById(\"userslist\").innerHTML=\"\";
 						document.getElementById(\"usersnamelist\").innerHTML=\"\";'></label><textarea name='usersnamelist' id='usersnamelist' >$usersnamelist</textarea>
 					    <label>Users</label>$userid
 										
