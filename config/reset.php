@@ -24,7 +24,7 @@ if (!($cursor = pg_query($default_conn, $sql_reset))) {
 }
 
 $sql_reset="CREATE DATABASE ".$GLOBALS['DB']['DB_NAME']."
-  WITH OWNER = postgres
+  WITH OWNER = ".$GLOBALS['DB']['DB_USER']."
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
        LC_COLLATE = 'en_US.UTF-8'
