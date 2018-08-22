@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.3.0"; //Use AWS S3 for ASSETS_URI
+$GLOBALS['app_version']="8.3.1"; //Auto DB
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -161,6 +161,7 @@ define('DB_NAME', $db_name);
 
 
 $GLOBALS['db']['name']=$db_name;
+if($GLOBALS['DB']['DB_NAME']=='')$GLOBALS['DB']['DB_NAME']=$db_name;
 //define('APP_DIR', PROJECT_DIR . $app_name);
 
 
