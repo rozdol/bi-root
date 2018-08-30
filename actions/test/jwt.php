@@ -1,7 +1,7 @@
 <?php
 use \Firebase\JWT\JWT;
 
-echo $this->html->pre_display($_SERVER, "SERVER");
+//
 
 $token =
 [
@@ -18,7 +18,7 @@ $token =
  */
 $jwt = JWT::encode($token, $_ENV[APP_SALT]);
 echo $this->html->pre_display($jwt, "jwt");
-$decoded = JWT::decode($jwt, $_ENV[APP_SALT], array('HS256'));
+$decoded = JWT::decode($jwt, $_ENV[APP_SALT], ['HS256']);
 
 echo $this->html->pre_display($decoded, "decoded");
 //print_r($decoded);
@@ -39,5 +39,6 @@ echo $this->html->pre_display($decoded_array, "decoded_array");
  * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
  */
 JWT::$leeway = 60; // $leeway in seconds
-$decoded = JWT::decode($jwt, $_ENV[APP_SALT], array('HS256'));
+$decoded = JWT::decode($jwt, $_ENV[APP_SALT], ['HS256']);
 echo $this->html->pre_display($decoded, "decoded");
+echo $this->html->pre_display($_SERVER, "SERVER");
