@@ -142,7 +142,7 @@ if (file_exists($procedure_file)) {
 }
 
 if (!in_array($inputs[func], $functions)) {
-    echo json_encode(['error'=>$inputs[func].' not definded']);
+    echo json_encode(['error'=>$inputs[func].' not defined']);
     exit;
 }
 $this->data->getAccess();
