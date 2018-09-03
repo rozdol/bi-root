@@ -11,6 +11,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: X-File-Name, X-File-Type, X-File-Size');
 header('Content-type: application/json');
+$GLOBALS[offline_mode]=1;
 //$JSONinput=$this->html->readRQ('data');
 $filtered=[];
 //$filtered=$this->html->readRQj('data');
