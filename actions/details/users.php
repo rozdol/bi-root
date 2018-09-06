@@ -7,6 +7,7 @@ if ($access['main_admin']){
 		$_POST[reference]="$what";
 		$_POST[span]="users";
 		$_POST[title]="APIS of $res";
+		$out.=$this->data->details_bar($what, $id, '');
 		if($this->data->table_exists('apis')){
 			//$out.=$this->html->tag("APIS",'h2','class');
 			$out.=$this->show('apis');
