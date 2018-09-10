@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.3.1"; //Auto DB
+$GLOBALS['app_version']="8.4.0"; //Auto domain role
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -46,6 +46,7 @@ if (file_exists(APP_DIR.DS.'.env')) {
     }
 }
 if ($debug==1) {
+    echo "DOMAIN:$domainName<br>";
     echo 'USER DEFINED ($_ENV)<br>';
     echo '===============<br>';
     echo "<pre>";
@@ -121,6 +122,12 @@ function get_app_db($domain)
         $app_name = basename($dirs[0]);
     }
 
+    if($_ENV['AUTO_DOMAIN']){
+        $GLOBALS['DB']['DB_DOMAIN']=$db_name;
+        echo "TB:$db_name<br>";
+    }else{
+
+    }
     if ($GLOBALS['DB']['DB_NAME']!='') {
         $db_name=$GLOBALS['DB']['DB_NAME'];
     }
