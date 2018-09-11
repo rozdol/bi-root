@@ -124,7 +124,6 @@ function get_app_db($domain)
 
     if($_ENV['AUTO_DOMAIN']){
         $GLOBALS['DB']['DB_DOMAIN']=$db_name;
-        echo "TB:$db_name<br>";
     }else{
 
     }
