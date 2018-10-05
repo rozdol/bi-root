@@ -50,7 +50,7 @@ if ($tmp!='') {
     $sql.=" and id in ($tmp)";
 }
 
-$sql="SELECT * FROM menuitems WHERE link like '%act=report%' and id in (select menuid from menus) $sql order by link";
+$sql="SELECT * FROM menuitems WHERE (link like '%act=report%' or link like '%act=filter%' or link like '%&nopager=1%')and id in (select menuid from menus) $sql order by link";
 $fields=array('#','report','name','hits');
 
 
