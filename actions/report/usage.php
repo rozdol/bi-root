@@ -6,10 +6,7 @@ if ($tmp!='') {
 
 $sql="select count(id) as hits, what as report from clicks where act='report' and what not in ('searchresults', 'favorites','usage') GROUP BY what order by hits desc";
 $fields=array('#','hits','report');
-//$sort= array('id','name');
-
-$csv_row=['id','name'];
-$csv_arr[]=implode("\t", $csv_row);
+$csv_arr[]=implode("\t", $fields);
 
 $out=$this->html->tag("Report Usage", 'foldered');
 $out.=$this->html->tablehead('', $qry, $order, $addbutton, $fields, 'autosort');
@@ -37,9 +34,19 @@ while ($row = pg_fetch_array($cur, null, PGSQL_ASSOC)) {
     $out.= "<td><a href='?$link'>$row[report]</a></td>";
     $used_reports[$row[report]]=$row[hits];
     $out.= "</tr>";
+    $csv_arr[]=implode("\t", [$row[report], $row[hits]]);
 }
+
+//$csv=$this->utils->array_to_csv($csv_arr);
+
+
 $this->livestatus('');
 $out.=$this->html->tablefoot($i, $totals, $totalrecs);
+
+$csv=implode("\n", $csv_arr);
+$export=$this->utils->exportcsv($csv);
+unset($csv_arr);
+$out.=$export;
 
 unset($used_reports['']);
 //echo $this->html->pre_display($used_reports,"result");
@@ -52,7 +59,7 @@ if ($tmp!='') {
 
 $sql="SELECT * FROM menuitems WHERE (link like '%act=report%' or link like '%act=filter%' or link like '%&nopager=1%')and id in (select menuid from menus) $sql order by link";
 $fields=array('#','report','name','hits');
-
+$csv_arr[]=implode("\t", $fields);
 
 
 
@@ -90,7 +97,14 @@ while ($row = pg_fetch_array($cur, null, PGSQL_ASSOC)) {
     $out.= "<td>".$used_reports[$name]."</td>";
     $out.= "<td><a href='?act=edit&what=menuitems&id=$row[id]'>E</a></td>";
     $out.= "</tr>";
+    $csv_arr[]=implode("\t", [$name, $used_reports[$name]]);
 }
 $this->livestatus('');
 $out.=$this->html->tablefoot($i, $totals, $totalrecs);
+
+$csv=implode("\n", $csv_arr);
+$export=$this->utils->exportcsv($csv);
+unset($csv_arr);
+$out.=$export;
+
 $body.=$out;
