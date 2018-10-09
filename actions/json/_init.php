@@ -1,4 +1,5 @@
 <?php
+$GLOBALS[pdf_mode]=1;
 error_reporting(E_ERROR);
 
 header('Pragma: no-cache');
