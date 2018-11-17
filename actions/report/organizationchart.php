@@ -1,5 +1,4 @@
 <?php
-if ($what == 'organizationchart'){
 		$h=round($w);
 		$h=600; $w=1000;
 	  $strDataURL = "index.php?act=graphdata&opt=nowrap&prev=1&what=$what";
@@ -12,8 +11,5 @@ if ($what == 'organizationchart'){
      <PARAM NAME=bgcolor VALUE=#FFFFFF>
      <EMBED src='".ASSETS_URI."/assets/swf/$chart?chartWidth=$w&chartHeight=$h' FlashVars='&dataURL=$strDataURL' quality=high bgcolor=#FFFFFF WIDTH=$w HEIGHT=$h NAME='FusionCharts' ALIGN='' TYPE='application/x-shockwave-flash' PLUGINSPAGE='http://www.macromedia.com/go/getflashplayer'></EMBED>
    </OBJECT></div>";	
-	}
-	
-	
-?>
+
 $body.=$out;
