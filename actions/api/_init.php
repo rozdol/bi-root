@@ -59,7 +59,7 @@ if ($inputs[api_key]=='') {
 
         if ($api[id]>0) {
             $funcs=explode(',', $api[functions]);
-            echo json_encode(['api_key'=>$api[key], 'authorization'=>"Bearer $jwt",'funcs'=>$funcs]);
+            echo json_encode(['api_key'=>$api[key], 'access_token'=>"$jwt", 'token_type'=>'bearer', 'expires_in'=>time() + 604800, 'funcs'=>$funcs]);
             exit;
         } else {
             echo json_encode(['error'=>"No api key for user $username"]);
@@ -94,8 +94,11 @@ if ($http_authorization_arr[0]=="Bearer") {
 }
 
 if ($http_authorization=='') {
-    echo json_encode(['error'=>'No authorization string supplied']);
-    exit;
+    $http_authorization=$inputs['Authorization'];
+    if ($http_authorization=='') {
+        echo json_encode(['error'=>'No authorization string supplied']);
+        exit;
+    }
 }
 try {
     $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
