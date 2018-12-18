@@ -6,6 +6,7 @@ $descr=$this->html->readRQ('descr');
 $addinfo=$this->html->readRQ('addinfo');
 $forece_new=$this->html->readRQn('forece_new');
 
+
 if($tablename=='save_file'){
 	//echo "$tablename<br>";
 	
