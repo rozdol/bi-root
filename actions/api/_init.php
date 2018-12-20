@@ -2,14 +2,28 @@
 use \Firebase\JWT\JWT;
 
 error_reporting(E_ERROR);
+#$this->utils->log($this->html->pre_display($_SERVER,'_SERVER').$this->html->pre_display($_POST,'POST')); exit;
+// respond to preflights
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+  // return only the headers and not the content
+  // only allow CORS if we're doing a GET - i.e. no saving for now.
+  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] == 'GET') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Headers: X-Requested-With');
+  }
+  exit;
+}
+
+header('Access-Control-Allow-Origin:  http://localhost:8080');
+header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-File-Name, X-File-Type, X-File-Size');
+
+
 
 header('Pragma: no-cache');
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Content-Disposition: inline; filename="files.json"');
 header('X-Content-Type-Options: nosniff');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: X-File-Name, X-File-Type, X-File-Size');
 header('Content-type: application/json');
 $GLOBALS[offline_mode]=1;
 //$JSONinput=$this->html->readRQ('data');
