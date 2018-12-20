@@ -46,7 +46,18 @@ foreach ($_POST as $key => $value) {
 
 if ($inputs[api_key]=='') {
     $username=$inputs[user];
+    if($username=='')$username=$inputs[username];
+    if($username==''){
+        echo json_encode(['error'=>"No username supplied"]);
+        exit;
+    }
     $password=$inputs[pass];
+    if($password=='')$password=$inputs[password];
+
+    if($password==''){
+        echo json_encode(['error'=>"No password supplied"]);
+        exit;
+    }
 
     $query = QB::table('users')
         ->where('username', $username)
