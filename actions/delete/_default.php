@@ -1,7 +1,7 @@
 <?php
 if ($this->data->table_exists($what)) {
     if ($what=="documents") {
-        $objects=$this->db->GetVal("select count(*) from docs2obj where doc_id=$id and ref_table!='partners'")*1;
+        $objects=$this->db->GetVal("select count(*) from docs2obj where doc_id=$id and ref_id>0 and ref_table!='partners'")*1;
         if ($objects>0) {
             $names=$this->data->get_list_csv("select ref_table||':'||ref_id from docs2obj where doc_id=$id and ref_table!='partners'");
             $name=$this->data->detalize('documents', $id);
