@@ -26,6 +26,7 @@ header('Content-Disposition: inline; filename="files.json"');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json');
 $GLOBALS[offline_mode]=1;
+$validity_period=60*60*24*7;//604800; //week
 //$JSONinput=$this->html->readRQ('data');
 $filtered=[];
 //$filtered=$this->html->readRQj('data');
@@ -73,7 +74,7 @@ if ($inputs[api_key]=='') {
         [
             'sub' => $user[id],
             'unm' => $user[username],
-            'exp' => time() + 604800 //1 week
+            'exp' => time() + $validity_period //1 week
         ];
         $jwt = JWT::encode($token, $_ENV[APP_SALT]);
 
@@ -84,7 +85,13 @@ if ($inputs[api_key]=='') {
 
         if ($api[id]>0) {
             $funcs=explode(',', $api[functions]);
-            echo json_encode(['api_key'=>$api[key], 'access_token'=>"$jwt", 'token_type'=>'bearer', 'expires_in'=>time() + 604800, 'funcs'=>$funcs]);
+            echo json_encode([
+                'api_key'=>$api[key],
+                'access_token'=>"$jwt",
+                'token_type'=>'bearer',
+                'expires_in'=>$validity_period,
+                'expires_on'=>time() + $validity_period,
+                'funcs'=>$funcs]);
             exit;
         } else {
             echo json_encode(['error'=>"No api key for user $username"]);
