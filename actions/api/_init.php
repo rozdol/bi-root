@@ -26,7 +26,7 @@ header('Content-Disposition: inline; filename="files.json"');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json');
 $GLOBALS[offline_mode]=1;
-$validity_period=60*60*24*7;//604800; //week
+
 //$JSONinput=$this->html->readRQ('data');
 $filtered=[];
 //$filtered=$this->html->readRQj('data');
@@ -45,66 +45,16 @@ foreach ($_POST as $key => $value) {
     //$inputs[$key]=filter_var($value, $filters[$key], $options[$key]);
 }
 
+//echo json_encode(['inputs'=>$inputs]); exit;
+
 if ($inputs[api_key]=='') {
-    $username=$inputs[user];
-    if($username=='')$username=$inputs[username];
-    if($username==''){
-        echo json_encode(['error'=>"No username supplied"]);
-        exit;
+    if ($inputs[func]=='signup') {
+        signup($inputs,$this);
     }
-    $password=$inputs[pass];
-    if($password=='')$password=$inputs[password];
-
-    if($password==''){
-        echo json_encode(['error'=>"No password supplied"]);
-        exit;
+    if ($inputs[func]=='verify') {
+        verify($inputs,$this);
     }
-
-    $query = QB::table('users')
-        ->where('username', $username)
-        ->where('active', '1')
-        ->orderBy('id', 'ASC');
-    $user = get_object_vars($query->first());
-
-    $good_hash=$user[password_hash];
-
-    $ok=$this->crypt->validate_password($password, $good_hash)*1;
-    if ($ok > 0) {
-        $token =
-        [
-            'sub' => $user[id],
-            'unm' => $user[username],
-            'exp' => time() + $validity_period //1 week
-        ];
-        $jwt = JWT::encode($token, $_ENV[APP_SALT]);
-
-        $query = QB::table('apis')
-            ->where('user_id', $user[id])
-            ->where('active', 't');
-        $api = get_object_vars($query->first());
-
-        if ($api[id]>0) {
-            $funcs=explode(',', $api[functions]);
-            echo json_encode([
-                'api_key'=>$api[key],
-                'access_token'=>"$jwt",
-                'token_type'=>'bearer',
-                'expires_in'=>$validity_period,
-                'expires_on'=>time() + $validity_period,
-                'funcs'=>$funcs]);
-            exit;
-        } else {
-            echo json_encode(['error'=>"No api key for user $username"]);
-            exit;
-        }
-    } else {
-        $descr="API:$username:$password";
-        $this->data->chk_fails($descr);
-        echo json_encode(['error'=>'auth_fail','user'=>$inputs[user]]);
-        exit;
-    }
-    echo json_encode(['error'=>'never_happen']);
-    exit;
+    authenticate($inputs,$this);
 }
 //$this->data->api(2,'get_consent_status,get_balance,get_recepients,get_companies,run_session');
 
@@ -195,7 +145,94 @@ if (file_exists($procedure_file)) {
         exit;
     }
 }
+function signup ($inputs=[], $app) {
+    //echo json_encode(['inputs2'=>$inputs]);
 
+    $password=$inputs[pass];
+    if($password=='')$password=$inputs[password];
+
+    if($password==''){
+        echo json_encode(['error'=>"No password supplied"]);
+        exit;
+    }
+
+    if($inputs[email]==''){
+        echo json_encode(['error'=>"No email supplied"]);
+        exit;
+    }
+    $_POST[name]=$inputs[name];
+    $_POST[surname]=$inputs[surname];
+    $_POST[email]=$inputs[email];
+    $_POST[password]=$password;
+    $_POST[password_confirm]=$inputs[password_confirm];
+    $app->save('signups');
+
+
+
+    exit;
+}
+function authenticate ($inputs=[], $app) {
+    $validity_period=60*60*24*7;//604800; //week
+    $username=$inputs[user];
+    if($username=='')$username=$inputs[username];
+    if($username==''){
+        echo json_encode(['error'=>"No username supplied"]);
+        exit;
+    }
+    $password=$inputs[pass];
+    if($password=='')$password=$inputs[password];
+
+    if($password==''){
+        echo json_encode(['error'=>"No password supplied"]);
+        exit;
+    }
+
+    $query = QB::table('users')
+        ->where('username', $username)
+        ->where('active', '1')
+        ->orderBy('id', 'ASC');
+    $user = get_object_vars($query->first());
+
+    $good_hash=$user[password_hash];
+
+    $ok=$app->crypt->validate_password($password, $good_hash)*1;
+    if ($ok > 0) {
+        $token =
+        [
+            'sub' => $user[id],
+            'unm' => $user[username],
+            'exp' => time() + $validity_period //1 week
+        ];
+        $jwt = JWT::encode($token, $_ENV[APP_SALT]);
+
+        $query = QB::table('apis')
+            ->where('user_id', $user[id])
+            ->where('active', 't');
+        $api = get_object_vars($query->first());
+
+        if ($api[id]>0) {
+            $funcs=explode(',', $api[functions]);
+            echo json_encode([
+                'api_key'=>$api[key],
+                'access_token'=>"$jwt",
+                'token_type'=>'bearer',
+                'expires_in'=>$validity_period,
+                'expires_on'=>time() + $validity_period,
+                'funcs'=>$funcs]);
+            exit;
+        } else {
+            echo json_encode(['error'=>"No api key for user $username"]);
+            exit;
+        }
+    } else {
+        $descr="API:$username:$password";
+        $app->data->chk_fails($descr);
+        echo json_encode(['error'=>'auth_fail','user'=>$inputs[user]]);
+        exit;
+    }
+    echo json_encode(['error'=>'never_happen']);
+    exit;
+}
 
 // $request=[
 // 'api_key'=>'ca560231d9b1bce209dd313833495f8e',
