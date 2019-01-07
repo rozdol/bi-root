@@ -21,14 +21,17 @@ if (!$table) {
 }
 
 if (!$GLOBALS["access"]["view_$table"]) {
-    echo json_encode(['error'=>'No access']);
+    echo json_encode([
+        'error'=>"No access for $table for $GLOBALS[username]",
+        'access'=>$GLOBALS[access]]);
     exit;
 }
 
 $q = QB::table($table);
 
 $fields=$this->html->readRQcsv('fields', '', 0, 0);
-if (count($fields)) {
+
+if(!empty($fields)){
     $q = $q->select($fields);
 }
 
@@ -66,7 +69,9 @@ $sql=$queryObj->getRawSql();
 
 $result=$this->db->GetResults($sql);
 //$JSONData['sql']=$sql;
-$JSONData[$table]=$rows;
+$JSONData[table]=$table;
+$JSONData[fields]=$fields;
+$JSONData[rows]=$rows;
 return $JSONData;
 
 //return $JSONData=$result;
