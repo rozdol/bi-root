@@ -54,7 +54,7 @@ while ($row = pg_fetch_array($cur)) {
     $row[changes]=json_decode($row[changes], true);
 
     
-    echo $this->html->pre_display($row[changes], "changes");
+    //echo $this->html->pre_display($row[changes], "changes");
     //$changes=$this->html->array_display($row[changes]);
     if ($row[id]==0) {
         $class='d';
