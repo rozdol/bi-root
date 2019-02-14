@@ -1,6 +1,6 @@
 <?php
 $err=1;
-require_once FW_DIR.'vendor'.DS.'PHPGangsta'.DS.'GoogleAuthenticator.php'; 
+require_once FW_DIR.DS.'classes'.DS.'PHPGangsta'.DS.'GoogleAuthenticator.php';
 $ga = new PHPGangsta_GoogleAuthenticator();
 
 $secret = $this->data->get_val('users','ga', $GLOBALS['uid']);
