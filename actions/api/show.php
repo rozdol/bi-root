@@ -23,7 +23,9 @@ if (!$table) {
 if (!$GLOBALS["access"]["view_$table"]) {
     echo json_encode([
         'error'=>"No access for $table for $GLOBALS[username]",
-        'access'=>$GLOBALS[access]]);
+      //  'access'=>$GLOBALS[access]
+    ]
+    );
     exit;
 }
 
@@ -66,7 +68,7 @@ $rows=$q->get();
 
 $queryObj = $q->getQuery();
 $sql=$queryObj->getRawSql();
-
+$this->html->dd($sql,1);
 $result=$this->db->GetResults($sql);
 //$JSONData['sql']=$sql;
 $JSONData[table]=$table;
