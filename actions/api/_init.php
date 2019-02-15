@@ -2,136 +2,34 @@
 use \Firebase\JWT\JWT;
 
 error_reporting(E_ERROR);
-#$this->utils->log($this->html->pre_display($_SERVER,'_SERVER').$this->html->pre_display($_POST,'POST')); exit;
-// respond to preflights
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-  // return only the headers and not the content
-  // only allow CORS if we're doing a GET - i.e. no saving for now.
-  if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] == 'GET') {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Headers: X-Requested-With');
-  }
-  exit;
-}
-
-header('Access-Control-Allow-Origin:  http://localhost:8080');
-header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-File-Name, X-File-Type, X-File-Size');
-
-
-
-header('Pragma: no-cache');
-header('Cache-Control: no-store, no-cache, must-revalidate');
-header('Content-Disposition: inline; filename="files.json"');
-header('X-Content-Type-Options: nosniff');
-header('Content-type: application/json');
-$GLOBALS[offline_mode]=1;
-
-//$JSONinput=$this->html->readRQ('data');
-$filtered=[];
-//$filtered=$this->html->readRQj('data');
 $JSONData=null;
-$inputs=$filtered;
-$php_input = json_decode(file_get_contents('php://input'), true);
+//Set mode for BI
+$GLOBALS[offline_mode]=1;
+sendheaders();
+$inputs=getinput($this);
 
-if ($php_input) {
-    $_POST = array_merge($php_input, $_POST);
-}
-
-
-unset($_POST[data]);
-foreach ($_POST as $key => $value) {
-    $inputs[$key]=$this->html->filter($key, $value);
-    //$inputs[$key]=filter_var($value, $filters[$key], $options[$key]);
-}
+//$this->utils->log($this->html->pre_display($_SERVER,'_SERVER').$this->html->pre_display($_POST,'POST')); exit;
 
 //echo json_encode(['inputs'=>$inputs]); exit;
 
+//Check for signup/verify routine
 if ($inputs[api_key]=='') {
     if ($inputs[func]=='signup') {
         signup($inputs,$this);
     }
     if ($inputs[func]=='verify') {
-        verify($inputs,$this);
+        // TBD
+        //verify($inputs,$this);
     }
     authenticate($inputs,$this);
 }
-//$this->data->api(2,'get_consent_status,get_balance,get_recepients,get_companies,run_session');
 
+find_api_by_key($inputs,$this);
 
-$query = QB::table('apis')
-    ->where('key', $inputs[api_key])
-    ->where('active', 't');
-$api = get_object_vars($query->first());
-
-
-if (!$api[id]) {
-    echo json_encode(['error'=>'No api']);
-    exit;
-}
-
-$http_authorization_arr=explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
-if ($http_authorization_arr[0]=="Bearer") {
-    $http_authorization=$http_authorization_arr[1];
-}
-
-if ($http_authorization=='') {
-    $http_authorization=$inputs['Authorization'];
-    if ($http_authorization=='') {
-        echo json_encode(['error'=>'No authorization string supplied']);
-        exit;
-    }
-}
-try {
-    $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
-} catch (Exception $e) {
-    echo json_encode(['error'=>'No Auths']);
-    exit;
-}
-
-if ($decoded->sub!=$api[user_id]) {
-    echo json_encode(['error'=>'Auth not matched with api']);
-    exit;
-}
-
-if ($decoded->exp<time()) {
-    echo json_encode(['error'=>'Auth expired']);
-    exit;
-}
-
-$query = QB::table('users')
-    ->where('id', $decoded->sub)
-    ->where('username', $decoded->unm)
-    ->where('active', '1');
-$user = get_object_vars($query->first());
-
-if (!$user[id]) {
-    echo json_encode(['error'=>'No user']);
-    exit;
-}
-if ($user[username]!=$inputs[user]) {
-    echo json_encode(['error'=>'Not allowed']);
-    exit;
-}
-
-$GLOBALS[uid]=$user[id];
-$functions=explode(',', $api[functions]);
-$functions[]='update';
-$functions[]='insert';
-$functions[]='delete';
-$functions[]='view';
-$functions[]='show';
-
-$procedure_file=APP_DIR.DS.'actions'.DS.'api'.DS.strtolower(str_replace("\\", "/", $inputs[func])). '.php';
-if (file_exists($procedure_file)) {
-    $functions[]=$inputs[func];
-}
-
-if (!in_array($inputs[func], $functions)) {
-    echo json_encode(['error'=>$inputs[func].' not defined']);
-    exit;
-}
+$this->data->getDefVals();
 $this->data->getAccess();
+$this->data->click();
+
 $inputs[func]=$this->html->filename($inputs[func]);
 $procedure_file=APP_DIR.DS.'actions'.DS.'api'.DS.strtolower(str_replace("\\", "/", $inputs[func])). '.php';
 if (file_exists($procedure_file)) {
@@ -145,6 +43,137 @@ if (file_exists($procedure_file)) {
         exit;
     }
 }
+
+//$this->data->api(2,'get_consent_status,get_balance,get_recepients,get_companies,run_session');
+
+function find_api_by_key($inputs=[],$app){
+    $query = QB::table('apis')
+        ->where('key', $inputs[api_key])
+        ->where('active', 't');
+    $api = get_object_vars($query->first());
+
+    //$app->html->dd($api);
+
+    if (!$api[id]) {
+        echo json_encode(['error'=>'No api']);
+        exit;
+    }
+
+    $http_authorization_arr=explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+    if ($http_authorization_arr[0]=="Bearer") {
+        $http_authorization=$http_authorization_arr[1];
+    }
+
+    if ($http_authorization=='') {
+        $http_authorization=$inputs['Authorization'];
+        if ($http_authorization=='') {
+            echo json_encode(['error'=>'No authorization string supplied']);
+            exit;
+        }
+    }
+    try {
+        $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
+    } catch (Exception $e) {
+        echo json_encode(['error'=>'No Auths']);
+        exit;
+    }
+
+    if ($decoded->sub!=$api[user_id]) {
+        echo json_encode(['error'=>'Auth not matched with api']);
+        exit;
+    }
+
+    if ($decoded->exp<time()) {
+        echo json_encode(['error'=>'Auth expired']);
+        exit;
+    }
+
+    $query = QB::table('users')
+        ->where('id', $decoded->sub)
+        ->where('username', $decoded->unm)
+        ->where('active', '1');
+    $user = get_object_vars($query->first());
+
+    if (!$user[id]) {
+        echo json_encode(['error'=>'No user']);
+        exit;
+    }
+    if ($user[username]!=$inputs[user]) {
+        echo json_encode(['error'=>'Not allowed']);
+        exit;
+    }
+
+    $GLOBALS[uid]=$user[id];
+    $GLOBALS[username]=$user[username];
+    $functions=explode(',', $api[functions]);
+    $functions[]='update';
+    $functions[]='insert';
+    $functions[]='delete';
+    $functions[]='view';
+    $functions[]='show';
+    //$app->html->dd(['functions'=>$functions, 'inputs'=>$inputs[func]],1);
+
+    // $procedure_file=APP_DIR.DS.'actions'.DS.'api'.DS.strtolower(str_replace("\\", "/", $inputs[func])). '.php';
+    // if (!file_exists($procedure_file)) {
+    //     echo json_encode(['error'=>'Function '.$inputs[func].' is not defined']);
+    //     exit;
+    // }
+
+    if (!in_array($inputs[func], $functions)) {
+        echo json_encode(['error'=>'No access to '.$inputs[func]]);
+        exit;
+    }
+    //$functions[]=$inputs[func];
+}
+
+
+
+// API init functions =========================================================
+function sendheaders(){
+    // respond to preflights
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+      // return only the headers and not the content
+      // only allow CORS if we're doing a GET - i.e. no saving for now.
+      if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'] == 'GET') {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: X-Requested-With');
+      }
+      exit;
+    }
+
+    header('Access-Control-Allow-Origin:  http://localhost:8080');
+    header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-File-Name, X-File-Type, X-File-Size');
+
+
+
+    header('Pragma: no-cache');
+    header('Cache-Control: no-store, no-cache, must-revalidate');
+    header('Content-Disposition: inline; filename="files.json"');
+    header('X-Content-Type-Options: nosniff');
+    header('Content-type: application/json');
+}
+
+function getinput($app){
+    $inputs=[];
+    $php_input = json_decode(file_get_contents('php://input'), true);
+
+    //Merge console input into POST request to sanitize values by readRQ() function
+    if ($php_input) {
+        $_POST = array_merge($php_input, $_POST);
+    }
+
+    //sanitize input ecxept 'data'
+    $data_bkp=$_POST[data];
+    unset($_POST[data]);
+    foreach ($_POST as $key => $value) {
+        $inputs[$key]=$app->html->filter($key, $value);
+        //$inputs[$key]=filter_var($value, $filters[$key], $options[$key]);
+    }
+    $_POST[data]=$data_bkp;
+    return $inputs;
+}
+
 function signup ($inputs=[], $app) {
     //echo json_encode(['inputs2'=>$inputs]);
 
@@ -166,11 +195,9 @@ function signup ($inputs=[], $app) {
     $_POST[password]=$password;
     $_POST[password_confirm]=$inputs[password_confirm];
     $app->save('signups');
-
-
-
     exit;
 }
+
 function authenticate ($inputs=[], $app) {
     $validity_period=60*60*24*7;//604800; //week
     $username=$inputs[user];
@@ -197,6 +224,7 @@ function authenticate ($inputs=[], $app) {
 
     $ok=$app->crypt->validate_password($password, $good_hash)*1;
     if ($ok > 0) {
+
         $token =
         [
             'sub' => $user[id],
