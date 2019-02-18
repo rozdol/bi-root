@@ -11,6 +11,8 @@ if ($help) {
     $new_vals=['Help'=>$func,'sample'=>$arr];
     $JSONData=$new_vals;
     return $JSONData;
+
+    //$_POST[filters]='id = 1,id = 2 or id = 3 or id = 4, id = 5, id > 9';
 }
 
 $table=$this->html->readRQs('table');
