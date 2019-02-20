@@ -44,7 +44,7 @@ if (($what == 'split')&&($access['main_admin'])){
 			
 			$text1=$chunks[0];
 			$chunks2=explode("{",$chunks[0]);
-			$text1="\tfunction $chunks2[0]{\$func_file=APP_DIR.'/functions/'.__FUNCTION__.'.php';if(file_exists(\$func_file))return include(\$func_file);}\n";
+			$text1="\tfunction $chunks2[0]{\$func_file=APP_DIR.DS.'/functions/'.__FUNCTION__.'.php';if(file_exists(\$func_file))return include(\$func_file);}\n";
 			$text=str_replace("$chunks2[0]{", '',$text);
 			$text="<?php\n".substr($text, 0, -4);
 			$list.=$text1;

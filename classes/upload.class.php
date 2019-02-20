@@ -77,7 +77,7 @@ class UploadHandler
 		//$data = json_decode($json);
 		//foreach ($data as $name => $value)$txt="Name:$name,Val:$value";
 		//$json2 = json_encode($info);
-//		$seetings_path=APP_DIR.'/settings.php';
+//		$seetings_path=APP_DIR.DS.'/settings.php';
 		//echo $seetings_path; exit;
 //		require_once($seetings_path);
 		//require_once('./modules/init.php');

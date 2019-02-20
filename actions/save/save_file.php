@@ -27,7 +27,7 @@ if (!in_array($ext, $allowed)) {
     $this->html->error("ERROR<br><b>File not aploaded</b> File extention $ext is not allowed for upload.");
 }
 
-$path=APP_DIR.'unprotected'.DS;
+$path=APP_DIR.DS.'unprotected'.DS;
 
 
 if ($destination=='data') {

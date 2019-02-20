@@ -34,8 +34,8 @@ if ($field<>'') {
     $field=str_ireplace("password", "", $field);
     $field=str_ireplace("access", "", $field);
 }
-$incl_file=APP_DIR.'/procedures/append/_default.php';
+$incl_file=APP_DIR.DS.'/procedures/append/_default.php';
 if (file_exists($incl_file)) {
-    require(APP_DIR.'/procedures/append/_default.php');
+    require(APP_DIR.DS.'/procedures/append/_default.php');
 }
 $body.=$out;

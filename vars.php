@@ -203,7 +203,7 @@ foreach ($_POST as $key => $value) {
     $formdata="$formdata&$key=$value";
 }
 $GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
-//require_once(APP_DIR.'/settings.php');
+//require_once(APP_DIR.DS.'/settings.php');
 
 // if (!defined($_SERVER['RDS_HOSTNAME'])) {
 //     $GLOBALS['db']['server']=getenv('DB_SERVER');
