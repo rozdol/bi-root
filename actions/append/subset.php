@@ -19,9 +19,9 @@
 	$response.="Data1 ($d1)<br>";
 	$response.="Data2 ($d2)<br><hr>";
 
-	$response.="union($u)<br><textarea name='union' id='union' class='sapn12'>$union</textarea><br>";
-	$response.="diff($d)<br><textarea name='diff' id='diff' class='sapn12'>$diff</textarea><br>";
-	$response.="intersec($i)<br><textarea name='intersec' id='intersec' class='sapn12'>$intersec</textarea><br>";
+	$response.="union($u)<br><textarea name='union' id='union' class='span12'>$union</textarea><br>";
+	$response.="diff($d)<br><textarea name='diff' id='diff' class='span12'>$diff</textarea><br>";
+	$response.="intersec($i)<br><textarea name='intersec' id='intersec' class='span12'>$intersec</textarea><br>";
 	$out.= "$response";
 
 

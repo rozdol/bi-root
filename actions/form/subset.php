@@ -5,8 +5,8 @@ $out.= "
 	  <form id='form1' name='form1' method='post' action=''>
 	    <h1>$what </h1>
 	    <p>$what <br>$referring</p>   
-	    <dt><label>Subset 1</label><textarea name='data1' id='data1' class='sapn12'></textarea></dt>
-		<dt><label>Subset 2</label><textarea name='data2' id='data2' class='sapn12'></textarea></dt>
+	    <dt><label>Subset 1</label><textarea name='data1' id='data1' class='span12'></textarea></dt>
+		<dt><label>Subset 2</label><textarea name='data2' id='data2' class='span12'></textarea></dt>
 		<span name='result' id='result' value='' class=''></span><span id='result2'></span>    
 	  
 	<div id='eventform_'></div>

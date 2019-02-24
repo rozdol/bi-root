@@ -26,7 +26,7 @@ if ($what == 'logs'){
 			$sql = "$sql order by $sortby";
 			$sql2=" limit $limit offset $offset;";
 			$sql=$sql1.$sql.$sql2;
-			$out.= $sql;
+			//$out.= $sql;
 	$fields=array('id','user','ip','date','action',);
 		//$sort= $fields;
 		$out.=$this->html->tablehead($what,$qry, $order, $addbutton, $fields,$sort);
