@@ -19,7 +19,7 @@ $tmp_name=$_FILES[$name]['tmp_name'];
 $filename=$this->utils->normalize_filename($filename);
 
 $ext = strtolower(strrchr($filename, "."));
-$ext_array=array(".jpg",".png",".tif", ".zip", ".rar", ".pdf", ".dbf", ".xls", ".doc",".pages",".numbers", ".xlsb", ".xlsx", ".docx", ".txt", ".html", ".htm");
+$ext_array=array(".jpg",".png",".tif", ".zip", ".rar", ".pdf", ".dbf", ".xls", ".doc",".pages",".numbers", ".xlsb", ".xlsx", ".docx", ".txt", ".html", ".htm", ".xml");
 if (!in_array($ext, $ext_array)) {
     $this->html->error("ERROR<br><b>File not aploaded</b> File extention $ext is not allowed for upload.");
 }
@@ -45,6 +45,11 @@ if ($destination=='lh') {
 if ($destination=='stamps') {
     $path=DATA_DIR.DS.'stamps'.DS;
 }
+
+if (!file_exists($path)) {
+    mkdir($path, 0777, true);
+}
+
 if($job_id>0)$filename="$job_id$ext";
 
 $i=0;
