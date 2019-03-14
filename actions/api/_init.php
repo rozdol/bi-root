@@ -105,12 +105,14 @@ function find_api_by_key($inputs=[],$app){
 
     $GLOBALS[uid]=$user[id];
     $GLOBALS[username]=$user[username];
-    $functions=explode(',', $api[functions]);
+    $functions = array_map('trim', explode(',', $api[functions]));
     $functions[]='update';
     $functions[]='insert';
     $functions[]='delete';
     $functions[]='view';
     $functions[]='show';
+    $functions[]='help';
+    $GLOBALS[api][functions]=$functions;
     //$app->html->dd(['functions'=>$functions, 'inputs'=>$inputs[func]],1);
 
     // $procedure_file=APP_DIR.DS.'actions'.DS.'api'.DS.strtolower(str_replace("\\", "/", $inputs[func])). '.php';
