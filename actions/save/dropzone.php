@@ -6,6 +6,7 @@ $descr=$this->html->readRQ('descr');
 $addinfo=$this->html->readRQ('addinfo');
 $forece_new=$this->html->readRQn('forece_new');
 
+//$this->utils->log("-----Save Uplads of $tablename");
 
 if($tablename=='save_file'){
 	//echo "$tablename<br>";
@@ -17,6 +18,11 @@ if($tablename=='save_file'){
 	//echo $this->html->refreshpage($link,0.1,'Saving...'); exit;
 	exit;
 	
+}
+if($tablename=='upload_file'){
+	//$this->utils->log("----->>>upload_file");
+	$this->save('upload_file');
+	exit;
 }
 $refid=$this->html->readRQn('refid');
 //$image_file=$dir=WWW_DIR.'unprotected'.DS.$newfname.'.jpg';
@@ -114,8 +120,9 @@ if($tablename!='documents'){
 	$_GET['newfname']=$newfname;
 	
 }
-
+$this->utils->log("Before Save");
 $this->save('uploads');
+$this->utils->log("After Save");
 $link="?act=details&what=$tablename&tab=$tab&id=$refid";
 echo " Saved.<br>". $this->html->link_button("<i class='icon-arrow-left icon-white'></i> Back",$link,'info')." ";
 echo $this->html->refreshpage($link,0.1,'Saving...'); exit;

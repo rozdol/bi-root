@@ -1,7 +1,7 @@
 <?php
 
 $refid=($this->html->readRQ("refid")*1);
-if($refid==0){$out.= "No uploads"; exit;}
+if($refid==0){$out.= "No uploads";}
 //$out.= "<a href='?act=add&what=multyuploads&refid=$refid&tablename=documents'><i class='btn btn-info btn-mini'>Multiple upload</i></a>";
 //$out.= "<a href='?act=add&what=webcam&refid=$refid&tablename=documents'><i class='btn btn-info btn-mini'>Take from camera</i></a>";
 
