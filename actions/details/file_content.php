@@ -10,6 +10,21 @@ switch ($where) {
 	case 'scan_dir':$path=SCAN_DIR;break;
 	case 'deflated_dir':$path=DEFLATED_DIR;break;
 	case 'logs_dir':$path=LOGS_DIR;break;
+
+	case 'NEW_CAMT053':$path=CAMT053_NEW_ROOT_DIR.DS;break;
+	case 'NEW_CAMT054':$path=CAMT054_NEW_ROOT_DIR.DS;break;
+	case 'NEW_CAMT052':$path=CAMT054_NEW_ROOT_DIR.DS;break;
+	case 'NEW_MT940':$path=MT940_NEW_ROOT_DIR.DS;break;
+	case 'NEW_MT942':$path=MT942_NEW_ROOT_DIR.DS;break;
+	case 'NEW_PAIN002':$path=PAIN002_NEW_ROOT_DIR.DS;break;
+
+	case 'CAMT053':$path=CAMT053_NEW_ROOT_DIR.DS;break;
+	case 'CAMT054':$path=CAMT054_NEW_ROOT_DIR.DS;break;
+	case 'CAMT052':$path=CAMT054_NEW_ROOT_DIR.DS;break;
+	case 'MT940':$path=MT940_NEW_ROOT_DIR.DS;break;
+	case 'MT942':$path=MT942_NEW_ROOT_DIR.DS;break;
+	case 'PAIN002':$path=PAIN002_NEW_ROOT_DIR.DS;break;
+
 	default:$path=PDF_DIR;
 }
 if($where=='')$this->html->error('No destination supplied');
