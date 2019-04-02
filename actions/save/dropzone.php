@@ -7,7 +7,10 @@ $addinfo=$this->html->readRQ('addinfo');
 $forece_new=$this->html->readRQn('forece_new');
 
 //$this->utils->log("-----Save Uplads of $tablename");
-
+$json=json_encode(['POST'=>$_POST, 'GET'=>$_GET]);
+$this->utils->log("DropZone_save:$json");
+// echo util::var_dump($_POST, TRUE,1,"POST");
+// echo util::var_dump($_GET, TRUE,1,"GET");exit;
 if($tablename=='save_file'){
 	//echo "$tablename<br>";
 	
