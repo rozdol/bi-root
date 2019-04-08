@@ -2,7 +2,9 @@
 // echo $this->html->pre_display($_POST,"POST");
 // echo $this->html->pre_display($_GET,"GET");
 $where=$this->html->readRQ('where');
-$filename=$this->html->readRQf('filename');
+$filename=$this->html->readRQp('filename');
+//$this->html->error($filename);
+
 $emails=$this->html->readRQ('comments');
 switch ($where) {
 	case 'processed_dir':$path=PROCESSED_DIR;break;
@@ -27,10 +29,51 @@ switch ($where) {
 
 	default:$path=PDF_DIR;
 }
-if($where=='')$this->html->error('No destination supplied');
+
+
+
+$allowed_dirs=[
+	FILES_DIR,
+
+	NEW_FILES_DIR,
+	PROCESSED_FILES_DIR,
+	PDF_FILES_DIR,
+
+	CAMT053_DIR,
+	CAMT054_DIR,
+	MT940_DIR,
+	MT942_DIR,
+	PAIN002_DIR,
+
+	CAMT053_NEW_ROOT_DIR,
+	CAMT054_NEW_ROOT_DIR,
+	MT940_NEW_ROOT_DIR,
+	MT942_NEW_ROOT_DIR,
+	PAIN002_NEW_ROOT_DIR,
+
+	CAMT053_PROCESSED_ROOT_DIR,
+	CAMT054_PROCESSED_ROOT_DIR,
+	MT940_PROCESSED_ROOT_DIR,
+	MT942_PROCESSED_ROOT_DIR,
+	PAIN002_PROCESSED_ROOT_DIR,
+
+	SCAN_DIR,
+	PDF_DIR,
+	PROCESSED_DIR,
+	DEFLATED_DIR,
+	LOGS_DIR
+
+];
+//if($where=='')$this->html->error('No destination supplied');
 if($filename=='')$this->html->error('No filename supplied');
-$path=$path.DS.$filename;
-if(!file_exists($path))$this->html->error("File <b>$filename</b> not found");
+$basename=basename($filename);
+$allowed=0;
+foreach ($allowed_dirs as $allowed_dir) {
+	if($this->utils->contains($allowed_dir, $filename)) $allowed=1;
+}
+if($allowed==0)$this->html->error("No access to file $basename");
+$path=$filename;
+if(!file_exists($path))$this->html->error("File <b>$basename</b> not found");
 
 if($emails!=''){
 	$emails=str_ireplace(';',',',$emails);
