@@ -33,5 +33,5 @@ if (!($cursor = pg_query($default_conn, $sql_reset))) {
     $this->html->SQL_error($sql_reset);
 }
 
-echo $this->html->refreshpage('?act=welcome', 10, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been reset", "$act $what", 'alert-warn'));
+echo $this->html->refreshpage('?act=welcome', 1, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been reset", "$act $what", 'alert-warn'));
 exit;

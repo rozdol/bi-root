@@ -1,6 +1,6 @@
 <?php
 // FW DB initialization
-echo $this->html->refreshpage('?act=welcome', 10, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been initialized", "$act $what", 'alert-warn'));
+echo $this->html->refreshpage('?act=welcome', 1, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been initialized", "$act $what", 'alert-warn'));
 echo "<hr>";
 echo "Creating users...<br>";
 $sql_files[]=FW_DIR.DS.'config'.DS.'setup.sql';
@@ -17,4 +17,4 @@ foreach ($sql_files as $sql_file) {
         echo "out:$out<hr>";
     }
 }
-echo $this->html->refreshpage('?act=welcome', 10, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been initialized", "$act $what", 'alert-warn'));
+echo $this->html->refreshpage('?act=welcome', 1, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been initialized", "$act $what", 'alert-warn'));
