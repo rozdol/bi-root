@@ -84,7 +84,7 @@ if($emails!=''){
 	foreach ($emails_array as $email) {
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		    $valid_emails[]=$email;
-		    $status=$this->comm->sendgrid_file('FastConsent:fastconsent@gmail.com', "User:$email", "File:$filename", 'See file attached', [$path]);
+		    $status=$this->comm->sendgrid_file('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$filename", 'See file attached', [$path]);
 		    if($status==1){
 		    	echo "$filename is sent to $nmail ($status)<br>";
 		    }else{
