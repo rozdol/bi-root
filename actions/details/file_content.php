@@ -94,6 +94,7 @@ if($emails!=''){
 		    $valid_emails[]=$email;
 		    if($use_sendmail){
 		    	//$status=$this->comm->send_attachment_mail('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$basename", 'See file attached', [$path]);
+		    	echo "Sending to:$email<br>";
 		    	$status=$this->comm->send_attachment_mail( $GLOBALS['settings']['system_email'], $email, "File:$basename", 'See file attached', [$path]);
 		    	//echo $this->html->pre_display($status,"status");
 		    	//if($status->ErrorInfo())
