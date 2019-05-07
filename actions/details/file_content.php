@@ -69,6 +69,9 @@ $allowed_dirs=[
 	LOGS_DIR
 
 ];
+$key=getenv('SENDGRID_API_KEY');
+$use_sendmail=($key=='')?1:0;
+//echo "Use Sendmail: $use_sendmail<br>"; exit;
 //if($where=='')$this->html->error('No destination supplied');
 if($filename=='')$this->html->error('No filename supplied');
 $basename=basename($filename);
@@ -89,16 +92,26 @@ if($emails!=''){
 	foreach ($emails_array as $email) {
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		    $valid_emails[]=$email;
-		    $status=$this->comm->sendgrid_file('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$filename", 'See file attached', [$path]);
-		    if($status==1){
-		    	echo "$filename is sent to $nmail ($status)<br>";
+		    if($use_sendmail){
+		    	//$status=$this->comm->send_attachment_mail('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$basename", 'See file attached', [$path]);
+		    	$status=$this->comm->send_attachment_mail( $GLOBALS['settings']['system_email'], $email, "File:$basename", 'See file attached', [$path]);
+		    	//echo $this->html->pre_display($status,"status");
+		    	//if($status->ErrorInfo())
 		    }else{
-		    	echo "<b>$filename is failded sent to $nmail ($status)</b><br>";
+		    	$status=$this->comm->sendgrid_file('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$basename", 'See file attached', [$path]);
+		    	if($status==1){
+		    		echo "sendgrid_file: $basename is sent to $nmail ($status)<br>";
+		    	}else{
+		    		echo "<b>$basename is failded sent to $nmail ($status)</b><br>";
+		    	}
 		    }
+
+
+
 		}
 	}
 	//echo $this->html->pre_display($valid_emails,"valid_emails");
-	//$this->comm->sendgrid_file($send_to,'rozdol@gmail.com.com',"$filename",[$path]);
+	//$this->comm->sendgrid_file($send_to,$GLOBALS['settings']['system_email'],"$filename",[$path]);
 
 }else{
 	$this->utils->dl_file($path, $filename);
