@@ -82,7 +82,9 @@ foreach ($allowed_dirs as $allowed_dir) {
 if($allowed==0)$this->html->error("No access to file $basename");
 $path=$filename;
 if(!file_exists($path))$this->html->error("File <b>$basename</b> not found");
-
+$body='See file attached';
+$subject="File:$basename";
+$files[]=$path;
 if($emails!=''){
 	$emails=str_ireplace(';',',',$emails);
 	$emails=str_ireplace("\t",',',$emails);
@@ -95,11 +97,12 @@ if($emails!=''){
 		    if($use_sendmail){
 		    	//$status=$this->comm->send_attachment_mail('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$basename", 'See file attached', [$path]);
 		    	echo "Sending to:$email<br>";
-		    	$status=$this->comm->send_attachment_mail( $GLOBALS['settings']['system_email'], $email, "File:$basename", 'See file attached', [$path]);
+		    	//$status=$this->comm->send_attachment_mail($GLOBALS['settings']['system_email'], $email, $subject, $body, [$path]);
+		    	$status=$this->comm->send_attachment_mail($GLOBALS['settings']['system_email'], $email, $subject, $body, $files);
 		    	//echo $this->html->pre_display($status,"status");
 		    	//if($status->ErrorInfo())
 		    }else{
-		    	$status=$this->comm->sendgrid_file('BI:'.$GLOBALS['settings']['system_email'], "User:$email", "File:$basename", 'See file attached', [$path]);
+		    	$status=$this->comm->sendgrid_file('BI:'.$GLOBALS['settings']['system_email'], "User:$email", $subject, $body, [$path]);
 		    	if($status==1){
 		    		echo "sendgrid_file: $basename is sent to $nmail ($status)<br>";
 		    	}else{
