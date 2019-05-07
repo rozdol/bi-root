@@ -83,7 +83,7 @@ if($allowed==0)$this->html->error("No access to file $basename");
 $path=$filename;
 if(!file_exists($path))$this->html->error("File <b>$basename</b> not found");
 $body='See file attached';
-$subject="File:$basename";
+$subject="File";
 $files[]=$path;
 if($emails!=''){
 	$emails=str_ireplace(';',',',$emails);
