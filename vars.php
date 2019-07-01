@@ -194,10 +194,11 @@ $app_uri=str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 define(APP_URI, $app_uri);
 if($_ENV['ASSETS_URI']!=''){
     define(ASSETS_URI, $_ENV['ASSETS_URI']);
-}else{
+}elseif(strlen($app_uri)>1){
     define(ASSETS_URI, $app_uri);
+}else{
+    define(ASSETS_URI, $siteURL);
 }
-
 $formdata='';
 foreach ($_POST as $key => $value) {
     $formdata="$formdata&$key=$value";
