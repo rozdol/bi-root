@@ -72,6 +72,7 @@ if ($wrap==1){
 	
 	<p> date;name;type;curr;rate;transaction_id;line;dr;cr;accnumber;qty;not_fx;descr;addinfo</p>
 	<textarea cols=150 rows=30 name='transactions' class='span12'>$response2</textarea><br>
+	<label><input type='checkbox' name='reset' value='1' /> Reset Accounting?</label><br>
 	<input type='submit' value='save' class='btn btn-primary' $warning>
 	</form>";
 
