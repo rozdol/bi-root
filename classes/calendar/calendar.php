@@ -1,4 +1,9 @@
 <?php
+//namespace Rozdol\Router;
+
+use Rozdol\Html\Html;
+use Rozdol\Dates\Dates;
+//use Rozdol\Utils\Utils;
 
 // Include dependencies
 include 'event_subject.php';
@@ -273,7 +278,7 @@ class Calendar extends Event_Subject {
 	 */
 	public function standard($name)
 	{
-		$this->funcs = Funcs::getInstance();
+		$this->dates = Dates::getInstance();
 		$this->html = Html::getInstance();
 		switch ($name)
 		{
@@ -305,33 +310,33 @@ class Calendar extends Event_Subject {
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', 4)->condition('day', 1)->title('Cyprus National Day')->output('Cyprus National Day'));
 				
-				$date=$this->funcs->easter(2016);
+				$date=$this->dates->easter($this->year);
 				$easter_org=$date;
 				$title='Easter';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
 				
-				$date=$this->funcs->F_dateadd($easter_org,1);
+				$date=$this->dates->F_dateadd($easter_org,1);
 				$title='Easter Monday';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
 				
-				$date=$this->funcs->F_dateadd($easter_org,2);
+				$date=$this->dates->F_dateadd($easter_org,2);
 				$title='Easter Tuesday';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
 				
-				$date=$this->funcs->F_dateadd($easter_org,-2);
+				$date=$this->dates->F_dateadd($easter_org,-2);
 				$title='Good Friday';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
 				
-				$date=$this->funcs->F_dateadd($easter_org,+50);
+				$date=$this->dates->F_dateadd($easter_org,+50);
 				$title='Pentecost';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
 				
-				$date=$this->funcs->F_dateadd($easter_org,-48);
+				$date=$this->dates->F_dateadd($easter_org,-48);
 				$title='Green Monday';
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', (int)substr($date,3,2))->condition('day', (int)substr($date,0,2))->title($title)->output($title));
@@ -387,6 +392,24 @@ class Calendar extends Event_Subject {
 				// Attach Boxing
 				$holiday = clone $event;
 				$this->attach($holiday->condition('month', 12)->condition('day', 26)->title('Boxing Day')->output('Boxing Day'));
+
+				//echo $this->html->pre_display($GLOBALS[settings][holidays],"settings ".$this->year);
+				if($GLOBALS[settings][holidays]){
+					$extra_holidays=[];
+					$extra_holidays_tmp=array_map('trim', explode(',',$GLOBALS[settings][holidays]));
+					//echo $this->html->pre_display($extra_holidays_tmp,"extra_holidays_tmp");
+					foreach ($extra_holidays_tmp as $day) {
+						//echo $this->html->pre_display($day,"day".$this->year);
+					    if (strpos($day, strval($this->year)) !== false)$extra_holidays[]=$day;
+					}
+					//echo $this->html->pre_display($extra_holidays,"extra_holidays");
+					foreach ($extra_holidays as $extra_holiday) {
+						$holiday = clone $event;
+						$day=$this->dates->F_extractday($extra_holiday);
+						$month=$this->dates->F_extractmonth($extra_holiday);
+						$this->attach($holiday->condition('month', $month)->condition('day', $day)->title('Extra holiday')->output('Extra holiday'));
+					}
+				}
 			break;
 			case 'weekends':
 				// Weekend events
