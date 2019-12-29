@@ -112,6 +112,7 @@ function find_api_by_key($inputs=[],$app){
     $functions[]='view';
     $functions[]='show';
     $functions[]='help';
+    $functions[]='report';
     $GLOBALS[api][functions]=$functions;
     //$app->html->dd(['functions'=>$functions, 'inputs'=>$inputs[func]],1);
 
@@ -143,7 +144,7 @@ function sendheaders(){
       exit;
     }
 
-    header('Access-Control-Allow-Origin:  http://localhost:8080');
+    header('Access-Control-Allow-Origin:  *');
     header('Access-Control-Allow-Methods: OPTIONS, HEAD, GET, POST, PUT, DELETE');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-File-Name, X-File-Type, X-File-Size');
 

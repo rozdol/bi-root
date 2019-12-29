@@ -24,7 +24,7 @@ if (!$table) {
 
 if (!$GLOBALS["access"]["view_$table"]) {
     echo json_encode([
-        'error'=>"No access for $table for $GLOBALS[username]",
+        'error'=>"No access to show '$table' for user '$GLOBALS[username]'",
       //  'access'=>$GLOBALS[access]
     ]
     );
