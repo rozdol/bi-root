@@ -17,6 +17,10 @@ if (($i>5)&&($this->html->readRQn('nocart')==0)) {
 if ($noexport=='') {
     if (($csv=='')&&($csv_arr)) {
         $csv=$this->utils->array_to_csv($csv_arr);
+        $JSONData=$csv_arr;
+    }elseif($csv!=''){
+    	$csv_arr=$this->utils->csv_to_array($csv);
+    	$JSONData=$csv_arr;
     }
     $export=$this->utils->exportcsv($csv);
 }
