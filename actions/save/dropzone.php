@@ -8,7 +8,7 @@ $forece_new=$this->html->readRQn('forece_new');
 
 //$this->utils->log("-----Save Uplads of $tablename");
 $json=json_encode(['POST'=>$_POST, 'GET'=>$_GET]);
-$this->utils->log("DropZone_save:$json");
+//$this->utils->log("DropZone_save:$json");
 // echo util::var_dump($_POST, TRUE,1,"POST");
 // echo util::var_dump($_GET, TRUE,1,"GET");exit;
 if($tablename=='save_file'){
@@ -123,9 +123,9 @@ if($tablename!='documents'){
 	$_GET['newfname']=$newfname;
 	
 }
-$this->utils->log("Before Save");
+//$this->utils->log("Before Save");
 $this->save('uploads');
-$this->utils->log("After Save");
+//$this->utils->log("After Save");
 $link="?act=details&what=$tablename&tab=$tab&id=$refid";
 echo " Saved.<br>". $this->html->link_button("<i class='icon-arrow-left icon-white'></i> Back",$link,'info')." ";
 echo $this->html->refreshpage($link,0.1,'Saving...'); exit;
