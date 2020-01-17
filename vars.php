@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.4.0"; //Auto domain role
+$GLOBALS['app_version']="8.4.1"; //Auto domain role + auto DB
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -162,8 +162,14 @@ if ($_SERVER['RDS_HOSTNAME']!='') {
     $GLOBALS['DB']['DB_PORT']='5432';
 }
 
+if($_ENV['AUTO_DB']){
+    $GLOBALS['DB']['DB_NAME']=$db_name;
+    if($_ENV[BRAND_NAME]=='')$_ENV[BRAND_NAME]="<b class='label label-info'>".strtoupper($db_name)."</b>";
+}
+
 define('APP_NAME', $app_name);
 define('DB_NAME', $db_name);
+define('CLIENT_ID', "$app_name.$db_name");
 
 
 $GLOBALS['db']['name']=$db_name;
@@ -172,11 +178,16 @@ if($GLOBALS['DB']['DB_NAME']=='')$GLOBALS['DB']['DB_NAME']=$db_name;
 
 
 if ($_ENV['DATA_DIR']!='') {
-    define('DATA_DIR', $_ENV['DATA_DIR'].DS);
+    if($_ENV['AUTO_DB']){
+        $data_dir=$_ENV['DATA_DIR'].DS.$db_name.DS;
+    }else{
+        $data_dir=$_ENV['DATA_DIR'].DS;
+    }
+    define('DATA_DIR', $data_dir);
 }
 
 $data_dir_tmp=''.ROOT . DS . 'storage';
-if (file_exists($data_dir_tmp)) {
+if (file_exists($data_dir_tmp)&&(!defined('DATA_DIR'))) {
     define('DATA_DIR', $data_dir_tmp. DS);
 }
 
