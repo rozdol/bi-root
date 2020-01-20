@@ -6,12 +6,12 @@ if ($what == 'listitem2obj'){
 	$list_id=$this->html->readRQn('list_id');
 	$list=$this->data->get_name('lists',$list_id);
 	if($listitem_id==0){
-		$res=$this->db->GetRow("select * from $ref_table where id=$id");		
+		$res=$this->db->GetRow("select * from $ref_table where id=$ref_id");
 		$name=$res[name];
 		if($ref_table=='transactions'){
 			$sql="SELECT distinct d.id, d.name||' '||substr(d.descr,0,40) FROM documents d, docs2partners p 
 			WHERE p.docid=d.id and (p.partnerid=$res[sender] or p.partnerid=$res[receiver]) and d.id not in (select doc_id from docs2obj where ref_table='transactions' and ref_id=$id) and d.datefrom<='$res[date]' and d.dateto>='$res[date]'  ORDER by d.id";
-			$type=$this->html->htlist('doc_id_list',$sql,0,'Select Document','');
+			$type=$this->html->htlist('doc_id_list',$sql,0,'Select Document','','','span12');
 
 			$doc_input="
 			<dt><label>or choose</label>$type</dt>
@@ -19,7 +19,7 @@ if ($what == 'listitem2obj'){
 		}
 		$out.=  "<h3>Join $list to $ref_table $name</h3>\n";
 		$sql="SELECT id, name from listitems where list_id=$list_id order by id";
-		$itemlist=$this->html->htlist('listitem_id',$sql,0,'Select Item','');
+		$itemlist=$this->html->htlist('listitem_id',$sql,0,'Select Item','','','span12');
 		
 		$out.= "
 			<form class='well' action='?csrf=$GLOBALS[csrf]&act=save&what=$what' method='post' name='$what'>
