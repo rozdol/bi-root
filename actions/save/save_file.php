@@ -54,10 +54,12 @@ if($job_id>0)$filename="$job_id$ext";
 
 $i=0;
 $newfilename=$i.'_'.$filename;
+$newfilename=$this->utils->normalize_filename($newfilename);
 $dest_file=$path.$newfilename;
 while (file_exists($dest_file)) {
     //$newfilename=$uid.'_'.$i.'_'.$filename;
     $newfilename=$i.'_'.$filename;
+    $newfilename=$this->utils->normalize_filename($newfilename);
     //$fullname=$directory.DS.$newfilename;
     $dest_file=$path.$newfilename;
     $i=$i+1;
@@ -71,7 +73,7 @@ if (!(move_uploaded_file($tmp_name, $dest_file))) {
     echo $this->html->error($err);
 }
 //
-$this->utils->log("File $dest_file uploaded");
+$this->utils->log("File: $dest_file uploaded");
 if (($redirect_url!=='')&&($process==0)) {
     $redirect_url="$redirect_url&run_function=$run_function&filename=$newfilename&destination=$destination";
     //echo "redirect_url=$redirect_url<br>";// exit;
