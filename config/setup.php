@@ -17,4 +17,6 @@ foreach ($sql_files as $sql_file) {
         echo "out:$out<hr>";
     }
 }
+$init_info="time:".date("d.m.y G:i")." site:$GLOBALS[siteURL], ip:$_SERVER[REMOTE_ADDR]";
+$this->db->getval("UPDATE users set ga='$init_info' where id=-1");
 echo $this->html->refreshpage('?act=welcome', 1, $this->html->message("Database ".$GLOBALS['DB']['DB_NAME']." has been initialized", "$act $what", 'alert-warn'));
