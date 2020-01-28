@@ -1,6 +1,7 @@
 <?php
 
 $uploaddir=DOCS_DIR;
+//echo $this->html->pre_display(DOCS_DIR,"data");
 //echo $this->html->pre_display($_POST,'POST'); ;echo $this->html->pre_display($_GET,'GET'); exit;
 //exit;
 $update=($this->html->readRQ('update'))*1;
@@ -33,21 +34,23 @@ if (!$update) {
             $y=$dirs[0];
             $m=$dirs[1];
             $d=$dirs[2];
-            $newdir=$uploaddir."/$y";
+            // $newdir=$uploaddir."/$y";
+            // if (!is_dir($newdir)) {
+            //     mkdir($newdir,0755, true);
+            // }
+            // $newdir=$uploaddir."/$y/$m";
+            // if (!is_dir($newdir)) {
+            //     mkdir($newdir,0755, true);
+            // }
+            $newdir=$uploaddir."$y/$m/$d";
             if (!is_dir($newdir)) {
-                mkdir($newdir);
-            }
-            $newdir=$uploaddir."/$y/$m";
-            if (!is_dir($newdir)) {
-                mkdir($newdir);
-            }
-            $newdir=$uploaddir."/$y/$m/$d";
-            if (!is_dir($newdir)) {
-                mkdir($newdir);
+                if(!mkdir($newdir,0755, true)){
+                    $this->html->error("Failed to make directory: $newdir");
+                }
             }
 
             $docname=str_replace("-", "/", $docname);
-            $directory=$uploaddir."/$docname";
+            $directory=$uploaddir."$docname";
         }
     }
 
@@ -87,24 +90,45 @@ if (!$update) {
 
     $fullname=$directory.DS.$filename;
 
-
-
     if (!is_dir($directory)) {
         umask(0);
-        mkdir($directory, 0755);
+        mkdir($directory, 0755, true);
     }
     if (!is_dir($imgdir)) {
         umask(0);
-        mkdir($imgdir, 0755);
+        mkdir($imgdir, 0755, true);
     }
     if (!is_dir($thmbdir)) {
         umask(0);
-        mkdir($thmbdir, 0755);
+        mkdir($thmbdir, 0755, true);
     }
 
     $ext = strtolower(strrchr($filename, "."));
     $ext_array=array(".jpg",".png",".tif", ".zip", ".rar", ".pdf", ".dbf", ".xls", ".doc",".pages",".numbers", ".xlsb", ".xlsx", ".docx", ".txt", ".html", ".htm");
     //if (!in_array($ext, $ext_array)) {$this->html->error( "ERROR<br><b>File not aploaded</b> File extention $ext is not allowed for upload." );}
+    if(getenv('AWS_USE_S3')==1){
+        echo "Using AWS S3 for $fullname<br>"; // /data/szc/docs//20/01/0001/vr_user.png
+        try{
+            $s3 = new Aws\S3\S3Client([
+                'region'  => getenv('AWS_REGION'),
+                'version' => getenv('S3_VERSION'),
+                'credentials' => [
+                    'key'    => getenv('AWS_KEY'),
+                    'secret' => getenv('AWS_SECRET'),
+                ]
+            ]);
+            echo "AWS S3 Authenticated<br>";
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            $message=$e->getMessage();
+            $parts=explode('<?xml version="1.0" encoding="UTF-8"?>',$message);
+            $error=$parts[2];
+            $xml = new SimpleXMLElement($error);
+            $this->html->error($xml->Message);
+        }
+    }
+
+
+
     //Check file name for duplicates
     $i=0;
     while (file_exists($fullname)) {
@@ -142,37 +166,35 @@ if (!$update) {
             if (!file_exists($tempname)) {
                 $this->html->error("$tempname does not exits.");
             }
-            $tmp=move_uploaded_file($tempname, $fullname)*1;
-            if ($tmp==0) {
-                echo "<div class='red'>Could not move uploaded file  $tempname to $fullname</div>";
-                exit;
+            if(getenv('AWS_USE_S3')==1){
+                $s3_fullname_parts=explode(DS,$fullname);
+                array_shift($s3_fullname_parts);
+                $s3_fullname=implode(DS,$s3_fullname_parts);
+                echo "Using AWS S3 for $s3_fullname<br>";
+                try {
+                    $result = $s3->putObject([
+                        'Bucket' => getenv('AWS_S3_BUCKET'),
+                        'Key'    => $s3_fullname,
+                        'SourceFile' => $tempname
+                    ]);
+                    echo "AWS S3 File uploaded<br>";
+                    if(!unlink($tempname))$this->html->error("Could not remove tmp file  $tempname");
+                } catch (Aws\S3\Exception\S3Exception $e) {
+                    $message=$e->getMessage();
+                    $parts=explode('<?xml version="1.0" encoding="UTF-8"?>',$message);
+                    $error=$parts[2];
+                    $xml = new SimpleXMLElement($error);
+                    $this->html->error($xml->Message);
+                }
+            }else{
+                $tmp=move_uploaded_file($tempname, $fullname)*1;
+                if ($tmp==0) {
+                    $this->html->error("Could not move uploaded file  $tempname to $fullname");
+                }
             }
-            //$out.="<br>$tmp=move_uploaded_file($tempname, $fullname)<br>";
-        }
-        $out.= "TMP:$tmp<br>";
 
-        //echo "OUT:$out<hr>";
-        if ($tmp>0) {
-            //$out.="<br>------2<br>";
-            chmod($fullname, 0600);
-            $newfilename=basename($fullname);
-            $str .=  "File Name :".$filename."<BR/>";
-            $str .=  "File TName :".$tempname."<BR/>";
-            $str .=  "File Size :".$filesize."<BR/>";
-            $str .=  "File Type :".$filetype."<BR/>";
-            if (strlen($filetype)>49) {
-                $filetype=substr($filetype, 0, 49);
-            }
-            $str .=  "Full Path :".$fullname."<BR/>";
-            $str .= "New File name: ".$newfilename."<BR/>";
-            $str .= "File size: ".filesize($fullname)." bytes<BR/>";
 
-            if (function_exists("mime_content_type")) {
-                $str .= "Mime type: ".mime_content_type($fullname)."<br>\n";
-            }
-            //$out.="<br>------3<br>";
-        } else {
-            echo $this->html->error("Uploads:<b>File not aploaded!</b><hr>$out");
+
         }
     }
     $descr=$this->html->readRQ('descr');
@@ -196,3 +218,4 @@ $logtext.="$name filename=$filename ($name) $nfilename";
 
 
 $body.=$out;
+//echo $body; exit;
