@@ -9,19 +9,20 @@ if($what=="uploads"){
 	//$thmb=$progdir."/".$this->data->readconfig('thumbdir')."/".$filename;
 	$fullname=$uploaddir."/".$filename;
 	if($uploads[tablename]=='documents'){
-		$deletedfiles=DATA_DIR.'/docs/deleted';
+		$deletedfiles=DATA_DIR.'docs/deleted';
 		$docname=$this->db->GetVal("select name from documents where id=$uploads[refid]");
 		
 		$dirs=explode("-",$docname);
 		$y=$dirs[0];
 		$m=$dirs[1];
 		$d=$dirs[2];
-		$newdir=$deletedfiles."/$y";
-		if(!is_dir($newdir))mkdir($newdir);
-		$newdir=$deletedfiles."/$y/$m";
-		if(!is_dir($newdir))mkdir($newdir);
+
 		$newdir=$deletedfiles."/$y/$m/$d";
-		if(!is_dir($newdir))mkdir($newdir);
+		if (!is_dir($newdir)) {
+		    if(!mkdir($newdir,0755, true)){
+		        $this->html->error("Failed to make directory $newdir");
+		    }
+		}
 	
 		$docname=str_replace("-","/",$docname);
 		$directory=$deletedfiles."/$docname";
