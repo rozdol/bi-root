@@ -20,7 +20,12 @@ $domainName=str_ireplace("/", "", $domainName);
 define('FW_DIR', ROOT . DS . 'bi');
 define('PROJECT_DIR', ROOT . DS . 'src');
 define('APP_DIR', PROJECT_DIR);
-define('VENDOR_DIR', ROOT.DS.'vendor');
+if(file_exists(ROOT.DS.'vendor')){
+    define('VENDOR_DIR', ROOT.DS.'vendor');
+}else{
+    define('VENDOR_DIR', '../vendor');
+}
+
 define('CLASSES_DIR', FW_DIR.DS.'classes');
 
 
@@ -41,8 +46,14 @@ if (file_exists(APP_DIR.DS.'.env')) {
     $dotenv->overload();
     //$dotenv->load();
 } else {
-    if ($debug==1) {
-        echo APP_DIR.DS.'.env'." not found <br>";
+    $env_file='../src/.env';
+    if (file_exists($env_file)) {
+        $dotenv = new Dotenv\Dotenv('../src');
+        $dotenv->overload();
+    }else{
+        if ($debug==1) {
+            echo $env_file." not found <br>";
+        }
     }
 }
 if ($debug==1) {
@@ -176,8 +187,8 @@ $GLOBALS['db']['name']=$db_name;
 if($GLOBALS['DB']['DB_NAME']=='')$GLOBALS['DB']['DB_NAME']=$db_name;
 //define('APP_DIR', PROJECT_DIR . $app_name);
 
-
 if ($_ENV['DATA_DIR']!='') {
+    define('ROOT_DATA_DIR', $_ENV['DATA_DIR'].DS);
     if($_ENV['AUTO_DB']){
         $data_dir=$_ENV['DATA_DIR'].DS.$db_name.DS;
     }else{
