@@ -1,6 +1,6 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.4.1"; //Auto domain role + auto DB
+$GLOBALS['app_version']="8.4.2"; //Auto domain role + auto DB + wip
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
