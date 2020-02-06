@@ -1,6 +1,8 @@
 <?php
 $debug=0;
-$GLOBALS['app_version']="8.4.2"; //Auto domain role + auto DB + wip
+$admin_ip=getenv('ADMIN_IP');
+if($_SERVER['REMOTE_ADDR']==$admin_ip); $debug=0;
+$GLOBALS['app_version']="8.4.3"; // getenv
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -158,19 +160,20 @@ $db_name=$db_app[0];
 
 $GLOBALS['project']=$app_name;
 
-$GLOBALS['DB']['DB_SERVER']=$_ENV['DB_SERVER'];
-$GLOBALS['DB']['DB_USER']=$_ENV['DB_USER'];
-$GLOBALS['DB']['DB_PASS']=$_ENV['DB_PASS'];
-$GLOBALS['DB']['DB_NAME']=$_ENV['DB_NAME'];
-$GLOBALS['DB']['DB_PORT']=$_ENV['DB_PORT'];
+$GLOBALS['DB']['DB_SERVER']=getenv('DB_SERVER');
+$GLOBALS['DB']['DB_USER']=getenv('DB_USER');
+$GLOBALS['DB']['DB_PASS']=getenv('DB_PASS');
+$GLOBALS['DB']['DB_NAME']=getenv('DB_NAME');
+$GLOBALS['DB']['DB_PORT']=getenv('DB_PORT');
 
-if ($_SERVER['RDS_HOSTNAME']!='') {
-    $db_name=$_SERVER['RDS_DB_NAME'];
-    $GLOBALS['DB']['DB_SERVER']=$_SERVER['RDS_HOSTNAME'];
-    $GLOBALS['DB']['DB_USER']=$_SERVER['RDS_USERNAME'];
-    $GLOBALS['DB']['DB_PASS']=$_SERVER['RDS_PASSWORD'];
-    $GLOBALS['DB']['DB_NAME']=$_SERVER['RDS_DB_NAME'];
-    $GLOBALS['DB']['DB_PORT']='5432';
+$rds_hostname=getenv('RDS_HOSTNAME');
+if ($rds_hostname!='') {
+    $db_name=getenv('RDS_DB_NAME');
+    $GLOBALS['DB']['DB_SERVER']=getenv('RDS_HOSTNAME');
+    $GLOBALS['DB']['DB_USER']=getenv('RDS_USERNAME');
+    $GLOBALS['DB']['DB_PASS']=getenv('RDS_PASSWORD');
+    $GLOBALS['DB']['DB_NAME']=getenv('RDS_DB_NAME');
+    $GLOBALS['DB']['DB_PORT']=getenv('RDS_DB_PORT');
 }
 
 if($_ENV['AUTO_DB']){
