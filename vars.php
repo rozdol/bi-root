@@ -1,8 +1,9 @@
 <?php
+$GLOBALS['app_version']="8.4.4"; // remove $_ENV
 $debug=0;
 $admin_ip=getenv('ADMIN_IP');
 if($_SERVER['REMOTE_ADDR']==$admin_ip); $debug=0;
-$GLOBALS['app_version']="8.4.3"; // getenv
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -135,7 +136,7 @@ function get_app_db($domain)
         $app_name = basename($dirs[0]);
     }
 
-    if($_ENV['AUTO_DOMAIN']){
+    if(getenv('AUTO_DOMAIN')){
         $GLOBALS['DB']['DB_DOMAIN']=$db_name;
     }else{
 
@@ -143,8 +144,8 @@ function get_app_db($domain)
     if ($GLOBALS['DB']['DB_NAME']!='') {
         $db_name=$GLOBALS['DB']['DB_NAME'];
     }
-    if ($_ENV['APP_NAME']!='') {
-        $app_name=$_ENV['APP_NAME'];
+    if (getenv('APP_NAME')!='') {
+        $app_name=getenv('APP_NAME');
     }
     if (($app_name=='')&&($db_name!='')) {
         $app_name=$db_name;
@@ -176,9 +177,12 @@ if ($rds_hostname!='') {
     $GLOBALS['DB']['DB_PORT']=getenv('RDS_DB_PORT');
 }
 
-if($_ENV['AUTO_DB']){
+if(getenv('AUTO_DB')){
     $GLOBALS['DB']['DB_NAME']=$db_name;
-    if($_ENV[BRAND_NAME]=='')$_ENV[BRAND_NAME]="<b class='label label-info'>".strtoupper($db_name)."</b>";
+    $brand_name=getenv('BRAND_NAME');
+    if($brand_name==''){
+        putenv('BRAND_NAME='."<b class='label label-info'>".strtoupper($db_name)."</b>");
+    }
 }
 
 define('APP_NAME', $app_name);
@@ -190,12 +194,12 @@ $GLOBALS['db']['name']=$db_name;
 if($GLOBALS['DB']['DB_NAME']=='')$GLOBALS['DB']['DB_NAME']=$db_name;
 //define('APP_DIR', PROJECT_DIR . $app_name);
 
-if ($_ENV['DATA_DIR']!='') {
-    define('ROOT_DATA_DIR', $_ENV['DATA_DIR'].DS);
-    if($_ENV['AUTO_DB']){
-        $data_dir=$_ENV['DATA_DIR'].DS.$db_name.DS;
+if (getenv('DATA_DIR')!='') {
+    define('ROOT_DATA_DIR', getenv('DATA_DIR').DS);
+    if(getenv('AUTO_DB')){
+        $data_dir=getenv('DATA_DIR').DS.$db_name.DS;
     }else{
-        $data_dir=$_ENV['DATA_DIR'].DS;
+        $data_dir=getenv('DATA_DIR').DS;
     }
     define('DATA_DIR', $data_dir);
 }
@@ -217,8 +221,8 @@ define('SIGNS_DIR', DATA_DIR .'signatures'. DS);
 $app_uri=str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 //if($app_uri=='')$app_uri='/';
 define(APP_URI, $app_uri);
-if($_ENV['ASSETS_URI']!=''){
-    define(ASSETS_URI, $_ENV['ASSETS_URI']);
+if(getenv('ASSETS_URI')!=''){
+    define(ASSETS_URI, getenv('ASSETS_URI'));
 }elseif(strlen($app_uri)>1){
     define(ASSETS_URI, $app_uri);
 }else{
