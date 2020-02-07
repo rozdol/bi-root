@@ -169,11 +169,11 @@ $GLOBALS['DB']['DB_PORT']=getenv('DB_PORT');
 
 $rds_hostname=getenv('RDS_HOSTNAME');
 if ($rds_hostname!='') {
-    $db_name=getenv('RDS_DB_NAME');
+    if(!getenv('AUTO_DB'))$db_name=getenv('RDS_DB_NAME');$db_name=getenv('RDS_DB_NAME');
     $GLOBALS['DB']['DB_SERVER']=getenv('RDS_HOSTNAME');
     $GLOBALS['DB']['DB_USER']=getenv('RDS_USERNAME');
     $GLOBALS['DB']['DB_PASS']=getenv('RDS_PASSWORD');
-    $GLOBALS['DB']['DB_NAME']=getenv('RDS_DB_NAME');
+    $GLOBALS['DB']['DB_NAME']=$db_name;
     $GLOBALS['DB']['DB_PORT']=getenv('RDS_DB_PORT');
 }
 
