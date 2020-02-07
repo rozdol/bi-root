@@ -1,8 +1,8 @@
 <?php
-$GLOBALS['app_version']="8.4.4"; // remove $_ENV
+$GLOBALS['app_version']="8.4.5"; // Fix db_name in RDS
 $debug=0;
 $admin_ip=getenv('ADMIN_IP');
-if($_SERVER['REMOTE_ADDR']==$admin_ip); $debug=0;
+if($_SERVER['REMOTE_ADDR']==$admin_ip) $debug=0;
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -169,7 +169,7 @@ $GLOBALS['DB']['DB_PORT']=getenv('DB_PORT');
 
 $rds_hostname=getenv('RDS_HOSTNAME');
 if ($rds_hostname!='') {
-    if(!getenv('AUTO_DB'))$db_name=getenv('RDS_DB_NAME');$db_name=getenv('RDS_DB_NAME');
+    if(!getenv('AUTO_DB'))$db_name=getenv('RDS_DB_NAME');
     $GLOBALS['DB']['DB_SERVER']=getenv('RDS_HOSTNAME');
     $GLOBALS['DB']['DB_USER']=getenv('RDS_USERNAME');
     $GLOBALS['DB']['DB_PASS']=getenv('RDS_PASSWORD');
