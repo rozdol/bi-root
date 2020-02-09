@@ -100,7 +100,7 @@ if ($to=='') {
         $from='email@example.com';
         $subject='Test from BI';
         $text='<b>Test bold</b> not bold.<br>'.$rnumber;
-        $mail=$this->utils->sendmail_html($to, $from, $subject, $text);
+        $mail=$this->comm->sendmail_html($to, $from, $subject, $text);
         echo "Mail sent to $to<pre>$text </pre><br>$mail";
         
         
@@ -108,7 +108,7 @@ if ($to=='') {
         echo "<h3>SMS test</h3>";
         $number=$_ENV['ADMIN_MOBILE'];
         $text='Test from BI.'.$rnumber;
-        $this->utils->sendsms($number, $text);
+        $this->comm->sendsms($number, $text);
         echo "SMS sent to $number<pre>$text</pre>";
         
         //====
