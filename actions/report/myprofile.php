@@ -13,8 +13,8 @@ if (!$GLOBALS[settings][simple_profile]) {
             
 //if($access['main_admin'])$out.= manage_signs($id);
 
-if ($GLOBALS['settings']['use_mfa']) {
-    require_once FW_DIR.'vendor'.DS.'PHPGangsta'.DS.'GoogleAuthenticator.php';
+if (getenv('MFA_AUTH')) {
+    //require_once FW_DIR.'vendor'.DS.'PHPGangsta'.DS.'GoogleAuthenticator.php';
 
     $ga = new PHPGangsta_GoogleAuthenticator();
     
