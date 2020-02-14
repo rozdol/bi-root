@@ -43,9 +43,11 @@ if (!$update) {
             //     mkdir($newdir,0755, true);
             // }
             $newdir=$uploaddir."$y/$m/$d";
-            if (!is_dir($newdir)) {
-                if(!mkdir($newdir,0755, true)){
-                    $this->html->error("Failed to make directory: $newdir");
+            if(getenv('AWS_USE_S3')!=1){
+                if (!is_dir($newdir)) {
+                    if(!mkdir($newdir,0755, true)){
+                        $this->html->error("Failed to make directory: $newdir");
+                    }
                 }
             }
 
