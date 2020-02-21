@@ -106,7 +106,7 @@ if ($to=='') {
         
         //====
         echo "<h3>SMS test</h3>";
-        $number=$_ENV['ADMIN_MOBILE'];
+        $number=getenv('ADMIN_MOBILE');
         $text='Test from BI.'.$rnumber;
         $this->comm->sendsms($number, $text);
         echo "SMS sent to $number<pre>$text</pre>";

@@ -16,9 +16,9 @@ $token =
  * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
  * for a list of spec-compliant algorithms.
  */
-$jwt = JWT::encode($token, $_ENV[APP_SALT]);
+$jwt = JWT::encode($token, getenv('APP_SALT'));
 echo $this->html->pre_display($jwt, "jwt");
-$decoded = JWT::decode($jwt, $_ENV[APP_SALT], ['HS256']);
+$decoded = JWT::decode($jwt, getenv('APP_SALT'), ['HS256']);
 
 echo $this->html->pre_display($decoded, "decoded");
 //print_r($decoded);
@@ -39,6 +39,6 @@ echo $this->html->pre_display($decoded_array, "decoded_array");
  * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
  */
 JWT::$leeway = 60; // $leeway in seconds
-$decoded = JWT::decode($jwt, $_ENV[APP_SALT], ['HS256']);
+$decoded = JWT::decode($jwt, getenv('APP_SALT'), ['HS256']);
 echo $this->html->pre_display($decoded, "decoded");
 echo $this->html->pre_display($_SERVER, "SERVER");

@@ -61,10 +61,10 @@ if (file_exists(APP_DIR.DS.'.env')) {
 }
 if ($debug==1) {
     echo "DOMAIN:$domainName<br>";
-    echo 'USER DEFINED ($_ENV)<br>';
+    echo 'USER DEFINED ENVIRONMENT<br>';
     echo '===============<br>';
     echo "<pre>";
-    print_r($_ENV);
+    print_r(getenv());
     echo "</pre>";
 }
 
@@ -181,7 +181,8 @@ if(getenv('AUTO_DB')){
     $GLOBALS['DB']['DB_NAME']=$db_name;
     $brand_name=getenv('BRAND_NAME');
     if($brand_name==''){
-        putenv('BRAND_NAME='."<b class='label label-info'>".strtoupper($db_name)."</b>");
+        $brand_name="<b class='label label-info'>".strtoupper($db_name)."</b>";
+        putenv('BRAND_NAME='.$brand_name);
     }
 }
 
@@ -215,6 +216,7 @@ define('TMPLTS_DIR', DATA_DIR .'templates'. DS);
 define('SACANS_DIR', DATA_DIR .'scans'. DS);
 define('TRASH_DIR', DATA_DIR .'trash'. DS);
 define('LOGS_DIR', DATA_DIR .'logs'. DS);
+define('DEFLATED_DIR', DATA_DIR .'deflated'. DS);
 define('TK_DIR', DATA_DIR .'tk'. DS);
 define('SIGNS_DIR', DATA_DIR .'signatures'. DS);
 

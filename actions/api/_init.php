@@ -72,7 +72,7 @@ function find_api_by_key($inputs=[],$app){
         }
     }
     try {
-        $decoded = JWT::decode($http_authorization, $_ENV[APP_SALT], array('HS256'));
+        $decoded = JWT::decode($http_authorization, getenv('APP_SALT'), array('HS256'));
     } catch (Exception $e) {
         echo json_encode(['error'=>'No Auths']);
         exit;
@@ -234,7 +234,7 @@ function authenticate ($inputs=[], $app) {
             'unm' => $user[username],
             'exp' => time() + $validity_period //1 week
         ];
-        $jwt = JWT::encode($token, $_ENV[APP_SALT]);
+        $jwt = JWT::encode($token, getenv('APP_SALT'));
 
         $query = QB::table('apis')
             ->where('user_id', $user[id])
