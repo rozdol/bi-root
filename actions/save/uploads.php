@@ -55,11 +55,14 @@ if (!$update) {
             $directory=$uploaddir."$docname";
         }
     }
+    if(getenv('AWS_USE_S3')==1){
+        $s3_fullname_parts=explode(DS,$directory);
+        array_shift($s3_fullname_parts);
+        $directory=implode(DS,$s3_fullname_parts);
+        echo "Using AWS S3 for $directory<br>";
+    }
 
-
-
-
-
+    //echo $this->html->pre_display($directory,"directory"); exit;
     $name='webcam';
 
     $filename=$_FILES[$name]['name'];
@@ -133,12 +136,22 @@ if (!$update) {
 
     //Check file name for duplicates
     $i=0;
-    while (file_exists($fullname)) {
-        $i=$i+1;
-        //$newfilename=$uid.'_'.$i.'_'.$filename;
-        $newfilename=$i.'_'.$filename;
-        $fullname=$directory.DS.$newfilename;
+    if(getenv('AWS_USE_S3')==1){
+        while ($s3->doesObjectExist(getenv('AWS_S3_BUCKET'), $fullname)) {
+            $i=$i+1;
+            //$newfilename=$uid.'_'.$i.'_'.$filename;
+            $newfilename=$i.'_'.$filename;
+            $fullname=$directory.DS.$newfilename;
+        }
+    }else{
+        while (file_exists($fullname)) {
+            $i=$i+1;
+            //$newfilename=$uid.'_'.$i.'_'.$filename;
+            $newfilename=$i.'_'.$filename;
+            $fullname=$directory.DS.$newfilename;
+        }
     }
+
     $out.= "New file :".$fullname."<BR/>";
 
     $newfilename=basename($fullname);
@@ -169,14 +182,10 @@ if (!$update) {
                 $this->html->error("$tempname does not exits.");
             }
             if(getenv('AWS_USE_S3')==1){
-                $s3_fullname_parts=explode(DS,$fullname);
-                array_shift($s3_fullname_parts);
-                $s3_fullname=implode(DS,$s3_fullname_parts);
-                echo "Using AWS S3 for $s3_fullname<br>";
                 try {
                     $result = $s3->putObject([
                         'Bucket' => getenv('AWS_S3_BUCKET'),
-                        'Key'    => $s3_fullname,
+                        'Key'    => $fullname,
                         'SourceFile' => $tempname
                     ]);
                     echo "AWS S3 File uploaded<br>";
