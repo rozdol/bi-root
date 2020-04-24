@@ -10,7 +10,7 @@ if ($access['main_admin']){
 	$secret = "3KPMJWWHI3REUAF3";
 
 
-	$qrCodeUrl = $ga->getQRCodeGoogleUrl($GLOBALS[app_name].':'.$GLOBALS['username'], $secret);
+	$qrCodeUrl = $ga->getQRCodeGoogleUrl($GLOBALS[db_name].':'.$GLOBALS['username'], $secret); // change db_name to db_name
 
 	$oneCode = $ga->getCode($secret);
 	

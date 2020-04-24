@@ -8,6 +8,7 @@ $GLOBALS[offline_mode]=1;
 sendheaders();
 $inputs=getinput($this);
 
+//$this->utils->log("in:".print_r($inputs, true));
 //$this->utils->log($this->html->pre_display($_SERVER,'_SERVER').$this->html->pre_display($_POST,'POST')); exit;
 
 //echo json_encode(['inputs'=>$inputs]); exit;
