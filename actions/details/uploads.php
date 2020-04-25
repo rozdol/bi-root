@@ -36,6 +36,7 @@ if ($what == 'uploads') {
             $s3_fullname_parts=explode(DS,$filename);
             array_shift($s3_fullname_parts);
             $s3_fullname=implode(DS,$s3_fullname_parts);
+            $s3_fullname=str_ireplace('private/','',$s3_fullname);
             //echo "Using AWS S3 for $s3_fullname<br>";
             try{
                 $s3 = new Aws\S3\S3Client([
@@ -82,7 +83,7 @@ if ($what == 'uploads') {
                 $parts=explode('<?xml version="1.0" encoding="UTF-8"?>',$message);
                 $error=$parts[2];
                 $xml = new SimpleXMLElement($error);
-                $this->html->error($xml->Message);
+                $this->html->error($xml->Message." KEY:$s3_fullname");
             }
 
             exit;
