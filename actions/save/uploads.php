@@ -85,7 +85,7 @@ if (!$update) {
         $filename=$newfname;
     }
 
-    echo "This filename:$filename<br>";
+    //echo "This filename:$filename<br>";
     //$orig_name=$filename;
     $name=$filename;
     $filename=$this->utils->normalize_filename($filename);
