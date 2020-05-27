@@ -3,22 +3,12 @@
 if (($what == 'addaccessitems')&&($access['main_admin'])){
 	$item=$this->html->readRQ('item');
 	if($item=='')$item=$this->html->readRQ('table');
-	$count=$this->db->getVal("select count(*) from accessitems where name='$item'")*1;
-	if($count==0){
-
-		$sql="insert into accessitems (name) values ('$item');";
-		$res=$this->db->GetVar($sql);
-		$sql="update accesslevel set access='1' where groupid=$gid;";
-		$res=$this->db->GetVar($sql);
-		echo "<span class='alert alert-info'>Access item <b>$item</b> is added!</span><br>";
-	}		
+	$this->data->add_access([$item]);
 }
 //--------------------------
 if (($what == 'delaccessitems')&&($access['main_admin'])){
 	$item=$this->html->readRQ('item');
-	$sql="delete from accessitems where lower(name)=lower('$item');";
-	$res=$this->db->GetVar($sql);
-	echo "<span class='alert alert-error'>Access item <b>$item</b> is deleted!</span>";
+	$this->data->delete_access($item);
 }
 
 $out.="<span class='alert alert-error'>Test <b>$item</b> is deleted!</span>";
