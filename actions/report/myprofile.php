@@ -39,7 +39,7 @@ while ($row = pg_fetch_array($cur,NULL,PGSQL_ASSOC)){
 
 $i=0;
 $fields=array('#','id','name','s','a');
-$out.=$this->html->tag($what,'foldered');
+$out.=$this->html->tag("Reports on my Home Page",'foldered');
 $out.=$this->html->tablehead('',$qry, $order, $addbutton, $fields,'autosort');
 
 $sql="SELECT r.name, r.descr, r.link, hp.active, hp.sorting, r.id as report_id ,hp.id as homepage_id
