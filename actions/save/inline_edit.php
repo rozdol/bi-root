@@ -72,6 +72,8 @@ if ($action=='') {
         $id=$this->db->update_db($table, $id, $vals);
         $this->data->DB_change($table, $id);
         //$out.= $sql;
+    }else{
+        $value="$accessitemchk no access.";
     }
     if (($is_number)&&($is_money>0)) {
         $value=$this->utils->money($value);
