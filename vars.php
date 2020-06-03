@@ -1,5 +1,5 @@
 <?php
-$GLOBALS['app_version']="8.4.5"; // Fix db_name in RDS
+$GLOBALS['app_version']="8.4.6"; // Fix timezone issue
 $debug=0;
 $admin_ip=getenv('ADMIN_IP');
 if($_SERVER['REMOTE_ADDR']==$admin_ip) $debug=0;
