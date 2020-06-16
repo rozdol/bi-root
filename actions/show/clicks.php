@@ -51,7 +51,7 @@ if ($tmp!='') {
 $tmp=explode(',', $this->html->readRQcsv('tags', '', 0));
 if (count($tmp)>0) {
     foreach ($tmp as $value) {
-        $sql.=" and (lower(post) like lower('%$value%') or  lower(get) like lower('%$value%'))";
+        if($value!='')$sql.=" and (lower(post) like lower('%$value%') or  lower(get) like lower('%$value%'))";
     }
 }
 

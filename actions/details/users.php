@@ -19,10 +19,11 @@ if ($access['main_admin']){
 		//$out.=$this->show('usersdet');
 		//$out.= $this->html->show_hide("LOG of $res",     "?act=show&what=usersdet&plain=1&nomaxid=1&refid=$id");
 		$out.= $this->html->show_hide("Deletes of $res", "?act=show&what=usersdet&plain=1&nomaxid=1&refid=$id&action=DELETE from");
+		$out.= $this->html->show_hide("Deletes a_accounts of $res", "?act=show&what=usersdet&plain=1&nomaxid=1&refid=&action=DELETE from a_accounts");
 		$out.= $this->html->show_hide("Inserts of $res", "?act=show&what=usersdet&plain=1&nomaxid=1&refid=$id&action=INSERTED");
 		$out.= $this->html->show_hide("Edits of $res", "?act=show&what=usersdet&plain=1&nomaxid=1&refid=$id&action=EDIT");
-		//$out.= $this->html->show_hide("Partner access of $res", "?act=report&what=tableaccess&plain=1&nomaxid=1&id=$id");
-		$out.= $this->html->show_hide("History trail of $res", "?act=show&what=tableaccess&plain=1&nomaxid=1&userid=$id");
+		$out.= $this->html->show_hide("Partner access of $res", "?act=report&what=tableaccess&plain=1&nomaxid=1&id=$id");
+		//$out.= $this->html->show_hide("History trail of $res", "?act=show&what=tableaccess&plain=1&nomaxid=1&userid=$id");
 		$out.= $this->html->show_hide("Clicks of $res", "?act=show&what=clicks&plain=1&nomaxid=1&uid=$id");
 		//$out.= $this->html->show_hide("History trail $res", "?act=show&what=tableaccess&plain=1&nomaxid=1&userid=$id");
 		//$out.= "<span class='btn btn-small btn-danger' onclick=\"confirmation('?act=tools&what=reset_allowed_pids&user_id=$id','Are you sure you what to RESET allowed partners?')\">Reset Allowed Partners</span> ";

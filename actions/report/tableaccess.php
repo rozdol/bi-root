@@ -4,7 +4,8 @@ $uid=$this->html->readRQn('id');
 $out.="<h3>Partners access</h3>";
 $fields=array('#','id','Partner', 'hits','tr','docs','clrq','la');
 $tbl=$this->html->tablehead('','', '', '', $fields);
-$sql="select refid, count(refid) as hits from tableaccess where userid=$id and tablename='partners' and date>=now() - interval '1 day' group by  refid order by hits desc";
+$sql="select refid, count(refid) as hits from tableaccess where userid=$id and tablename='partners' and date>=now() - interval '7 days' group by  refid order by hits desc";
+//echo "$sql<br>";
 if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 while ($row = pg_fetch_array($cur)) {
 		$i++;

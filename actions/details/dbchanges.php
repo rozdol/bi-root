@@ -14,9 +14,21 @@ if ($what == 'dbchanges') {
         $changes.="$key=>$val<br>";
     }
     $changes=$this->html->array_display2D($res[changes]);
-    
-    
-            $out.= "<table class='table table-morecondensed table-notfull'>";
+
+    $res[before]=json_decode($res[before], true);
+    foreach ($res[before] as $key => $val) {
+        $before.="$key=>$val<br>";
+    }
+    $before=$this->html->array_display2D($res[before]);
+
+
+    $res[after]=json_decode($res[after], true);
+    foreach ($res[after] as $key => $val) {
+        $after.="$key=>$val<br>";
+    }
+    $after=$this->html->array_display2D($res[after]);
+
+    $out.= "<table class='table table-morecondensed table-notfull'>";
     $out.="<tr><td class='mr'><b>Id: </b></td><td class='mt'>$res[id]</td></tr>";
     $out.="<tr><td class='mr'><b>Date: </b></td><td class='mt'>$res[date]</td></tr>";
     $out.="<tr><td class='mr'><b>Tablename: </b></td><td class='mt'>$res[tablename]</td></tr>";
@@ -25,7 +37,9 @@ if ($what == 'dbchanges') {
     //$out.="<tr><td class='mr'><b>Before: </b></td><td class='mt'>".$this->html->pre_display($res[before])."</td></tr>";
     //$out.="<tr><td class='mr'><b>After: </b></td><td class='mt'>".$this->html->pre_display($res[after])."</td></tr>";
     //$out.="<tr><td class='mr'><b>changes: </b></td><td class='mt'>".$this->html->pre_display($res[changes])."</td></tr>";
+    $out.="<tr><td class='mr'><b>Before: </b></td><td class='mt'>$before</td></tr>";
     $out.="<tr><td class='mr'><b>changes: </b></td><td class='mt'>$changes</td></tr>";
+    $out.="<tr><td class='mr'><b>After: </b></td><td class='mt'>$after</td></tr>";
     $out.="<tr><td class='mr'><b>Action: </b></td><td class='mt'>$res[action]</td></tr>";
     $out.="<tr><td class='mr'><b>Descr: </b></td><td class='mt'>$res[descr]</td></tr>";
     $out.="</table>";
@@ -37,6 +51,5 @@ if ($what == 'dbchanges') {
 
         ;
 }
-    
-    
+
 $body.=$out;

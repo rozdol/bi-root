@@ -2,8 +2,8 @@
 
 $list=array(
 			'Default'=>'',
-			'By Date ascending'=>'date asc, seq_no asc, id asc',
-			'By Date descending'=>'date desc, seq_no desc, id desc',
+			'By Date ascending'=>'date asc, id asc',
+			'By Date descending'=>'date desc, id desc',
 			'By Object'=>'what asc, id asc',
 			'By IP'=>'ip asc, id asc',
 		);

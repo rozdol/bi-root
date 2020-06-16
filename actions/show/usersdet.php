@@ -35,8 +35,8 @@ if (($what == 'usersdet')&&($access['main_admin'])) {
                 $sql="SELECT id,ip, date,action $sqlfromwhere ORDER BY $sortby  limit $limit offset $offset";
 
                 $select_data = $this->db->GetResults($sql);
-
-                $out = $this->html->pre_display($select_data,"$sql");
+                $out = $this->html->array_display($select_data,"");
+                //$out = $this->html->pre_display($select_data,"$sql");
 
                 // $tb = new \Table();
                 // $tb->Data=$select_data;

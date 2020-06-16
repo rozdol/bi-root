@@ -17,6 +17,16 @@ if ($tmp!='') {
     $sql.=" and tablename='$tmp'";
 }
 
+$tmp=$this->html->readRQ('action');
+if ($tmp!='') {
+    $sql.=" and action='$tmp'";
+}
+
+$tmp=$this->html->readRQn('user_id');
+if ($tmp!='') {
+    $sql.=" and user_id=$tmp";
+}
+
 $sql1="select *";
 $sql=" from $what a where id>0 $sql";
 $sqltotal=$sql;
