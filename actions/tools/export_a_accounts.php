@@ -15,7 +15,11 @@ while ($row = pg_fetch_array($cur)) {
 		$cash=$row[cash];
 		$budget=$row[budget];
 		$bank_account_id=$row[bank_account_id];
-	   $response.="$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id\n";
+		$active=$row[active];
+		$cumulative=$row[cumulative];
+		$internal_code=$row[internal_code];
+		$soft_code=$row[soft_code];
+	   $response.="$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code\n";
 	}
 	$sql="select * from a_transactions where partnerid=$id order by name asc, sorting asc, id asc";
 	$transactions=$this->db->getval("select count(*) from a_transactions where partnerid=$id")*1;
@@ -67,7 +71,7 @@ if ($wrap==1){
 		<input type='hidden' name='id' value='$id'>
 		<input type='hidden' name='debug' value='0'>
 		<input type='hidden' name='delim' value='$delim'>
-	<p>parent; number; name; header; curr; descr; cash; budget;bank_account_id</p>
+	<p>parent; number; name; header; curr; descr; cash; budget;bank_account_id;internal_code;soft_code</p>
 	<textarea cols=150 rows=30 name='accounts' class='span12'>$response</textarea><br>
 	
 	<p> date;name;type;curr;rate;transaction_id;line;dr;cr;accnumber;qty;not_fx;descr;addinfo</p>
