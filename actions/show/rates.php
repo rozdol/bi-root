@@ -26,13 +26,13 @@ if ($what == 'rates') {
         $out.= "<table class='table table-bordered table-striped-tr table-morecondensed tooltip-demo  table-notfull' id='sortableTable'>\n";
         $out.= "<tr class='c'>
 		<td> </td>
-			<td><a href='?$qry&sortby=departmentid$order' TITLE='Sort' class='c' ><b>Date</b></a></td>";
+			<td><a href='?$qry&sortby=date$order' TITLE='Sort' class='c' ><b>Date</b></a></td>";
         $sql2="select * from listitems where list_id=6 order by id";
     if (!($cur2 = pg_query($sql2))) {
         $this->html->SQL_error($sql2);
     }
     while ($row2 = pg_fetch_array($cur2)) {
-        $out.= "<td><b>$row2[name]</b></td>";
+        $out.= "<td><b><a href='?act=details&what=rates&id=$row2[id]'>$row2[name]</a></b></td>";
     }
 
         $out.="

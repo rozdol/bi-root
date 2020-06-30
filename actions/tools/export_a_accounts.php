@@ -4,7 +4,7 @@ if ($access['main_admin']){
 	$id=$this->html->readRQ("id")*1;
 	if($delim==''){$delim=";";}
 if($sql==''){$sql="select * from a_accounts where partnerid=$id order by number asc";}
-if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}	
+if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 while ($row = pg_fetch_array($cur)) {
    	    $parent=$this->project->get_a_number($row[parentid]);
 		$number=$row[number];
@@ -19,12 +19,12 @@ while ($row = pg_fetch_array($cur)) {
 		$cumulative=$row[cumulative];
 		$internal_code=$row[internal_code];
 		$soft_code=$row[soft_code];
-	   $response.="$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code\n";
+	   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code")."\n";
 	}
 	$sql="select * from a_transactions where partnerid=$id order by name asc, sorting asc, id asc";
 	$transactions=$this->db->getval("select count(*) from a_transactions where partnerid=$id")*1;
 	$lines=$this->db->getval("select count(*) from a_translines where a_transactionid in (select id from a_transactions where partnerid=$id)")*1;
-	if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}	
+	if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 	while ($row = pg_fetch_array($cur)) {
 			$j++;
 			$date=$row[date];
@@ -37,7 +37,7 @@ while ($row = pg_fetch_array($cur)) {
 			$rate=$row[rate];
 			$transaction_id=$row[transaction_id];
 			$sql="select * from a_translines where a_transactionid=$row[id] order by line asc";
-			if (!($cur2 = pg_query($sql))) {$this->html->SQL_error($sql);}	
+			if (!($cur2 = pg_query($sql))) {$this->html->SQL_error($sql);}
 			while ($row2 = pg_fetch_array($cur2)) {
 				$line=$row2[line];
 				$dr=$row2[drtrans];
@@ -47,7 +47,7 @@ while ($row = pg_fetch_array($cur)) {
 				//$rate=$row2[rate];
 				$qty=$row2[qty];
 				$i++;
-				$response2.="$date;$name;$type;$curr;$rate;$transaction_id;$line;$dr;$cr;$accnumber;$qty;$not_fx;$descr;$addinfo\n";
+				$response2.=str_replace(["\n","\r"]," ","$date;$name;$type;$curr;$rate;$transaction_id;$line;$dr;$cr;$accnumber;$qty;$not_fx;$descr;$addinfo")."\n";;
 			}
 		   //$response2.="$date,$name,$type,$amount,$curr,$rate,($line,$dr,$cr,$accnumber),$descr,$addinfo\n";
   		}
@@ -61,8 +61,8 @@ if ($wrap==1){
   header("Cache-Control: cache, must-revalidate");
   header("Pragma: public");
   header("Content-Length: " . strlen($response));
-    echo $response; 	
-  } 
+    echo $response;
+  }
   else
   {
 
