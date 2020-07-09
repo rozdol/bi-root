@@ -5,8 +5,8 @@ if ($what == 'accessitems'){
 			HT_error("Editing not applied");
 			exit;
 		}
+		$opt=[];
 		$opt['url']="?act=tools&what=addaccessitems";
-		$opt['class']="form-horizontal";
 		$out.=$this->html->form_start($what,0,'',$opt);
 		$out.=$this->html->form_hidden('reflink',$reflink);
 		$out.=$this->html->form_hidden('id',$id);
