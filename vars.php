@@ -253,9 +253,15 @@ $GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
 $GLOBALS['settings']['dev_mode']=getenv('DEV_MODE');
 
 if (($GLOBALS['settings']['dev_mode'])) {
+    //error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+    error_reporting(E_ALL);
+}else{
+    //error_reporting(~E_ALL);
     error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 }
 
+ini_set('max_execution_time', 1200); //3600 seconds = 60 minutes
+ini_set('memory_limit', '-1');
 
 if ($debug==1) {
     echo 'SYSTEM CONSTANTS<br>';
