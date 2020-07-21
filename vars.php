@@ -262,6 +262,8 @@ if (($GLOBALS['settings']['dev_mode'])) {
 
 ini_set('max_execution_time', 1200); //3600 seconds = 60 minutes
 ini_set('memory_limit', '-1');
+ini_set('post_max_size', '512M');
+ini_set('upload_max_filesize', '512M');
 
 if ($debug==1) {
     echo 'SYSTEM CONSTANTS<br>';
