@@ -31,7 +31,7 @@ if (!$access['main_admin']) {
 			</form>
 	';
     $js="<script>
-	        webcam.set_api_url( 'index.php?act=save&what=webcam&plain=1' ); // send captured picture to this file
+	        webcam.set_api_url( '?act=save&what=webcam&plain=1' ); // send captured picture to this file
 	        webcam.set_quality( 90 ); // JPEG quality (1 - 100)
 	        webcam.set_shutter_sound( false ); // play shutter click sound
 

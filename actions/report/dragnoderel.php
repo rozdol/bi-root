@@ -5,7 +5,7 @@ if ($what == 'dragnoderel'){
 		$h=round($w);
 		$h=800; $w=1000;
 		
-	  $strDataURL = "index.php?act=graphdata&what=$what&opt=nowrap&prev=1&id=$id";
+	  $strDataURL = "?act=graphdata&what=$what&opt=nowrap&prev=1&id=$id";
 	  $strDataURL = urlencode($strDataURL);
 	  $chart="DragNode.swf";
    $out.= "<div align='center' class='text'><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0' WIDTH=$w HEIGHT=$h id='FusionCharts' ALIGN=''>

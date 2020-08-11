@@ -1,7 +1,7 @@
 <?php
 		$h=round($w);
 		$h=600; $w=1000;
-	  $strDataURL = "index.php?act=graphdata&opt=nowrap&prev=1&what=$what";
+	  $strDataURL = "?act=graphdata&opt=nowrap&prev=1&what=$what";
 	  $strDataURL = urlencode($strDataURL);
 	  $chart="DragNode.swf";
    $out.= "<div align='center' class='text'><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0' WIDTH=$w HEIGHT=$h id='FusionCharts' ALIGN=''>
