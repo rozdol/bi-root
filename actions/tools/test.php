@@ -40,7 +40,7 @@ if (!$access['main_admin']) {
 	        function take_snapshot() {
 	            // take snapshot and upload to server
 	            document.getElementById('upload_results').innerHTML = 'Snapshot<br>'+
-	            '<img src=\"assets/img/loadingsmall.gif\">';
+	            '<img src=".ASSETS_URI."/assets/img/loadingsmall.gif>';
 	            webcam.snap();
 	        }
 

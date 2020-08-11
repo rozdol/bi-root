@@ -6,7 +6,7 @@ if (!$access['main_admin'])$this->html->error('Honey pot');
 
 			<span id='chk_name' onclick='
 			tryname=document.getElementById(\"teststring\").value;
-			$(\"#checkresult\").html(\"<img src=/assets/img/loadingsmall.gif>\");
+			$(\"#checkresult\").html(\"<img src=".ASSETS_URI."/assets/img/loadingsmall.gif>\");
 
 			$.ajaxq (\"queue1\", {
 			    url: \" ?csrf=$GLOBALS[csrf]&act=append&what=chk_injection&value=\"+tryname,
