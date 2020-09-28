@@ -1,0 +1,17 @@
+{
+    "lang":"ru",
+    "no":"нет",
+    "yes":"да",
+    "or":"или",
+    "name":"название",
+    "currency":"валюта",
+    "date":"дата",
+    "application date":"дата подачи",
+    "starting date":"начальная дата",
+    "date to":"конечная дата",
+    "date next visit":"дата следующего визита",
+    "applicant":"истец",
+    "defendant":"ответчик",
+    "case number":"номер дела",
+    "balance":"баланс"
+}

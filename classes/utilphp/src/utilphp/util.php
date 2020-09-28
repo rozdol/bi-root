@@ -2532,4 +2532,29 @@ class util
         natsort($contents);
         return $contents;
     }
+    public static function l($phrase)
+    {
+        return self::ln($phrase);
+    }
+    public static function ln($phrase)
+    {
+        /* Static keyword is used to ensure the file is loaded only once */
+                static $translations = null;
+                /* If no instance of $translations has occured load the language file */
+                if (is_null($translations)) {
+                    $lang_file = FW_DIR.'/lang/' . LANGUAGE . '.json';
+                    if (!file_exists($lang_file)) {
+                        $lang_file =FW_DIR.'/lang/' . 'en-us.json';
+                    }
+                    $lang_file_content = file_get_contents($lang_file);
+                    /* Load the language file as a JSON object and transform it into an associative array */
+                    $translations = json_decode($lang_file_content, true);
+                }
+                if (!array_key_exists($phrase, $translations)) {
+                    return $phrase;
+                } else {
+                    return $translations[$phrase];
+                }
+    }
+
 }

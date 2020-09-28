@@ -1,6 +1,7 @@
 <?php
 //echo $this->html->pre_display($_GET,'Get'); exit;
 $ref_table=$this->html->readRQ('tablename');
+if($ref_table=='')$ref_table=$this->html->readRQ('reference');
 $ref_id=$this->html->readRQn('refid');
 //if($ref_id==0)$ref_id=$this->html->readRQn('id');
 $partner_id=$this->html->readRQn('partner_id');
@@ -26,7 +27,7 @@ if ($act=='edit') {
         $res=$this->db->GetRow("select * from $ref_table where id=$ref_id");
         $name=$res[name];
         
-        $join_to.=  "Join $ref_table $name to partner";
+        $join_to.=  "Join $ref_table: $name to partner";
     } else {//connecting from partner
         $res=$this->db->GetRow("select * from partners where id=$partner_id");
         $name=$res[name];

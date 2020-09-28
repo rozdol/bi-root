@@ -18,6 +18,9 @@ if ($what == 'profile') {
 		        
 		    </label>
 		    <input type='text' name='surname' id='surname' value='$res[surname]'/>
+
+		    <label>Language</label>
+		    <input type='text' name='lang' id='lang' value='$res[lang]'/>
 		
 			<label>New Password
 		       

@@ -19,6 +19,7 @@ if ($what == 'profile') {
             'rows'=>$rows,
             'maxdescr'=>$maxdescr,
             'mobile'=>$mobile,
+            'lang'=>$lang,
     );
     $err=0;
     $id=$this->db->update_db('users', $uid, $vals);
@@ -27,6 +28,7 @@ if ($what == 'profile') {
     $has=$this->html->readRQ('password');
     $pass1=$this->html->readRQ('password');
     $pass2=$this->html->readRQ('password2');
+    $username=$this->data->get_val('users', 'username', $uid);
     if ($has<>'') {
         if (!$this->utils->validate_pass($has)) {
             $out.= "<div class='alert alert-error span12'>Password must be 8-16 characters and have at least one lowercase, one uppercase and one digit</div>";
@@ -41,14 +43,15 @@ if ($what == 'profile') {
         $query = "UPDATE users set password_hash='$hash' where id=$uid;";
         if ($err<1) {
             $result = $this->db->GetVar($query);
+            $smstext=APP_NAME.": $username had changed his password ($firstname $surname).";
+            $this->comm->sms2admin($smstext);
         }
     }
     if ($err>0) {
         $GLOBALS[no_refresh]=1;
     }
-    $username=$this->data->get_val('users', 'username', $uid);
-    $smstext=APP_NAME.": $username had changed his profile ($firstname $surname).";
-    $this->comm->sms2admin($smstext);
+
+
     $logtext.=" name=$username fullname=$fullname";
 }
 $body.=$out;
