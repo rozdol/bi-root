@@ -2551,6 +2551,13 @@ class util
                     $translations = json_decode($lang_file_content, true);
                 }
                 if (!array_key_exists($phrase, $translations)) {
+                    // $translations[$phrase]=$phrase;
+                    // $lang_file_content = html_entity_encode(json_encode($translations));
+                    // $lang_file = FW_DIR.'/lang/' . LANGUAGE . '.json';
+                    // if (!file_exists($lang_file)) {
+                    //     $lang_file =FW_DIR.'/lang/' . 'en-us.json';
+                    // }
+                    // if(!file_put_contents($lang_file, $lang_file_content)){echo "lang_file:$lang_file<br>";echo "lang_file_content:$lang_file_content<br>";};
                     return $phrase;
                 } else {
                     return $translations[$phrase];
