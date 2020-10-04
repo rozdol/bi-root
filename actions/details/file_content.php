@@ -25,6 +25,8 @@ switch ($where) {
 	case 'MT942':$path=MT942_NEW_ROOT_DIR.DS;break;
 	case 'PAIN002':$path=PAIN002_NEW_ROOT_DIR.DS;break;
 
+	case 'LANG':$path=DATA_DIR.'/lang/';break;
+
 	default:$path=PDF_DIR;
 }
 
@@ -66,7 +68,9 @@ $allowed_dirs=[
 	PDF_DIR,
 	PROCESSED_DIR,
 	DEFLATED_DIR,
-	LOGS_DIR
+	LOGS_DIR,
+	LNAG_DIR,
+	DATA_DIR.'/lang',
 
 ];
 $key=getenv('SENDGRID_API_KEY');
@@ -75,6 +79,7 @@ $use_sendmail=($key=='')?1:0;
 //if($where=='')$this->html->error('No destination supplied');
 if($filename=='')$this->html->error('No filename supplied');
 $basename=basename($filename);
+if($filename==$basename)$filename=$path.DS.$basename;
 $allowed=0;
 foreach ($allowed_dirs as $allowed_dir) {
 	if($this->utils->contains($allowed_dir, $filename)) $allowed=1;

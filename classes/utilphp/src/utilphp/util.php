@@ -2532,36 +2532,92 @@ class util
         natsort($contents);
         return $contents;
     }
+    public static function ucfirst_utf8($string, $e = 'utf-8')
+    {
+        if (function_exists('mb_strtoupper') && function_exists('mb_substr') && !empty($string)) {
+            $string = mb_strtolower($string, $e);
+            $upper = mb_strtoupper($string, $e);
+            preg_match('#(.)#us', $upper, $matches);
+            $string = $matches[1] . mb_substr($string, 1, mb_strlen($string, $e), $e);
+        } else {
+            $string = ucfirst($string);
+        }
+        return $string;
+    }
+
     public static function l($phrase)
     {
-        return self::ln($phrase);
+        return self::ucfirst_utf8(self::ln($phrase));
     }
     public static function ln($phrase)
     {
+        if(LANGUAGE=='en')return $phrase;
+        if(LANGUAGE=='en-us')return $phrase;
+        if(LANGUAGE=='')return $phrase;
+        if (strpos($phrase, '<') !== false)return $phrase;
+        $phrase=mb_strtolower($phrase, 'UTF-8');
+        $phrase=str_ireplace('_',' ',$phrase);
+        $phrase=str_ireplace("\n"," ",$phrase);
+        $phrase=str_ireplace("\r"," ",$phrase);
+        $phrase = preg_replace('/\s+/', ' ',$phrase);
         /* Static keyword is used to ensure the file is loaded only once */
-                static $translations = null;
-                /* If no instance of $translations has occured load the language file */
-                if (is_null($translations)) {
-                    $lang_file = FW_DIR.'/lang/' . LANGUAGE . '.json';
-                    if (!file_exists($lang_file)) {
-                        $lang_file =FW_DIR.'/lang/' . 'en-us.json';
-                    }
-                    $lang_file_content = file_get_contents($lang_file);
-                    /* Load the language file as a JSON object and transform it into an associative array */
-                    $translations = json_decode($lang_file_content, true);
-                }
-                if (!array_key_exists($phrase, $translations)) {
-                    // $translations[$phrase]=$phrase;
-                    // $lang_file_content = html_entity_encode(json_encode($translations));
-                    // $lang_file = FW_DIR.'/lang/' . LANGUAGE . '.json';
-                    // if (!file_exists($lang_file)) {
-                    //     $lang_file =FW_DIR.'/lang/' . 'en-us.json';
-                    // }
-                    // if(!file_put_contents($lang_file, $lang_file_content)){echo "lang_file:$lang_file<br>";echo "lang_file_content:$lang_file_content<br>";};
-                    return $phrase;
-                } else {
-                    return $translations[$phrase];
-                }
+        static $translations = null;
+        /* If no instance of $translations has occured load the language file */
+        if (is_null($translations)) {
+            $lang_file = DATA_DIR.'/lang/' . LANGUAGE . '.json';
+            if (!file_exists($lang_file)) {
+                $lang_file =DATA_DIR.'/lang/' . 'en-us.json';
+            }
+            $lang_file_content = file_get_contents($lang_file);
+            /* Load the language file as a JSON object and transform it into an associative array */
+            $translations = json_decode($lang_file_content, true);
+        }
+        if (!array_key_exists($phrase, $translations)) {
+
+            if (class_exists('\Stichoza\GoogleTranslate\GoogleTranslate')) {
+                //$phrase_translated=$phrase;
+                $phrase_translated=\Stichoza\GoogleTranslate\GoogleTranslate::trans($phrase, LANGUAGE, 'en');
+                sleep(1);
+            }else{;
+                $phrase_translated=$phrase;
+            }
+
+            $translations[$phrase]=$phrase_translated;
+            $lang_file_content =html_entity_decode(json_encode($translations,JSON_UNESCAPED_UNICODE), null, 'UTF-8');
+            $lang_file_content=str_ireplace(',"',",\n\"",$lang_file_content);
+            $lang_file_content=str_ireplace('{',"{\n",$lang_file_content);
+            $lang_file_content=str_ireplace('}',"\n}\n",$lang_file_content);
+            $lang_file = DATA_DIR.'/lang/' . LANGUAGE . '.json';
+            if (!file_exists($lang_file)) {
+                $lang_file =DATA_DIR.'/lang/' . 'en-us.json';
+            }
+            //echo self::pre_display($lang_file_content,"lang_file_content");
+            if(!file_put_contents($lang_file, $lang_file_content)){echo "lang_file:$lang_file<br>";echo "lang_file_content:$lang_file_content<br>";};
+            return $phrase_translated;
+        } else {
+            return $translations[$phrase];
+        }
+    }
+    function pre_display($text = '', $title = '', $class = '', $code = 0)
+    {
+        if ($_REQUEST[act]=='api') {
+            if ($title=='') {
+                $title='output';
+            }
+            $out=json_encode(["$title"=>$text]);
+        } else {
+            if ($title!='') {
+                $out.=$title;
+            }
+            $out.="<pre class='$class'>";
+            if ($code==0) {
+                 $out.=htmlspecialchars(print_r($text, true));
+            } else {
+                $out.=htmlspecialchars(var_export($text, true));
+            }
+            $out.= "</pre>";
+        }
+        return $out;
     }
 
 }

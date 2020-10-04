@@ -1,9 +1,9 @@
 <?php
 
 $user=$this->db->GetRow("select * from users where id=$uid");
-$out.= "<h1>Profile of $user[surname]  $user[firstname]</h1>";
+$out.= "<h1>".\util::l('Profile of')." $user[surname]  $user[firstname]</h1>";
 $out.=$this->edit('home_page_reports');
-$out.= "<a href='?act=edit&what=profile'><span class='btn btn-info btn-mini'>Edit My Profile</span></a><br>";
+$out.= "<a href='?act=edit&what=profile'><span class='btn btn-info btn-mini'>".\util::l('Edit My Profile')."</span></a><br>";
 
 //if($access['main_admin'])$out.= manage_signs($id);
 
