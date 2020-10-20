@@ -41,7 +41,7 @@ if($this->data->table_exists('homepages')){
 	//$out.=$this->html->tag("Reports on my Home Page",'foldered');
 	$out.=$this->html->tablehead('',$qry, $order, $addbutton, $fields,'autosort');
 
-	$sql="SELECT r.name, r.descr, r.link, hp.active, hp.sorting, r.id as report_id ,hp.id as homepage_id
+	$sql="SELECT r.id, r.name, r.descr, r.link, hp.active, hp.sorting, r.id as report_id ,hp.id as homepage_id
 	FROM reports r
 	LEFT JOIN homepages hp ON r.id=hp.report_id
 	WHERE hp.user_id=$GLOBALS[uid]
@@ -89,12 +89,12 @@ if($this->data->table_exists('homepages')){
 		$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\">$link</td>";
 		$out.= "<td>$sorting</td>";
 		$out.= "<td>$active</td>";
-		//$out.=$this->html->HT_editicons($what, $row[id]);
+		if($GLOBALS[access][main_admin])$out.=$this->html->HT_editicons('reports', $row[id]);
 		$out.= "</tr>";
 	}
 	$this->livestatus('');
 	$out.=$this->html->tablefoot($i, $totals, $totalrecs);
-
+	if($GLOBALS[access][main_admin])$out.=$this->html->link_button("<i class='icon-file icon-white'></i> Add", "?act=add&what=reports", 'btn-small btn-info')." ";
 
 
 	    //$out.=$this->html->form_confirmations();
