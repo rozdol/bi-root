@@ -122,7 +122,7 @@ if (!$update) {
                     'secret' => getenv('AWS_SECRET'),
                 ]
             ]);
-            echo "AWS S3 Authenticated<br>";
+            echo "(save  uploads) AWS S3 Authenticated<br>";
         } catch (Aws\S3\Exception\S3Exception $e) {
             $message=$e->getMessage();
             $parts=explode('<?xml version="1.0" encoding="UTF-8"?>',$message);
@@ -169,10 +169,32 @@ if (!$update) {
         $out.= "Temp:$tempname, Full:$fullname, Script:$fromscript<br>";
         $out.="<br>.------1<br>";
         if ($fromscript>0) {
-            $tmp=copy($tempname, $fullname)*1;
-            if ($tmp==0) {
-                echo "<div class='red'>Could not copy file  $tempname to $fullname</div>";
-                exit;
+
+            if(getenv('AWS_USE_S3')==1){
+                try {
+                    $result = $s3->putObject([
+                        'Bucket' => getenv('AWS_S3_BUCKET'),
+                        'Key'    => $fullname,
+                        'SourceFile' => $tempname
+                    ]);
+                    echo "AWS S3 File uploaded<br>";
+                    if(!unlink($tempname))$this->html->error("Could not remove tmp file  $tempname");
+                } catch (Aws\S3\Exception\S3Exception $e) {
+                    $message=$e->getMessage();
+                    $parts=explode('<?xml version="1.0" encoding="UTF-8"?>',$message);
+                    $error=$parts[2];
+                    $xml = new SimpleXMLElement($error);
+                    $this->html->error($xml->Message);
+                }
+            }else{
+                $tmp=copy($tempname, $fullname)*1;
+                if ($tmp==0) {
+                    if($GLOBALS[access][main_admin]){
+                        echo "debug::$out<br>";
+                    }
+                    echo "<div class='red'>Could not copy file  $tempname to $fullname</div>";
+                    exit;
+                }
             }
 
             //$out.="<br>$tmp=copy($tempname, $fullname)<br>";
