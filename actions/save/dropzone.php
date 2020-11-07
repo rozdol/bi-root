@@ -5,7 +5,10 @@ $destination=$this->html->readRQ('destination');
 $descr=$this->html->readRQ('descr');
 $addinfo=$this->html->readRQ('addinfo');
 $forece_new=$this->html->readRQn('forece_new');
-
+$return_to=$this->html->readRQ('return_to');
+$return_to_id=$this->html->readRQn('return_to_id');
+$return_to_act=$this->html->readRQ('return_to_act');
+$return_back=$this->html->readRQn('return_back');
 //$this->utils->log("-----Save Uplads of $tablename");
 $json=json_encode(['POST'=>$_POST, 'GET'=>$_GET]);
 //$this->utils->log("DropZone_save:$json");
@@ -126,7 +129,15 @@ if($tablename!='documents'){
 //$this->utils->log("Before Save");
 $this->save('uploads');
 //$this->utils->log("After Save");
-$link="?act=details&what=$tablename&tab=$tab&id=$refid";
+if($return_to==''){
+	$link="?act=details&what=$tablename&tab=$tab&id=$refid";
+}else{
+	if($return_to_act=='')$return_to_act='details';
+	if($return_to_id=='')$return_to_id=$refid;
+
+	$link="?act=$return_to_act&what=$return_to&tab=$tab&id=$return_to_id";
+}
+if(($return_back>0)&&($GLOBALS[reflink]!=''))$link=$GLOBALS[reflink];
 echo " Saved.<br>". $this->html->link_button("<i class='icon-arrow-left icon-white'></i> Back",$link,'info')." ";
 echo $this->html->refreshpage($link,0.1,'Saving...'); exit;
 
