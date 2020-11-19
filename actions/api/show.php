@@ -65,17 +65,29 @@ foreach ($filters as $filter) {
 if ($this->data->field_exists($table, 'user_id')) {
     $q = $q->where('user_id', '=', $GLOBALS['uid']);
 }
+$q = $q->where('id', '>', 0);
 
 $rows=$q->get();
-
-$queryObj = $q->getQuery();
-$sql=$queryObj->getRawSql();
-$this->html->dd($sql,1);
-$result=$this->db->GetResults($sql);
-//$JSONData['sql']=$sql;
 $JSONData[table]=$table;
 $JSONData[fields]=$fields;
+foreach ($fields as $field) {
+    $width=100;
+    if($field=='name')$width=200;
+    if($field=='descr')$width=400;
+    if($field=='id')$width=50;
+    $JSONData[config][]=[ "id"=>$field, "header"=>$field, "width"=>$width];
+}
+
 $JSONData[rows]=$rows;
-return $JSONData;
+
+// $queryObj = $q->getQuery();
+// $sql=$queryObj->getRawSql();
+//$this->html->dd($sql,1);
+//$result=$this->db->GetResults($sql);
+//$JSONData['sql']=$sql;
+// $JSONData[table]=$table;
+// $JSONData[fields]=$fields;
+//$JSONData=$rows;
+//return $JSONData;
 
 //return $JSONData=$result;
