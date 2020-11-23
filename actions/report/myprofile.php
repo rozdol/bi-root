@@ -14,9 +14,9 @@ if (!$GLOBALS[settings][simple_profile]) {
     //$out.= $this->html->show_hide('My Favorivtes', "?act=show&table=favorites&reference=&nowrap=1");
 }
 
-if (getenv('MFA_AUTH')) {
+if (getenv('MFA_AUTH')||($GLOBALS[settings][use_mfa])) {
     //require_once FW_DIR.'vendor'.DS.'PHPGangsta'.DS.'GoogleAuthenticator.php';
-
+	include_once(CLASSES_DIR.'/PHPGangsta/GoogleAuthenticator.php');
     $ga = new PHPGangsta_GoogleAuthenticator();
 
     if ($user['ga']=='') {
