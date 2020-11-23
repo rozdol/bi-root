@@ -29,7 +29,7 @@ if (getenv('MFA_AUTH')||($GLOBALS[settings][use_mfa])) {
     //var_dump($this->utils->reserved_ip($_SERVER['REMOTE_ADDR']));
 
 
-    $qrCodeUrl = $ga->getQRCodeGoogleUrl($GLOBALS[app_name].':'.$user['username'], $secret);
+    $qrCodeUrl = $ga->getQRCodeGoogleUrl($GLOBALS[db_name].':'.$user['username'], $secret);
 
     $oneCode = $ga->getCode($secret);
 
