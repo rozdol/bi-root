@@ -13,7 +13,7 @@ if ($what == 'info') {
         echo $this->data->sql_display($sql, 'Biggest tables');
 
 
-            
+
 
         if ($this->utils->contains('iPad', $_SERVER['HTTP_USER_AGENT'])) {
             $us="IPAD!!!";
@@ -29,7 +29,7 @@ if ($what == 'info') {
         $out.= "<pre>$output</pre>";
 
         $extentions=get_loaded_extensions();
-        $out.= $this->html->pre_display($extentions, "PHP extentions");
+        $out.= $this->html->array_display2D($extentions, "PHP extentions");
     } else {
         $exec="dir /B \"$progdir\backups\\\" ";
         $output .= "CHANGES:\n $changes\n";
