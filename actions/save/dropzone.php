@@ -9,6 +9,9 @@ $return_to=$this->html->readRQ('return_to');
 $return_to_id=$this->html->readRQn('return_to_id');
 $return_to_act=$this->html->readRQ('return_to_act');
 $return_back=$this->html->readRQn('return_back');
+$amount=$this->html->readRQn('amount');
+$amount_vat=$this->html->readRQn('amount_vat');
+$currency=$this->html->readRQn('currency');
 //$this->utils->log("-----Save Uplads of $tablename");
 $json=json_encode(['POST'=>$_POST, 'GET'=>$_GET]);
 //$this->utils->log("DropZone_save:$json");
@@ -73,6 +76,9 @@ if($tablename!='documents'){
 			'dateto'=>$date,
 			'datecheck'=>$date,
 			'qty'=>1,
+			'amount'=>$amount,
+			'amount_vat'=>$amount_vat,
+			'currency'=>$currency,
 			'uploads'=>0,
 			'active'=>1,
 			'complete'=>1,
