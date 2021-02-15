@@ -21,7 +21,7 @@ $tmp=($this->html->readRQ("showdeleted")*1);
 if ($tmp==0){$sql = "$sql and u.active='t'";}
 $opt=($this->html->readRQ('opt'));
 //$sql="SELECT u.id, u.thumb, u.name, u.descr from uploads u where u.tablename='$tablename' and u.userid=$uid and u.refid=$refid order by u.name;";
-$sql="SELECT u.id, u.thumb, u.name, u.date, (u.filesize/1000)||'Kb' as Size, substr(u.descr,0,1000), us.username from uploads u, users us where us.id=u.userid and u.id>0 $sql order by u.date desc, u.id desc;";
+$sql="SELECT u.id, u.thumb, u.name, u.date, (u.filesize/1000)||'Kb' as Size, substr(u.descr,0,1000), us.username, u.tablename, u.refid from uploads u, users us where us.id=u.userid and u.id>0 $sql order by u.date desc, u.id desc;";
 //if(($opt=='all')&&($access['main_admin'])){$sql="SELECT u.id, u.thumb, us.firstname||' '||us.surname as user, u.tablename, u.name, u.descr from uploads u, users us where u.userid=us.id order by $sortby;";}
 $select_data = $this->db->GetResults($sql);
 //$sql="SELECT u.id, u.thumb, us.firstname||' '||us.surname as user, u.tablename, u.name, u.descr from uploads u, users us where u.userid=us.id order by $sortby;";
@@ -37,9 +37,10 @@ while ($row = pg_fetch_array($cur)) {
 	$i++;
 	$class='';
 	if($row[id]==0)$class='d';
+	$doc_name=$this->data->get_name($row[tablename],$row[refid]);
 	$out.= "<tr class='$class'>";
-	$out.= "  <td>$i</td><td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
-	$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\">$row[name]</td><td>$row[date]</td><td>$row[size]</td><td>$row[substr]</td><td>$row[username]</td>";
+	$out.= "  <td>$i</td><td id='$what:$row[id]' class='cart-selectable' reference='$what' onMouseover=\"showhint('$doc_name', this, event, '100px');\">$row[id]</td>";
+	$out.= "<td>$row[name]</td><td>$row[date]</td><td>$row[size]</td><td>$row[substr]</td><td>$row[username]</td>";
 	if($document[block_download]=='f'){
 		$out.= "<td><a href='?act=details&what=uploads&id=$row[id]'><img src='".ASSETS_URI."/assets/img/download.png'></a></td>";
 		$out.=$this->html->HT_editicons($what, $row[id]);
