@@ -1,5 +1,5 @@
 <?php
-//?act=report&what=calendar&events=-1&transactions=-1&invoices=-1&account_transactions=-1&cash_transactions=-1&accounting_transactions=-1&documents=-1&inwardinvoices=-1&receipts=-1&schedules=-1&monthes=3&range=this
+//?act=report&what=calendar&events=-1&transactions=-1&invoices=-1&account_transactions=-1&cash_transactions=-1&accounting_transactions=-1&documents=-1&inwardinvoices=-1&receipts=-1&schedules=-1&monthes=3&range=near
 $year=$this->html->readRQn('year');
 if($year==''){$year  = isset($_GET['y']) ? $_GET['y'] : $this->dates->F_thisyear();}
 $month=$this->dates->F_thismonth();
