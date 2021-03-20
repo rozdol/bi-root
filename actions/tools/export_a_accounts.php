@@ -8,20 +8,21 @@ if ($access['main_admin']){
 		if($sql==''){$sql="select * from a_accounts where partnerid=$id order by number asc";}
 		if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 		while ($row = pg_fetch_array($cur)) {
-		   	    $parent=$this->project->get_a_number($row[parentid]);
+		   	    $parent=trim($this->project->get_a_number($row[parentid]));
 				$number=$row[number];
 				$name=$row[name];
 				$header=$row[header];
-				$curr=$row[currency];
+				$curr=$row[currency]*1;
 				$descr=$row[descr];
 				$cash=$row[cash];
-				$budget=$row[budget];
-				$bank_account_id=$row[bank_account_id];
+				$budget=$row[budget]*1;
+				$bank_account_id=$row[bank_account_id]*1;
 				$active=$row[active];
 				$cumulative=$row[cumulative];
 				$internal_code=$row[internal_code];
 				$soft_code=$row[soft_code];
-			   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code")."\n";
+				$depreciation_rate=$row[depreciation_rate]*1;
+			   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code;$depreciation_rate")."\n";
 			}
 	}
 
@@ -86,7 +87,7 @@ if ($wrap==1){
 		<input type='hidden' name='debug' value='0'>
 		<input type='hidden' name='delim' value='$delim'>";
 	if($hideaccounts==0)echo "<h3>Accounts</h3>
-	<p>parent; number; name; header; curr; descr; cash; budget;bank_account_id;internal_code;soft_code</p>
+	<p>parent; number; name; header; curr; descr; cash; budget;bank_account_id;internal_code;soft_code;depreciation_rate</p>
 	<textarea cols=150 rows=30 name='accounts' class='span12'>$response</textarea><br>";
 
 	echo "<h3>Transactions</h3>
