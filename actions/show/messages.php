@@ -24,6 +24,8 @@
     while ($row = pg_fetch_array($cur)) {
         $i++;
         $class='';
+        $class_status='label-success';
+        if($row[stage_id]==4006)$class_status='label-important';
         $type=$this->data->get_name('listitems',$row[type_id]);
         $stage=$this->data->get_name('listitems',$row[stage_id]);
         $user=$this->data->username($row[user_id]);
@@ -48,7 +50,7 @@
         $out.= "<td>$row[function]</td>";
         $out.= "<td>$row[source]</td>";
         $out.= "<td>$row[destination]</td>";
-        $out.= "<td>$stage</td>";
+        $out.= "<td><span class='label $class_status'>$stage</span></td>";
         $out.= "<td>$user</td>";
         $out.= "<td>$message_short</td>";
         //$out.= "<td class='n'>".$this->html->money($row[amount])."</td>";
