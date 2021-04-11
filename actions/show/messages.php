@@ -15,7 +15,7 @@
     $sql2=" limit $limit offset $offset;";
     $sql=$sql1.$sql.$sql2;
     //$out.= $sql;
-    $fields=['id','name','date','type','function','source','destination','stage','user','message'];
+    $fields=['id','name','date','time','type','status','source','destination','function','user','message'];
     //$sort= $fields;
     $out=$this->html->tablehead($what,$qry, $order, 'no_addbutton', $fields,$sort);
 
@@ -24,8 +24,9 @@
     while ($row = pg_fetch_array($cur)) {
         $i++;
         $class='';
-        $class_status='label-success';
-        if($row[stage_id]==4006)$class_status='label-important';
+
+        $class_status=($row[stage_id]==4006)?'label-important':'label-success';
+        $class_type=($row[type_id]==4207)?'bold':'';
         $type=$this->data->get_name('listitems',$row[type_id]);
         $stage=$this->data->get_name('listitems',$row[stage_id]);
         $user=$this->data->username($row[user_id]);
@@ -40,17 +41,21 @@
         $message_short=$this->html->shorter($message, 500, false);
         //$message_slong=$this->utf8->utf8_cutByPixel($message, 600, false);
         //$message_slong=$this->html->shorter($message, 1500, false);
+        $timestamp =strtotime($row[send_date]);
+        $time = date('H:i:s', $timestamp);
+        //$time = date('d.m.Y', $timestamp);
         if($row[id]==0)$class='d';
         $out.= "<tr class='$class'>";
         $out.= $this->html->edit_rec($what,$row[id],'ved',$i);
         $out.= "<td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
         $out.= "<td onMouseover=\"showhint('$descr', this, event, '400px');\">$row[name]</td>";
         $out.= "<td>$row[date]</td>";
-        $out.= "<td>$type</td>";
-        $out.= "<td>$row[function]</td>";
+        $out.= "<td>$time</td>";
+        $out.= "<td class='$class_type'>$type</td>";
+        $out.= "<td><span class='label $class_status'>$stage</span></td>";
         $out.= "<td>$row[source]</td>";
         $out.= "<td>$row[destination]</td>";
-        $out.= "<td><span class='label $class_status'>$stage</span></td>";
+        $out.= "<td>$row[function]</td>";
         $out.= "<td>$user</td>";
         $out.= "<td>$message_short</td>";
         //$out.= "<td class='n'>".$this->html->money($row[amount])."</td>";
