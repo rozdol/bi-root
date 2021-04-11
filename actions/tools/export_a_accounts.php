@@ -8,23 +8,33 @@ if ($access['main_admin']){
 		if($sql==''){$sql="select * from a_accounts where partnerid=$id order by number asc";}
 		if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 		while ($row = pg_fetch_array($cur)) {
-		   	    $parent=trim($this->project->get_a_number($row[parentid]));
-				$number=$row[number];
-				$name=$row[name];
-				$header=$row[header];
-				$curr=$row[currency]*1;
-				$descr=$row[descr];
-				$cash=$row[cash];
-				$budget=$row[budget]*1;
-				$bank_account_id=$row[bank_account_id]*1;
-				$active=$row[active];
-				$cumulative=$row[cumulative];
-				$internal_code=$row[internal_code];
-				$soft_code=$row[soft_code];
-				$depreciation_rate=$row[depreciation_rate]*1;
-			   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code;$depreciation_rate")."\n";
-			}
+			$row[header]=($row[header]=='t')?1:0;
+			$row[cash]=($row[cash]=='t')?1:0;
+			//$row[budget]=($row[budget]=='t')?1:0;
+
+	   	    $parent=trim($this->project->get_a_number($row[parentid]));
+			$number=$row[number];
+			$name=$row[name];
+			$header=$row[header];
+			$curr=$row[currency]*1;
+			$descr=$row[descr];
+			$cash=$row[cash];
+			$budget=$row[budget];
+			$bank_account_id=$row[bank_account_id]*1;
+			$active=$row[active];
+			$cumulative=$row[cumulative];
+			$internal_code=$row[internal_code];
+			$soft_code=$row[soft_code];
+			$depreciation_rate=$row[depreciation_rate]*1;
+
+		   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code;$depreciation_rate")."\n";
+		   $internal_code_str=($internal_code!='')?", ['internal_code'=>'$internal_code']":"";
+		   $insert_array[]="\$this->add_a_account(\$partnerid, '$parent', '$number', '$name', $header, \$currid, '', $cash, $budget, $bank_account_id $internal_code_str);";
+		}
+		$inserts=implode("\n", $insert_array);
+		echo $this->html->pre_display($inserts,"inserts");
 	}
+//add_a_account($partnerid=0, $parent='', $number='', $name='', $header=0, $curr=600, $descr='', $cash=0, $budget=0, $bank_account_id = 0, $data=[])
 
 	$sql='';
 	$df=$this->html->readRQd('df');
