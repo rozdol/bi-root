@@ -15,7 +15,7 @@
     $sql2=" limit $limit offset $offset;";
     $sql=$sql1.$sql.$sql2;
     //$out.= $sql;
-    $fields=['id','name','date','time','type','status','source','destination','function','user','message'];
+    $fields=['id','name','date','time','type','status','source','destination','subject','attachments','function','user','message'];
     //$sort= $fields;
     $out=$this->html->tablehead($what,$qry, $order, 'no_addbutton', $fields,$sort);
 
@@ -44,6 +44,16 @@
         $timestamp =strtotime($row[send_date]);
         $time = date('H:i:s', $timestamp);
         //$time = date('d.m.Y', $timestamp);
+        //$row[attachments]="/private/data/finsola//docs/Invoice_F-21-0020.pdf,/private/data/finsola//docs/Invoice_F-21-0021.pdf";
+        $attachments=explode(',',$row[attachments]);
+        unset($files);
+        foreach ($attachments as $attachment) {
+            $file=explode('/',$attachment);
+            $filename=$file[count($file)-1];
+            //echo $this->html->pre_display($file,"file $filename");
+            $files[]=$filename;
+        }
+        $filelist=implode(', ',$files);
         if($row[id]==0)$class='d';
         $out.= "<tr class='$class'>";
         $out.= $this->html->edit_rec($what,$row[id],'ved',$i);
@@ -55,6 +65,8 @@
         $out.= "<td><span class='label $class_status'>$stage</span></td>";
         $out.= "<td>$row[source]</td>";
         $out.= "<td>$row[destination]</td>";
+        $out.= "<td>$row[subject]</td>";
+        $out.= "<td>$filelist</td>";
         $out.= "<td>$row[function]</td>";
         $out.= "<td>$user</td>";
         $out.= "<td>$message_short</td>";
