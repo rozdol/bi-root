@@ -34,6 +34,8 @@ if ($act=='edit') {
         $join_to.=  "Join partner $name to $ref_table";
     }
 }
+$title=$this->html->readRQ('category');
+if($title!='')$join_to=$title;
 $form_opt['well_class']="span11 columns form-wrap";
 $form_opt['title']="$join_to";
 
@@ -52,7 +54,7 @@ if ($ref_id>0) {
 
 $out.=$obj_id[out];
 $out.=$obj_input;
-$out.="<label>Type</label>$type_id</dt>";
+$out.="<label>Role</label>$type_id</dt>";
 
 $out.=$add."<hr>";
 $out.=$this->html->form_submit('Save');

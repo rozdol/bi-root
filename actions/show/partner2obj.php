@@ -28,6 +28,14 @@ $sqltotal=$sql;
 $sql = "$sql order by $sortby";
 $sql2=" limit $limit offset $offset;";
 $sql=$sql1.$sql.$sql2;
+$ids_all=$this->data->get_list_array("select id ".$sqltotal);
+$count=count($ids_all);
+if ($count==0) {
+    //$this->livestatus("No $what");
+    $this->livestatus('');
+    $out.= "<div id='info'>No $what.</div>";
+    return;
+}
 //echo $sql;
 $fields=array('id','partner','role');
 //$sort= $fields;
