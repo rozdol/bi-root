@@ -12,6 +12,6 @@ if($this->data->table_exists($what)){
 			echo "$out<br>";
 		}
 
-		$this->html->error($this->html->message("Record id=$id from [$what] not found.","404",'alert-error'));
+		$this->html->error($this->html->message("Record id=$id from [$what] does not exist or it was deleted.","404",'alert-error'));
 	}
 }
