@@ -1,5 +1,27 @@
 <?php
 if ($what == 'profile') {
+    $user=$this->data->get_row('users',$uid);
+
+    $json=$user[settings_json];
+    // < Move to Html class >
+    $settings=json_decode($json, TRUE);
+    foreach ($settings as $setting => $value) {
+
+        $setting_arr=explode("_", $setting);
+        $value_type=$setting_arr[count($setting_arr)-1];
+        if($value_type=='date'){
+            $settings1[$setting]=$this->html->readRQd("json_".$setting);
+        }elseif(($value_type=='text')||$value_type=='area'){
+            $settings1[$setting]=$this->html->readRQ("json_".$setting);
+        }elseif(($value_type=='chk')||$value_type=='num'){
+            $settings1[$setting]=$this->html->readRQn("json_".$setting);
+        }
+    }
+    // < / Move to Html class >
+
+    $settings_json=json_encode($settings1);
+    //echo $this->html->pre_display($settings1,"settings1 $uid");
+    //echo $this->html->pre_display($_POST,"_POST"); exit;
     $email=$this->html->readRQ('email');
     $firstname=$this->html->readRQ('firstname');
     $surname=$this->html->readRQ('surname');
@@ -20,6 +42,7 @@ if ($what == 'profile') {
             'maxdescr'=>$maxdescr,
             'mobile'=>$mobile,
             'lang'=>$lang,
+            'settings_json'=> $settings_json
     );
     $err=0;
     $id=$this->db->update_db('users', $uid, $vals);
