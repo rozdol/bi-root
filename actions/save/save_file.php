@@ -11,6 +11,7 @@ $run_function=$this->html->readRQ('run_function');
 $redirect_url=$this->html->readRQ('redirect_url');
 $destination=$this->html->readRQ('destination');
 $job_id=$this->html->readRQ('job_id');
+$debug=$this->html->readRQn('debug');
 //echo $this->html->pre_display($allowed,'allowed');
 $filename=$_FILES[$name]['name'];
 $filesize=$_FILES[$name]['size'];
@@ -75,7 +76,7 @@ if (!(move_uploaded_file($tmp_name, $dest_file))) {
 //
 $this->utils->log("File: $dest_file uploaded");
 if (($redirect_url!=='')&&($process==0)) {
-    $redirect_url="$redirect_url&run_function=$run_function&filename=$newfilename&destination=$destination";
+    $redirect_url="$redirect_url&run_function=$run_function&filename=$newfilename&destination=$destination&debug=$debug";
     //echo "redirect_url=$redirect_url<br>";// exit;
     echo $this->html->refreshpage($redirect_url, 0.1, 'Processing...');
     exit;
