@@ -20,7 +20,7 @@ if ($what == 'listitem2obj'){
 		$out.=  "<h3>Join $list to $ref_table $name</h3>\n";
 		$sql="SELECT id, name from listitems where list_id=$list_id order by id";
 		$itemlist=$this->html->htlist('listitem_id',$sql,0,'Select Item','','','span12');
-		
+
 		$out.= "
 			<form class='well' action='?csrf=$GLOBALS[csrf]&act=save&what=$what' method='post' name='$what'>
 			<input type='hidden' name='ref_id' value='$ref_id'>
@@ -30,20 +30,19 @@ if ($what == 'listitem2obj'){
 		<tr><td class='mr'> </td><td class='m'><input type='submit' value='save' class='btn btn-info'> </td></tr>
 		</table></form> ";
 	}else{
-		$res=$this->db->GetRow("select * from listitems where id=$listitem_id");		
+		$res=$this->db->GetRow("select * from listitems where id=$listitem_id");
 		$name=$res[name];
 
 		$out.=  "<div class='title2'>Join document $name to $ref_table </div>\n";
 			$out.= "<form class='well' action='?csrf=$GLOBALS[csrf]&act=save&what=$what' method='post' name='$what'>
 			<input type='hidden' name='listitem_id' value='$doc_id'>
 			<input type='hidden' name='ref_table' value='$ref_table'>
-			<table class='m'>      
+			<table class='m'>
 		   	<dt><label>$ref_table ID</label><input type='text' name='ref_id'  id='name_id' value=''></dt>
-		   <tr><td class='mr'> </td><td class='m'><input type='submit' value='save' class='btn btn-info'> </td></tr>        
+		   <tr><td class='mr'> </td><td class='m'><input type='submit' value='save' class='btn btn-info'> </td></tr>
 		</table></form>";
 	}
 
-	//$out.= "$sql";		
+	//$out.= "$sql";
 	}
-	
 $body.=$out;
