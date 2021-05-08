@@ -2547,6 +2547,14 @@ class util
 
     public static function l($phrase)
     {
+        if(LANGUAGE=='en')return $phrase;
+        if(LANGUAGE=='en-us')return $phrase;
+        if(LANGUAGE=='')return $phrase;
+        if (strpos($phrase, '<') !== false)return $phrase;
+        if (strpos($phrase, '!_') !== false){
+            str_ireplace('!_','',$phrase);
+            return $phrase;
+        }
         return self::ucfirst_utf8(self::ln($phrase));
     }
     public static function ln($phrase)
@@ -2555,6 +2563,10 @@ class util
         if(LANGUAGE=='en-us')return $phrase;
         if(LANGUAGE=='')return $phrase;
         if (strpos($phrase, '<') !== false)return $phrase;
+        if (strpos($phrase, '!_') !== false){
+            str_ireplace('!_','',$phrase);
+            return $phrase;
+        }
         $phrase=mb_strtolower($phrase, 'UTF-8');
         $phrase=str_ireplace('_',' ',$phrase);
         $phrase=str_ireplace("\n"," ",$phrase);
