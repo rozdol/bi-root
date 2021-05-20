@@ -69,6 +69,7 @@ if($tablename!='documents'){
 			'parentid'=>$parentid*1,
 			'type'=>$reftype,
 			'docgroup'=>$docgroup,
+			'invoice_type_id'=>$this->html->readRQn('invoice_type_id'),
 			'creator'=>$GLOBALS[uid],
 			'executor'=>$GLOBALS[uid],
 			'date'=>$date,
@@ -98,10 +99,17 @@ if($tablename!='documents'){
 		//echo $this->html->pre_display($vals,'ID: '.$id); //exit;
 		if($refid>0)$this->db->insert_db('docs2obj',$vals);
 		
+		$p_count=0;
 		foreach($related_data as $key=>$value){
 			//echo $this->html->pre_display($value,$key);
 			foreach($value as $related_id){
 				//echo "$key-$related_id<br>";
+				$ref_type_id=0;
+				if($key=='partners'){
+					$p_count++;
+					if($p_count==1)$ref_type_id=5744;
+					if($p_count==2)$ref_type_id=5735;
+				}
 				$vals=array(
 					'ref_id'=>$related_id,
 					'doc_id'=>$doc_id,
