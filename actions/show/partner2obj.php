@@ -1,5 +1,6 @@
 <?php
 //Show partner2obj
+$warn_physical=$this->html->readRQn('warn_physical');
 if($sortby==''){$sortby="id asc";}
 
 $tmp=$this->html->readRQn('ref_id');
@@ -47,12 +48,19 @@ while ($row = pg_fetch_array($cur)) {
 	$i++;
 	$class='';
 	$type=$this->data->get_name('listitems',$row[type_id]);
-	$partner=$this->data->detalize('partners',$row[partner_id]);
+	$partner_name=$this->data->detalize('partners',$row[partner_id]);
+	if($warn_physical>0){
+		$partner=$this->data->get_row('partners',$row[partner_id]);
+		if($partner[physical]=='t'){
+			$partner_name=$this->html->tag(" ! ",'span','label label-important'). " $partner_name";
+		}
+	}
+
 	if($row[id]==0)$class='d';
 	$out.= "<tr class='$class'>";
 	$out.= "<td>$i</td>";
 	$out.= "<td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
-	$out.= "<td>$partner</td>";
+	$out.= "<td>$partner_name</td>";
 	$out.= "<td>$type</td>";
 	$out.=$this->html->HT_editicons($what, $row[id]);
 	$out.= "</tr>";
