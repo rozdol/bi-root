@@ -35,6 +35,9 @@ if ($what == 'profile') {
     $out.=$this->html->form_text('rows',$res[rows],'Rows per page','',0,'span12');
     $out.=$this->html->form_text('maxdescr',$res[maxdescr],'Max. Description lenght','',0,'span12');
 
+    $out.=$this->html->form_json($res[settings_json]);
+    /*
+
     $json=$res[settings_json];
     // < Move to Html class >
     $settings=json_decode($json, TRUE);
@@ -65,6 +68,7 @@ if ($what == 'profile') {
     }
     // < / Move to Html class >
     //echo $this->html->pre_display($fields,"fields");
+	*/
 
 
     $out.=$this->html->form_confirmations();

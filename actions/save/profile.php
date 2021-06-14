@@ -1,25 +1,12 @@
 <?php
 if ($what == 'profile') {
     $user=$this->data->get_row('users',$uid);
-
-    $json=$user[settings_json];
-    // < Move to Html class >
-    $settings=json_decode($json, TRUE);
-    foreach ($settings as $setting => $value) {
-
-        $setting_arr=explode("_", $setting);
-        $value_type=$setting_arr[count($setting_arr)-1];
-        if($value_type=='date'){
-            $settings1[$setting]=$this->html->readRQd("json_".$setting);
-        }elseif(($value_type=='text')||$value_type=='area'){
-            $settings1[$setting]=$this->html->readRQ("json_".$setting);
-        }elseif(($value_type=='chk')||$value_type=='num'){
-            $settings1[$setting]=$this->html->readRQn("json_".$setting);
-        }
+    if($user[settings_json]==''){
+        $user[settings_json]=$this->db->getval("SELECT settings_json from user where settings_json is not null order by id limit 1");
+        //echo $this->html->pre_display($user,"user");
     }
-    // < / Move to Html class >
 
-    $settings_json=json_encode($settings1);
+    $settings_json=$this->html->save_settings($user[settings_json]);
     //echo $this->html->pre_display($settings1,"settings1 $uid");
     //echo $this->html->pre_display($_POST,"_POST"); exit;
     $email=$this->html->readRQ('email');
@@ -45,6 +32,7 @@ if ($what == 'profile') {
             'settings_json'=> $settings_json
     );
     $err=0;
+    //echo $this->html->pre_display($vals,"vals");exit;
     $id=$this->db->update_db('users', $uid, $vals);
     //$query = "UPDATE users set email='$email',firstname='$firstname',surname='$surname', lang='$lang',css='$css',mainscreen='$mainscreen',pdffont='$pdffont',pdffontsize='$pdffontsize',rows=$rows, maxdescr=$maxdescr, mobile='$mobile'  where id=$uid;";
     //$result = $this->db->GetVar($query);
