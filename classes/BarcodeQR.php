@@ -76,11 +76,12 @@ final class BarcodeQR {
 		curl_close($ch);
 
 		if($img) {
-			if($filename) {
+			if($filename=='inline') {
+				return $img;
+			}elseif($filename){
 				if(!preg_match("#\.png$#i", $filename)) {
 					$filename .= ".png";
 				}
-				
 				return file_put_contents($filename, $img);
 			} else {
 				header("Content-type: image/png");
