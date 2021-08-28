@@ -28,8 +28,21 @@ if ($access['main_admin']){
 			$depreciation_rate=$row[depreciation_rate]*1;
 
 		   $response.=str_replace(["\n","\r"]," ","$parent;$number;$name;$header;$curr;$descr;$cash;$budget;$bank_account_id;$active;$cumulative;$internal_code;$soft_code;$depreciation_rate")."\n";
+
 		   $internal_code_str=($internal_code!='')?", ['internal_code'=>'$internal_code']":"";
-		   $insert_array[]="\$this->add_a_account(\$partnerid, '$parent', '$number', '$name', $header, \$currid, '', $cash, $budget, $bank_account_id $internal_code_str);";
+		   $depreciation_rate_str=($depreciation_rate!='')?", ['depreciation_rate'=>'$depreciation_rate']":"";
+		   unset($add_array);
+		   if($internal_code!='')$add_array[internal_code]=$internal_code;
+		   if($depreciation_rate!='')$add_array[depreciation_rate]=$depreciation_rate;
+		   unset($array_pairs);
+		   foreach ($add_array as $key => $value) {
+		   	 $array_pairs[]="'$key'=>'$value'";
+		   }
+		   $pairs=implode(',', $array_pairs);
+		   $array_str="";
+		   if(count($add_array)>0)$array_str=", [$pairs]";
+		   $json_str=json_encode($add_array);
+		   $insert_array[]="\$this->add_a_account(\$partnerid, '$parent', '$number', '$name', $header, \$currid, '', $cash, $budget, $bank_account_id $array_str);";
 		}
 		$inserts=implode("\n", $insert_array);
 		echo $this->html->pre_display($inserts,"inserts");
