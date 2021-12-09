@@ -8,6 +8,7 @@ $html = <<< EOF
 			</footer>
 	</div>
 	{$content['scripts']}
+	<style> @media print { a[href]::after { content: none !important; } } </style>
 </body>
 </html>
 
