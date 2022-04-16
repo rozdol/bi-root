@@ -67,6 +67,18 @@ if ($this->data->field_exists($table, 'user_id')) {
 }
 $q = $q->where('id', '>', 0);
 
+$limit=$this->html->readRQn('limit');
+if($limit>0) $q = $q->limit($limit);
+
+$page=$this->html->readRQn('page');
+if($page>0) $q = $q->offset($page);
+
+$sortby=$this->html->readRQ('sortby');
+if($sortby!='') $q = $q->orderBy($sortby, 'ASC');
+
+$sortby_=$this->html->readRQ('sortby_');
+if($sortby_!='') $q = $q->orderBy($sortby_, 'DESC');
+
 $rows=$q->get();
 $JSONData[table]=$table;
 $JSONData[fields]=$fields;
