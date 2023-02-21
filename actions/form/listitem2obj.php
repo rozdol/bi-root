@@ -18,7 +18,7 @@ if ($what == 'listitem2obj'){
 			";
 		}
 		$out.=  "<h3>Join $list to $ref_table $name</h3>\n";
-		$sql="SELECT id, name from listitems where list_id=$list_id order by id";
+		$sql="SELECT id, name from listitems where list_id=$list_id order by name";
 		$itemlist=$this->html->htlist('listitem_id',$sql,0,'Select Item','','','span12');
 
 		$out.= "

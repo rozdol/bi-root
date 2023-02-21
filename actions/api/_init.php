@@ -207,6 +207,7 @@ function authenticate ($inputs=[], $app) {
     $username=$inputs[user];
     if($username=='')$username=$inputs[username];
     if($username==''){
+        // echo json_encode($inputs);
         echo json_encode(['error'=>"No username supplied"]);
         exit;
     }
