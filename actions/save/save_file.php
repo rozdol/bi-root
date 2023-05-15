@@ -20,7 +20,7 @@ $tmp_name=$_FILES[$name]['tmp_name'];
 $filename=$this->utils->normalize_filename($filename);
 
 $ext = strtolower(strrchr($filename, "."));
-$ext_array=array(".jpg",".png",".tif", ".zip", ".rar", ".pdf", ".dbf", ".xls", ".doc",".pages",".numbers", ".xlsb", ".xlsx", ".docx", ".txt", ".html", ".htm", ".xml", ".json");
+$ext_array=array(".jpg",".png",".tif", ".zip", ".rar", ".pdf", ".dbf", ".xls", ".doc",".pages",".numbers", ".xlsb", ".xlsx", ".docx", ".txt", ".html", ".htm", ".xml", ".json", ".csv");
 if (!in_array($ext, $ext_array)) {
     $this->html->error("ERROR<br><b>File not aploaded</b> File extention $ext is not allowed for upload.");
 }

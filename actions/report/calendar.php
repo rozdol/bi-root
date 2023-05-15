@@ -57,7 +57,8 @@ if($range=='near'){
 	}else{
 		$monthprev=$month-1;
 		$monthnext=$month+1;
-		$monthes="$monthprev,$month,$monthnext";
+		$monthnext2=$month+2;
+		$monthes="$monthprev,$month,$monthnext,$monthnext2";
 		$GLOBALS[calendar][data][monthes]=$monthes;
 		$out.= $this->data->show_cal($year);
 	}
