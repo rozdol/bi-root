@@ -1,5 +1,6 @@
 <?php
 if ($access['main_admin']){
+	//?act=tools&what=copy_access&group_id_from=3&group_id_to=31&gain=1
 	$gain=$this->html->readRQn('gain');
 	$group_id_from=$this->html->readRQn('group_id_from');
 	$group_id_to=$this->html->readRQn('group_id_to');
