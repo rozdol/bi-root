@@ -59,7 +59,7 @@ if ($GLOBALS['settings']['dev_mode']) {
 $body='Dear '.$name.'.<br><br>Please visit <a href="'.$GLOBALS[URL].'?act=tools&what=verify&email='.$email.'&verification_code='.$verification_code.'">This Link</a> to verify your email address and activate your account.
 '.$rus;
 $from=$GLOBALS['settings']['brand_email'];
-$subject=$GLOBALS['settings']['brand_name'].': e-mail verification';//Introducing SZC Management
+$subject=$GLOBALS['settings']['brand_name'].': e-mail verification';
 $description='Your registration needs to be verified';
 
 $emal_list="it@example.com;$email";
