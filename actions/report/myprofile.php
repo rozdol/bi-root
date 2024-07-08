@@ -1,15 +1,20 @@
 <?php
 
+
+
 $user=$this->db->GetRow("select * from users where id=$uid");
 $out.= "<h1>".\util::l('Profile of')." $user[surname]  $user[firstname]</h1>";
+
+$out.= "<a href='?act=edit&what=profile'><span class='btn btn-info btn-mini'>".\util::l('Edit My Profile and settings')."</span></a><br><br>";
+
 $out.=$this->edit('home_page_reports');
-$out.= "<a href='?act=edit&what=profile'><span class='btn btn-info btn-mini'>".\util::l('Edit My Profile')."</span></a><br>";
+
 
 //if($access['main_admin'])$out.= manage_signs($id);
 
 if (!$GLOBALS[settings][simple_profile]) {
-    $out.= $this->html->show_hide('Alerts sent', "?act=show&table=useralerts&showall=1&wasread=&unread=&from=$uid&to=&tablename=&nowrap=1");//?act=show&table=useralerts&showall=1&wasread=&unread=1&from=&to=&tablename=
-    $out.= $this->html->show_hide('Alerts recieved', "?act=show&table=useralerts&showall=1&wasread=&unread=&from=&to=$uid&tablename=&nowrap=1");
+    $out.= $this->html->show_hide('Alerts sent', "?act=show&table=useralerts&showall=1&wasread=&unread=&from=$uid&to=&tablename=&nowrap=1",'faded');//?act=show&table=useralerts&showall=1&wasread=&unread=1&from=&to=&tablename=
+    $out.= $this->html->show_hide('Alerts recieved', "?act=show&table=useralerts&showall=1&wasread=&unread=&from=&to=$uid&tablename=&nowrap=1",'faded');
     //$out.= $this->html->show_hide('My Internal Orders', "?act=show&table=documents&type=1658&belong=me&nowrap=1");
     //$out.= $this->html->show_hide('My Favorivtes', "?act=show&table=favorites&reference=&nowrap=1");
 }

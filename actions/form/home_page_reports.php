@@ -94,7 +94,7 @@ if($this->data->table_exists('homepages')){
 	}
 	$this->livestatus('');
 	$out.=$this->html->tablefoot($i, $totals, $totalrecs);
-	if($GLOBALS[access][main_admin])$out.=$this->html->link_button("<i class='icon-file icon-white'></i> Add", "?act=add&what=reports", 'btn-small btn-info')." ";
+	if($GLOBALS[access][main_admin])$out.=$this->html->link_button("<i class='icon-plus icon-white'></i> Add new report widget", "?act=add&what=reports", 'btn-micro btn-info')." ";
 
 
 	    //$out.=$this->html->form_confirmations();

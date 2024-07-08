@@ -6,7 +6,7 @@ if($refid==0){$out.= "No uploads";}
 //$out.= "<a href='?act=add&what=webcam&refid=$refid&tablename=documents'><i class='btn btn-info btn-mini'>Take from camera</i></a>";
 
 //$out.= $this->html->link_button("<i class='icon-download icon-white'></i> Multiple upload","?act=add&what=multyuploads&refid=$refid&tablename=documents",'info')." ";
-$out.= $this->html->link_button("<i class='icon-camera icon-white'></i> Take from camera","?act=add&what=webcam&refid=$refid&tablename=documents",'info')." ";
+// $out.= $this->html->link_button("<i class='icon-camera icon-white'></i> Take from camera","?act=add&what=webcam&refid=$refid&tablename=documents",'info')." ";
 
 $document=$this->db->GetRow("select * from documents where id=$refid");
 if($sortby==''){$sortby="u.date desc";}
