@@ -40,7 +40,7 @@ CREATE TABLE groups (
 CREATE TABLE user_group (
    groupid int DEFAULT '0' NOT NULL,
    userid int DEFAULT '0' NOT NULL
-) WITH OIDS;
+);
 CREATE  INDEX group_id_user_group_index ON user_group (groupid);
 CREATE  INDEX user_id_user_group_index ON user_group (userid);
 
@@ -53,7 +53,7 @@ CREATE TABLE accesslevel (
   groupid INTEGER,
   accessid INTEGER,
   access int2 DEFAULT '0' NOT NULL
-) WITH OIDS;
+);
 
 
 alter table accesslevel add constraint fk_acclv_acci foreign key (accessid) references accessitems (id) on delete cascade on update cascade;
@@ -248,7 +248,7 @@ create table favorites (
 	reference TEXT,
 	refid int4 default 0,
 	CONSTRAINT favor_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 
 ----=========MENU NEW================----
@@ -259,7 +259,7 @@ create table menuitems (
 	link  TEXT default '#',
 	hidden boolean DEFAULT false,
 	descr  TEXT default ''
-)WITH OIDS;
+);
 
 create sequence menu_sec increment 1 start 1 minvalue 1 maxvalue 2147483647 cache 1;
 --drop table menus;
@@ -271,12 +271,12 @@ create table menus (
 	type int4 default 0,
 	sort int4 default 100,
 	level int4 default 0
-)WITH OIDS;
+);
 
 CREATE TABLE menue2group (
 	gid int4 default 0,
 	menugid int4 default 0	
-)WITH OIDS;
+);
 
 
 --drop TABLE fast_menu;
@@ -295,7 +295,7 @@ CREATE TABLE logs(
   date timestamp without time zone,
   action text,
   CONSTRAINT logs_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 	
 CREATE TABLE tableaccess (
 		id SERIAL,
@@ -308,7 +308,7 @@ CREATE TABLE tableaccess (
 		descr text,
 		addinfo text,
 		CONSTRAINT tableaccess_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 CREATE TABLE dbchanges(
   id serial NOT NULL,
@@ -322,7 +322,7 @@ CREATE TABLE dbchanges(
   descr text DEFAULT ''::text,
   changes text DEFAULT ''::text,
   CONSTRAINT dbchanges_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 
 CREATE TABLE uploads(
@@ -480,7 +480,7 @@ CREATE TABLE history_watch(
   field_name text DEFAULT '',
   active boolean default TRUE,
   CONSTRAINT historywatch_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 --DROP TABLE history;
 CREATE TABLE history(
@@ -494,7 +494,7 @@ CREATE TABLE history(
   user_id integer NOT NULL DEFAULT 0,
   active boolean default TRUE,
   CONSTRAINT history_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 --DROP TABLE clicks;
 CREATE TABLE clicks(
@@ -509,7 +509,7 @@ CREATE TABLE clicks(
   post text DEFAULT '',
   get text DEFAULT '',
   CONSTRAINT clicks_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 --DROP TABLE changes;
 CREATE TABLE changes(
@@ -518,7 +518,7 @@ CREATE TABLE changes(
   ref_id integer NOT NULL DEFAULT 0,
   changes_json text  DEFAULT '',
   CONSTRAINT changes_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 -- DROP TABLE signups;
 CREATE TABLE signups(
@@ -538,7 +538,7 @@ CREATE TABLE signups(
   ip text DEFAULT ''::text,
   descr text DEFAULT ''::text,
   CONSTRAINT signups_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 
 -- DROP TABLE apis;
@@ -553,7 +553,7 @@ CREATE TABLE apis(
   user_id integer NOT NULL DEFAULT 0 UNIQUE,
   ip text DEFAULT ''::text,
   CONSTRAINT apis_pkey PRIMARY KEY (id)
-)WITH OIDS;
+);
 
 alter table apis add constraint fk_apis_users foreign key (user_id) references users (id) on delete cascade on update cascade;
 
