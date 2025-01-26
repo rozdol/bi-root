@@ -43,7 +43,7 @@ if($access['main_admin']){
 		$out.=$this->html->HT_editicons($what, $row[id]);
 		$out.= "</tr>";
 
-		if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];				
+		if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];				
 	}
 	include(FW_DIR.'/helpers/end_table.php');
 	$body.="ok";

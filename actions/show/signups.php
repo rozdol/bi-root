@@ -27,7 +27,7 @@ while ($row = pg_fetch_array($cur)) {
 	//$type=$this->data->get_name('listitems',$row[type]);
 	if($row[id]==0)$class='d';
 	$out.= "<tr class='$class'>";
-	$out.= $this->html->edit_rec($what,$row[id],'ved',$i);
+	$out.= $this->html->edit_rec($what,$row['id'],'ved',$i);
 	$out.= "<td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
 	$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\">$row[name]</td>";
 	$out.= "<td>$row[date]</td>";
@@ -35,7 +35,7 @@ while ($row = pg_fetch_array($cur)) {
 	$out.= "<td class='n'>".$this->html->money($row[amount])."</td>";
 	$out.= "</tr>";
 	$totals[2]+=$row[qty];
-	if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];			
+	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];			
 	$this->livestatus(str_replace("\"","'",$this->html->draw_progress($i/$rows*100)));	
 }
 $this->livestatus('');

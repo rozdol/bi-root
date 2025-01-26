@@ -108,7 +108,7 @@ if ($what == 'useralerts') {
             $allids.=$what.':'.$row[id];
         }
                         
-        $totals[0]+=1;
+        $totals[0]=(int) $totals[0] + 1;
         $totals[1]+=$row[share];
     }
     include(FW_DIR.'/helpers/end_table.php');

@@ -8,7 +8,7 @@ $tmp=($this->html->readRQ("refid")*1);
 if ($tmp >0) {
     $sql = "$sql and refid=$tmp";
 }
-$tmp=($this->html->readRQ("userid")*1);
+$tmp=($this->html->readRQn("userid"));
 if ($tmp >0) {
     $sql = "$sql and userid=$tmp";
 }
@@ -106,7 +106,7 @@ while ($row = pg_fetch_array($cur)) {
 	";
     $out.= $this->html->HT_editicons($what, $row[id]);
     $out.= "\t</tr>\n";
-    $totals[0]+=1;
+    $totals[0]=(int) $totals[0] + 1;
 }
 
 include(FW_DIR.'/helpers/end_table.php');

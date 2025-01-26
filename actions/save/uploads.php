@@ -189,7 +189,7 @@ if (!$update) {
             }else{
                 $tmp=copy($tempname, $fullname)*1;
                 if ($tmp==0) {
-                    if($GLOBALS[access][main_admin]){
+                    if($GLOBALS['access']['main_admin']){
                         echo "debug::$out<br>";
                     }
                     echo "<div class='red'>Could not copy file  $tempname to $fullname</div>";

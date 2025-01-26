@@ -63,7 +63,7 @@ if ($what == 'rates') {
             $out.= "<td class='n'>$rate</td>";
         }
         $out.= "\t</tr>\n";
-        //$totals[0]+=1;
+        //$totals[0]=(int) $totals[0] + 1;
     }
 
     $out.="</table>";

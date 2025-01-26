@@ -49,7 +49,7 @@ if ($what == 'versions') {
 						";
         $out.= $this->html->HT_editicons($what, $row[id]);
         $out.= "\t</tr>\n";
-        $totals[0]+=1;
+        $totals[0]=(int) $totals[0] + 1;
         $totals[1]+=$row[share];
     }
     if ($showtotals<>'') {

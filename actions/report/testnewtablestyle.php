@@ -22,7 +22,7 @@ if ($what == 'testnewtablestyle'){
 				
 				$out.= "</tr>";
 				$out.= "<tr class='expandable'><td id='$classid' class='wrapped' colspan=3 onDblclick='this.innerHTML=\"\";'></td></tr>";
-				$totals[0]+=1;
+				$totals[0]=(int) $totals[0] + 1;
 				$totals[1]+=2;
 				
 			}

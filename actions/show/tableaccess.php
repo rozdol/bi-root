@@ -45,7 +45,7 @@ while ($row = pg_fetch_array($cur)) {
 	$out.=$this->html->HT_editicons($what, $row[id]);
 	$out.= "</tr>";
 	$totals[2]+=$row[qty];
-	if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];			
+	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];			
 	$this->livestatus(str_replace("\"","'",$this->html->draw_progress($i/$rows*100)));	
 }
 $this->livestatus('');

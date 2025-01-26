@@ -1,6 +1,6 @@
 <?php
 if ($what == 'schedules') {
-        $refid=$this->html->readRQ("refid")*1;
+        $refid=$this->html->readRQn("refid");
         $tablename=$this->html->readRQ("reference");
     if ($tablename=='') {
         $tablename=$this->html->readRQ("tablename");

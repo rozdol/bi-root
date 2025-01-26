@@ -1,8 +1,8 @@
 <?php
-$GLOBALS['app_version']="8.4.6"; // Fix timezone issue
-$debug=0;
-$admin_ip=getenv('ADMIN_IP');
-if($_SERVER['REMOTE_ADDR']==$admin_ip) $debug=0;
+$GLOBALS['app_version'] = "8.5.0"; // PHP 8
+$debug = 0;
+$admin_ip = getenv('ADMIN_IP');
+if ($_SERVER['REMOTE_ADDR'] == $admin_ip) $debug = 0;
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -14,25 +14,26 @@ if (!defined('DS')) {
 // $_SERVER['RDS_PASSWORD']='PASS';
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$domainName = $_SERVER['HTTP_HOST'].'/';
-$siteURL= $protocol.$domainName;
+$domainName = $_SERVER['HTTP_HOST'] . '/';
+$siteURL = $protocol . $domainName;
 
+define('ROOT_DIR', '/');
 define('SITE_URL', $siteURL);
-$GLOBALS['URL']=SITE_URL;
-$domainName=str_ireplace("/", "", $domainName);
+$GLOBALS['URL'] = SITE_URL;
+$domainName = str_ireplace("/", "", $domainName);
 define('FW_DIR', ROOT . DS . 'bi');
 define('PROJECT_DIR', ROOT . DS . 'src');
 define('APP_DIR', PROJECT_DIR);
-if(file_exists(ROOT.DS.'vendor')){
-    define('VENDOR_DIR', ROOT.DS.'vendor');
-}else{
+if (file_exists(ROOT . DS . 'vendor')) {
+    define('VENDOR_DIR', ROOT . DS . 'vendor');
+} else {
     define('VENDOR_DIR', '../vendor');
 }
 
-define('CLASSES_DIR', FW_DIR.DS.'classes');
+define('CLASSES_DIR', FW_DIR . DS . 'classes');
 
 
-$vendorDirPath = VENDOR_DIR;//ROOT.DS.'vendor';
+$vendorDirPath = VENDOR_DIR; //ROOT.DS.'vendor';
 if (file_exists($vendorDirPath . '/autoload.php')) {
     require $vendorDirPath . '/autoload.php';
 } else {
@@ -44,22 +45,22 @@ if (file_exists($vendorDirPath . '/autoload.php')) {
     );
 }
 
-if (file_exists(APP_DIR.DS.'.env')) {
+if (file_exists(APP_DIR . DS . '.env')) {
     $dotenv = new Dotenv\Dotenv(APP_DIR);
     $dotenv->overload();
     //$dotenv->load();
 } else {
-    $env_file='../src/.env';
+    $env_file = '../src/.env';
     if (file_exists($env_file)) {
         $dotenv = new Dotenv\Dotenv('../src');
         $dotenv->overload();
-    }else{
-        if ($debug==1) {
-            echo $env_file." not found <br>";
+    } else {
+        if ($debug == 1) {
+            echo $env_file . " not found <br>";
         }
     }
 }
-if ($debug==1) {
+if ($debug == 1) {
     echo "DOMAIN:$domainName<br>";
     echo 'USER DEFINED ENVIRONMENT<br>';
     echo '===============<br>';
@@ -74,115 +75,114 @@ define('WWW_DIR', ROOT . DS . 'public');
 //if(($domainName=='')||($domainName=='localhost')||(ip2long($domainName) !== true))$domainName='is.lan';
 
 //$name=explode('.',$domainName);
-$domain=$domainName;
+$domain = $domainName;
 
 function get_app_db($domain)
 {
-    if (($domain=='')||($domain=='localhost')) {
-        $domain='is.lan';
+    if (($domain == '') || ($domain == 'localhost')) {
+        $domain = 'is.lan';
     }
     //$domain='db.app.default.com';
     //$first_level_domains=['.com.cy','.com','.ru','.co.uk','.lan','.org','.gov','.io'];
-    $parts=explode('.', $domain);
-    if ($parts[0]=='www') {
+    $parts = explode('.', $domain);
+    if ($parts[0] == 'www') {
         array_shift($parts);
     }
-    if (($parts[count($parts)-2]=='com')||($parts[count($parts)-2]=='co')) {
+    if (($parts[count($parts) - 2] == 'com') || ($parts[count($parts) - 2] == 'co')) {
         array_pop($parts);
         array_pop($parts);
     } else {
         array_pop($parts);
     }
 
-    $count=count($parts);
+    $count = count($parts);
     //echo "c:$count<br>";
     //var_dump($parts);
-    if ($count<=2) {
-        $app_name=$parts[0];
-        $db_name=$parts[0];
+    if ($count <= 2) {
+        $app_name = $parts[0];
+        $db_name = $parts[0];
     }
-    if ($count>2) {
-        $app_name=$parts[1];
-        $db_name=$parts[0];
+    if ($count > 2) {
+        $app_name = $parts[1];
+        $db_name = $parts[0];
     }
 
 
-    if ($app_name=='app') {
-        $app_name=$parts[count($parts)-1];
+    if ($app_name == 'app') {
+        $app_name = $parts[count($parts) - 1];
     }
-    if ($db_name=='app') {
-        $db_name=$parts[count($parts)-1];
+    if ($db_name == 'app') {
+        $db_name = $parts[count($parts) - 1];
     }
     //echo "$db_name@$app_name<br>";
 
-    if ($app_name=='szcmail') {
-        $app_name='is';
-        $db_name='szc';
+    if ($app_name == 'szcmail') {
+        $app_name = 'is';
+        $db_name = 'szc';
     }
-    if ($db_name=='is') {
-        $app_name='is';
-        $db_name='szc';
+    if ($db_name == 'is') {
+        $app_name = 'is';
+        $db_name = 'szc';
     }
-    if ($app_name=='app') {
-        $app_name='is';
-        $db_name='szc';
+    if ($app_name == 'app') {
+        $app_name = 'is';
+        $db_name = 'szc';
     }
-    if (!(file_exists(PROJECT_DIR.$app_name))) {
-        $app_name='is';
+    if (!(file_exists(PROJECT_DIR . $app_name))) {
+        $app_name = 'is';
     }
-    if (!(file_exists(PROJECT_DIR.$app_name))) {
-        $dirs = array_filter(glob(PROJECT_DIR."*"), 'is_dir');
-        $app_name=$dirs[0];
+    if (!(file_exists(PROJECT_DIR . $app_name))) {
+        $dirs = array_filter(glob(PROJECT_DIR . "*"), 'is_dir');
+        $app_name = $dirs[0];
         $app_name = basename($dirs[0]);
     }
 
-    if(getenv('AUTO_DOMAIN')){
-        $GLOBALS['DB']['DB_DOMAIN']=$db_name;
-    }else{
-
+    if (getenv('AUTO_DOMAIN')) {
+        $GLOBALS['DB']['DB_DOMAIN'] = $db_name;
+    } else {
     }
-    if ($GLOBALS['DB']['DB_NAME']!='') {
-        $db_name=$GLOBALS['DB']['DB_NAME'];
+    if ($GLOBALS['DB']['DB_NAME'] != '') {
+        $db_name = $GLOBALS['DB']['DB_NAME'];
     }
-    if (getenv('APP_NAME')!='') {
-        $app_name=getenv('APP_NAME');
+    if (getenv('APP_NAME') != '') {
+        $app_name = getenv('APP_NAME');
     }
-    if (($app_name=='')&&($db_name!='')) {
-        $app_name=$db_name;
+    if (($app_name == '') && ($db_name != '')) {
+        $app_name = $db_name;
     }
     //echo "$db_name@$app_name<br>";
-    return [$db_name,$app_name];
+    return [$db_name, $app_name];
 }
-$db_app=get_app_db($domain);
+$db_app = get_app_db($domain);
 
-$app_name=$db_app[1];
-$db_name=$db_app[0];
+$app_name = $db_app[1];
+$db_name = $db_app[0];
 //echo '<pre>';print_r($db_app);echo '</pre>';exit;
 
-$GLOBALS['project']=$app_name;
+$GLOBALS['project'] = $app_name;
 
-$GLOBALS['DB']['DB_SERVER']=getenv('DB_SERVER');
-$GLOBALS['DB']['DB_USER']=getenv('DB_USER');
-$GLOBALS['DB']['DB_PASS']=getenv('DB_PASS');
-$GLOBALS['DB']['DB_NAME']=getenv('DB_NAME');
-$GLOBALS['DB']['DB_PORT']=getenv('DB_PORT');
+$GLOBALS['DB']['DB_SERVER'] = getenv('DB_SERVER');
+$GLOBALS['DB']['DB_USER'] = getenv('DB_USER');
+$GLOBALS['DB']['DB_PASS'] = getenv('DB_PASS');
+$GLOBALS['DB']['DB_NAME'] = getenv('DB_NAME');
+$GLOBALS['DB']['DB_PORT'] = getenv('DB_PORT');
 
-$rds_hostname=getenv('RDS_HOSTNAME');
-if ($rds_hostname!='') {
-    if(!getenv('AUTO_DB'))$db_name=getenv('RDS_DB_NAME');
-    $GLOBALS['DB']['DB_SERVER']=getenv('RDS_HOSTNAME');
-    $GLOBALS['DB']['DB_USER']=getenv('RDS_USERNAME');
-    $GLOBALS['DB']['DB_PASS']=getenv('RDS_PASSWORD');
-    $GLOBALS['DB']['DB_NAME']=$db_name;
-    $GLOBALS['DB']['DB_PORT']=getenv('RDS_DB_PORT');
+$rds_hostname = getenv('RDS_HOSTNAME');
+if ($rds_hostname != '') {
+    if (!getenv('AUTO_DB')) $db_name = getenv('RDS_DB_NAME');
+    $GLOBALS['DB']['DB_SERVER'] = getenv('RDS_HOSTNAME');
+    $GLOBALS['DB']['DB_USER'] = getenv('RDS_USERNAME');
+    $GLOBALS['DB']['DB_PASS'] = getenv('RDS_PASSWORD');
+    $GLOBALS['DB']['DB_NAME'] = $db_name;
+    $GLOBALS['DB']['DB_PORT'] = getenv('RDS_DB_PORT');
 }
 
-if(getenv('AUTO_DB')){
-    $GLOBALS['DB']['DB_NAME']=$db_name;
-    $brand_name=getenv('BRAND_NAME');
-    if($brand_name==''){
-        $brand_name="<b class='label label-info'>".strtoupper($db_name)."</b>";
-        putenv('BRAND_NAME='.$brand_name);
+if (getenv('AUTO_DB')) {
+    $GLOBALS['DB']['DB_NAME'] = $db_name;
+    $brand_name = getenv('BRAND_NAME');
+    if ($brand_name == '') {
+        $brand_name = "<b class='label label-info'>" . strtoupper($db_name) . "</b>";
+        putenv('BRAND_NAME=' . $brand_name);
     }
 }
 
@@ -191,50 +191,50 @@ define('DB_NAME', $db_name);
 define('CLIENT_ID', "$app_name.$db_name");
 
 
-$GLOBALS['db']['name']=$db_name;
-if($GLOBALS['DB']['DB_NAME']=='')$GLOBALS['DB']['DB_NAME']=$db_name;
+$GLOBALS['db']['name'] = $db_name;
+if ($GLOBALS['DB']['DB_NAME'] == '') $GLOBALS['DB']['DB_NAME'] = $db_name;
 //define('APP_DIR', PROJECT_DIR . $app_name);
 
-if (getenv('DATA_DIR')!='') {
-    define('ROOT_DATA_DIR', getenv('DATA_DIR').DS);
-    if(getenv('AUTO_DB')){
-        $data_dir=getenv('DATA_DIR').DS.$db_name.DS;
-    }else{
-        $data_dir=getenv('DATA_DIR').DS;
+if (getenv('DATA_DIR') != '') {
+    define('ROOT_DATA_DIR', getenv('DATA_DIR') . DS);
+    if (getenv('AUTO_DB')) {
+        $data_dir = getenv('DATA_DIR') . DS . $db_name . DS;
+    } else {
+        $data_dir = getenv('DATA_DIR') . DS;
     }
     define('DATA_DIR', $data_dir);
 }
 
-$data_dir_tmp=''.ROOT . DS . 'storage';
-if (file_exists($data_dir_tmp)&&(!defined('DATA_DIR'))) {
-    define('DATA_DIR', $data_dir_tmp. DS);
+$data_dir_tmp = '' . ROOT . DS . 'storage';
+if (file_exists($data_dir_tmp) && (!defined('DATA_DIR'))) {
+    define('DATA_DIR', $data_dir_tmp . DS);
 }
 
-define('DOCS_DIR', DATA_DIR .'docs'. DS);
-define('LH_DIR', DATA_DIR .'lh'. DS);
-define('TMPLTS_DIR', DATA_DIR .'templates'. DS);
-define('SACANS_DIR', DATA_DIR .'scans'. DS);
-define('TRASH_DIR', DATA_DIR .'trash'. DS);
-define('LOGS_DIR', DATA_DIR .'logs'. DS);
-define('DEFLATED_DIR', DATA_DIR .'deflated'. DS);
-define('TK_DIR', DATA_DIR .'tk'. DS);
-define('SIGNS_DIR', DATA_DIR .'signatures'. DS);
+define('DOCS_DIR', DATA_DIR . 'docs' . DS);
+define('LH_DIR', DATA_DIR . 'lh' . DS);
+define('TMPLTS_DIR', DATA_DIR . 'templates' . DS);
+define('SACANS_DIR', DATA_DIR . 'scans' . DS);
+define('TRASH_DIR', DATA_DIR . 'trash' . DS);
+define('LOGS_DIR', DATA_DIR . 'logs' . DS);
+define('DEFLATED_DIR', DATA_DIR . 'deflated' . DS);
+define('TK_DIR', DATA_DIR . 'tk' . DS);
+define('SIGNS_DIR', DATA_DIR . 'signatures' . DS);
 
-$app_uri=str_replace('/index.php', '', $_SERVER['PHP_SELF']);
+$app_uri = str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 //if($app_uri=='')$app_uri='/';
-define(APP_URI, $app_uri);
-if(getenv('ASSETS_URI')!=''){
-    define(ASSETS_URI, getenv('ASSETS_URI'));
-}elseif(strlen($app_uri)>1){
-    define(ASSETS_URI, $app_uri);
-}else{
-    define(ASSETS_URI, $siteURL);
+define('APP_URI', $app_uri);
+if (getenv('ASSETS_URI') != '') {
+    define('ASSETS_URI', getenv('ASSETS_URI'));
+} elseif (strlen($app_uri) > 1) {
+    define('ASSETS_URI', $app_uri);
+} else {
+    define('ASSETS_URI', $siteURL);
 }
-$formdata='';
+$formdata = '';
 foreach ($_POST as $key => $value) {
-    $formdata="$formdata&$key=$value";
+    $formdata = "$formdata&$key=$value";
 }
-$GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
+$GLOBALS['orgqry'] = $_SERVER['QUERY_STRING'] . $formdata;
 //require_once(APP_DIR.DS.'/settings.php');
 
 // if (!defined($_SERVER['RDS_HOSTNAME'])) {
@@ -250,12 +250,12 @@ $GLOBALS['orgqry']=$_SERVER['QUERY_STRING'].$formdata;
 //     $GLOBALS['db']['pass']=getenv('DB_PASS');
 // }
 //Vars
-$GLOBALS['settings']['dev_mode']=getenv('DEV_MODE');
+$GLOBALS['settings']['dev_mode'] = getenv('DEV_MODE');
 
-if (($GLOBALS['settings']['dev_mode'])==1) {
+if (($GLOBALS['settings']['dev_mode']) == 1) {
     //error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
     error_reporting(E_ALL);
-}else{
+} else {
     //error_reporting(~E_ALL);
     error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
 }
@@ -265,13 +265,13 @@ ini_set('memory_limit', '-1');
 ini_set('post_max_size', '512M');
 ini_set('upload_max_filesize', '512M');
 
-if ($debug==1) {
+if ($debug == 1) {
     echo 'SYSTEM CONSTANTS<br>';
-    echo '===============<br>'.
-    'app_name='.$app_name.'<br>'.
-    'db_name='.$db_name.'<br>';
+    echo '===============<br>' .
+        'app_name=' . $app_name . '<br>' .
+        'db_name=' . $db_name . '<br>';
     echo "<pre>";
-    print_r(get_defined_constants(true)[user]);
+    print_r(get_defined_constants(true)['user']);
     echo "</pre>";
     echo 'SERVER VARS ($_SERVER)<br>';
     echo '===============<br>';
@@ -291,14 +291,14 @@ try {
     new \Pixie\Connection(
         'pgsql',
         array(
-        'driver'   => 'pgsql',
-        'host'     => $GLOBALS['DB']['DB_SERVER'],
-        'database' => $GLOBALS['DB']['DB_NAME'],
-        'username' => $GLOBALS['DB']['DB_USER'],
-        'password' => $GLOBALS['DB']['DB_PASS'],
-        'charset'  => 'utf8',
-        'prefix'   => '',
-        'schema'   => 'public',
+            'driver'   => 'pgsql',
+            'host'     => $GLOBALS['DB']['DB_SERVER'],
+            'database' => $GLOBALS['DB']['DB_NAME'],
+            'username' => $GLOBALS['DB']['DB_USER'],
+            'password' => $GLOBALS['DB']['DB_PASS'],
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
         ),
         'QB'
     );

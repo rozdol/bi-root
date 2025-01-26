@@ -2,7 +2,7 @@
 if($this->data->table_exists($what)){
 	$count=$this->db->GetVal("select count(*) from $what where id=$id")*1;
 	if($count==0){
-		if($GLOBALS[access][main_admin]){
+		if($GLOBALS['access']['main_admin']){
 			$out.= "<span media='print' class='noPrint'><hr>";
 			$out.= $this->html->show_hide("Logs $what:$id", "?act=show&what=logs&plain=1&refference=$what&ref_id=$id");
 			$out.= $this->html->show_hide("Changes $what:$id", "?act=report&what=db_changes&plain=1&refference=$what&ref_id=$id");

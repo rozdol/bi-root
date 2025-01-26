@@ -45,7 +45,7 @@ while ($row = pg_fetch_array($cur)) {
 	//$csv.="$row[id]\t$row[name]\t$row[alias]\t$row[qty]\t$row[values]\t$row[text1]\t$row[text2]\t$row[num1]\t$row[num2]\t$row[descr]\t$row[addinfo]\n";
 	$tbl.=$this->html->HT_editicons($what, $row[id]);
 	$tbl.= "</tr>\n";
-	if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];		
+	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];		
 }
 $out=$tbl;
 include(FW_DIR.'/helpers/end_table.php');

@@ -33,7 +33,7 @@ if ($what == 'fastmenu'){
 			$out.= "</tr>";
 			$csv.="$row[id]	$row[name]\t$row[descr]\n";
 			$totals[2]+=$row[qty];
-			if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];			
+			if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];			
 		}
 include(FW_DIR.'/helpers/end_table.php');
 	}

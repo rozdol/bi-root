@@ -74,7 +74,7 @@ if ($what == 'favorites') {
             $out.= $this->html->HT_editicons($what, $row[id]);
         }
         $out.= "\t</tr>\n";
-        $totals[0]+=1;
+        $totals[0]=(int) $totals[0] + 1;
     }
 
         $totals=$this->utils->F_toarray($this->db->GetResults("select count(*)".$sqltotal));

@@ -53,7 +53,7 @@ while ($row = pg_fetch_array($cur)) {
 	$out.= "</tr>";
 	$csv.="$row[id]	$row[name]\t$row[descr]\n";
 	$totals[2]+=$row[qty];
-	if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];	
+	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];	
 	//$responce.= "<a href='?act=details&what=uploads&id=$id'><img src='".ASSETS_URI."/assets/img/download.png'></a>";
 }
 include(FW_DIR.'/helpers/end_table.php');

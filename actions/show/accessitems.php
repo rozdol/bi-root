@@ -31,7 +31,7 @@ if ($what == 'accessitems'){
 						$out.= "</tr>";
 						$csv.="$row[id]	$row[name]	$row[descr]";
 						$totals[2]+=$row[qty];
-						if ($allids) $allids.=','.$what.':'.$row[id]; else $allids.=$what.':'.$row[id];			
+						if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];			
 					}
 include(FW_DIR.'/helpers/end_table.php');
 				}

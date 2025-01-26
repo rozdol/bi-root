@@ -27,7 +27,7 @@ if (!($cur = pg_query($sql))) {
     $this->html->SQL_error($sql);
 }
 while ($row = pg_fetch_array($cur)) {
-    $array[$user[date_time]]=$row[ip].' '.$row[descr];
+    $array[$user['date_time']]=$row['ip'].' '.$row['descr'];
 }
 
 $array['<b>Active users</b>']='__________________';
@@ -36,8 +36,8 @@ if (!($cur = pg_query($sql))) {
     $this->html->SQL_error($sql);
 }
 while ($row = pg_fetch_array($cur)) {
-    $user=$this->data->get_user_info($row[id]);
-    $array[$user[full_name]]=$row[lastvisit];
+    $user=$this->data->get_user_info($row['id']);
+    $array[$user['full_name']]=$row['lastvisit'];
 }
 
 $array['<b>Tables records</b>']='__________________';

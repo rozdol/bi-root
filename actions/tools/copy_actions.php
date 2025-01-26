@@ -2,7 +2,7 @@
 //?act=tools&what=copy_actions&from=is&type=table&object=events
 //?act=tools&what=copy_actions&from=is&type=append&object=eventform_name
 //?act=tools&what=copy_actions&from=is&type=function&object=get_events
-if($GLOBALS[access][main_admin]){
+if($GLOBALS['access']['main_admin']){
 	$from=$this->html->readRQ('from');
 	if($from=='')$from='is';
 	$object=$this->html->readRQ('object');
