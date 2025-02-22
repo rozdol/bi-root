@@ -74,7 +74,7 @@ if ($dynamic>0) {
 if ($i>5) {
     $nav.= $this->html->add_all_to_cart2($what);
 }
-if ($noexport=='') {
+if ($noexport == 0) {
     $export= $this->utils->exportcsv($csv);
 }
 $body.= "$out $nav $export";

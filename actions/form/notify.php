@@ -10,19 +10,19 @@ if ($what == 'notify') {
     } else {
         $partnerslist="$refid,";
         $partnersnamelist=$this->utils->F_tostring($this->db->GetResults("select p.name from partners p where p.id=$refid"));
-        $res[type]=0;
+        $res['type']=0;
     }
             $sendalert="<dt><label><input type='checkbox' name='sendalert' value='1' checked/> Send alert to selected</label></dt>";
             $smsalert="<dt><label><input type='checkbox' name='sendsms' value='1' /> Send SMS to Selected</label></dt>";
             $mailalert="<dt><label><input type='checkbox' name='sendmail' value='1' /> Send Mail to Selected</label></dt>";
             //$makeintorder="<dt><label>Generate internal order</label><input type='checkbox' name='makeintorder' value='1' /></dt>";
             
-    if (($res[active]=='t')||($res[active]=='')) {
+    if (($res['active']=='t')||($res['active']=='')) {
         $checked='checked';
     } else {
         $checked='';
     }
-    if (($res[confirm]=='t')) {
+    if (($res['confirm']=='t')) {
         $fchecked='checked';
     } else {
         $fchecked='';
@@ -39,7 +39,7 @@ if ($what == 'notify') {
 			document.getElementById(\"userslist\").innerHTML+=itemid+\", \";
 			document.getElementById(\"usersnamelist\").innerHTML+=itemname+\", \";'");
             
-            $type=$this->html->htlist('type', "SELECT id, name from listitems WHERE list_id=27 ORDER by id", $res[type], 'Select Type');
+            $type=$this->html->htlist('type', "SELECT id, name from listitems WHERE list_id=27 ORDER by id", $res['type'], 'Select Type');
 
             $out.= "
 				<div id='stylized' class='well'>

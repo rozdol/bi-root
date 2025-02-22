@@ -55,7 +55,7 @@ if (($what == 'usersdet')&&($access['main_admin'])) {
         $nav=$this->html->HT_pager($totalrows, $orgqry);
     }
 
-    if ($nopager=='') {
+    if ($nopager == 0) {
         $out.= "$nav";
     }
 }

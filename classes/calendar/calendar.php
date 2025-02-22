@@ -394,9 +394,9 @@ class Calendar extends Event_Subject {
 				$this->attach($holiday->condition('month', 12)->condition('day', 26)->title('Boxing Day')->output('Boxing Day'));
 
 				//echo $this->html->pre_display($GLOBALS[settings][holidays],"settings ".$this->year);
-				if($GLOBALS[settings][holidays]){
+				if($GLOBALS['settings']['holidays']){
 					$extra_holidays=[];
-					$extra_holidays_tmp=array_map('trim', explode(',',$GLOBALS[settings][holidays]));
+					$extra_holidays_tmp=array_map('trim', explode(',',$GLOBALS['settings']['holidays']));
 					//echo $this->html->pre_display($extra_holidays_tmp,"extra_holidays_tmp");
 					foreach ($extra_holidays_tmp as $day) {
 						//echo $this->html->pre_display($day,"day".$this->year);

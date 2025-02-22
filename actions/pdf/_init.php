@@ -1,2 +1,2 @@
 <?php
-$GLOBALS[pdf_mode]=1;
+$GLOBALS['pdf_mode'] = 1;

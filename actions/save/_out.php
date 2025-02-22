@@ -1,6 +1,10 @@
 <?php
 
-if($err=='')$timeout=0.1; else $timeout=100;
+if(($err=='') || ($err == 0)){
+	$timeout=0.1;
+} else {
+	$timeout=101;
+}
 if($GLOBALS['save_timeout']>0)$timeout=$GLOBALS['save_timeout'];
 if($id*1<=0)$id=$this->html->readRQn('id');
 $noduplicate=$this->html->readRQn('noduplicate');

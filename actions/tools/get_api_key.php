@@ -4,9 +4,9 @@ if ($access['main_admin']){
 	//echo $this->html->pre_display($password,"password");
 	$is_client_id=$this->html->readRQn('is_client_id');
 	$is_client=$this->data->get_row('is_clients',$is_client_id);
-	$api_URL=$is_client[api_link];
-	$api_key=$is_client[api_key];
-	$authorization=$is_client[api_authorization];
+	$api_URL=$is_client['api_link'];
+	$api_key=$is_client['api_key'];
+	$authorization=$is_client['api_authorization'];
 	// echo $this->html->pre_display($is_client,"is_client");
 	$api_URL_arr=explode("&",$api_URL);
 	//echo $this->html->pre_display($api_URL_arr,"api_URL_arr");
