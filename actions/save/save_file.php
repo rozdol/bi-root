@@ -8,6 +8,7 @@ $name = 'file';
 $allowed = json_decode($this->html->readRQ('allowed'), true);
 $process = $this->html->readRQn('process');
 $run_function = $this->html->readRQ('run_function');
+$ai = $this->html->readRQ('ai');
 $redirect_url = $this->html->readRQ('redirect_url');
 $destination = $this->html->readRQ('destination');
 $job_id = $this->html->readRQ('job_id');
