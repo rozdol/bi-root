@@ -17,20 +17,21 @@ if($count>0){
 	if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 	while ($row = pg_fetch_array($cur)) {
 		$i++;
-		$user=$this->data->username($row[userid]);
-		$time=explode(',',$row[action]);
+		$user=$this->data->username($row['userid']);
+		$time=explode(',',$row['action']);
 		$time=explode(':',$time[0]);
 		$time=$time[1]*1;
 		$out.= "<tr>";
-		$action_org=$row[action];
+		$action_org=$row['action'];
 		$action_parts=explode('RQ:',$action_org);
 		$action_arr=json_decode($action_parts[1]);
+		$action_arr=isset($action_arr)?$action_arr:[];
 		$link="?".http_build_query($action_arr);
 		//echo $this->html->pre_display($action_arr,"action_arr $query");
 
-		$row[action]=str_replace(array("\n","\r","\t","\""), array("<br>",""," ","|"), $row[action]);
-		$row[action]=str_replace("|,","|<br>", $row[action]);
-		$row[action]=str_replace("|","", $row[action]);
+		$row['action']=str_replace(array("\n","\r","\t","\""), array("<br>",""," ","|"), $row['action']);
+		$row['action']=str_replace("|,","|<br>", $row['action']);
+		$row['action']=str_replace("|","", $row['action']);
 		$out.= "<td>$i</td><td onMouseover=\"showhint('$row[action]', this, event, '400px');\">$row[date]</td><td>$row[ip]</td><td>$user</td><td class='n'><a href='$link'>".$this->html->money($time)."</a></td></tr>\n";
 	}
 	$out.=$this->html->tablefoot($i,$totals,$totalrecs);

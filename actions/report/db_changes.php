@@ -73,7 +73,7 @@ while ($row = pg_fetch_array($cur)) {
     $out .= $this->html->HT_editicons('dbchanges', $row['id']);
     $out .= "</tr>";
     $csv .= "$row[id]	$row[name]\t$row[descr]\n";
-    $totals[2] += $row['qty'];
+    $totals[2] = (int)$totals[2] + (int) $row['qty'];
     if ($allids) {
         $allids .= ',' . $what . ':' . $row['id'];
     } else {

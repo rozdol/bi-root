@@ -20,7 +20,7 @@ if ($tablename == "documents") {
     $newfname = "$fdate-$ftype-$fsum.jpg";
 } else {
     $row = $this->db->GetRow("select * from $tablename where id=$refid");
-    $fdate = $this->dates->F_YMDate($row[date]);
+    $fdate = $this->dates->F_YMDate($row['date']);
     $ftype = $this->db->GetVal("select name from listitems where id=$reftype");
     //$partnersnamelist=$this->utils->F_tostring($this->db->GetResults("select substr(p.name,0,7) as name from partners p, docs2partners d where d.docid=$refid and d.partnerid=p.id"));
     $newfname = "$fdate-$tablename$refid-$ftype.jpg";

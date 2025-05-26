@@ -12,6 +12,6 @@ if (($what == 'delaccessitems')&&($access['main_admin'])){
 }
 
 $out.="<span class='alert alert-error'>Test <b>$item</b> is deleted!</span>";
-$GLOBALS[message_time]=1;
-$out.= $this->html->refreshpage($reflink,$GLOBALS[message_time],"<div class='alert alert-info'>Executed $function $what $item.</div>");
+$GLOBALS['message_time']=1;
+$out.= $this->html->refreshpage($reflink,$GLOBALS['message_time'],"<div class='alert alert-info'>Executed $function $what $item.</div>");
 $body.="$out";

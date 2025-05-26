@@ -3,13 +3,13 @@ if ($what == 'listitems') {
     if ($act=='edit') {
             $sql="select * from $what WHERE id=$id";
             $res=$this->utils->escape($this->db->GetRow($sql));
-        if ($res[default_value]=='t') {
+        if ($res['default_value']=='t') {
             $chk_default_value='checked';
         }
     } else {
         $sql="select * from $what WHERE id=$refid";
         $res2=$this->db->GetRow($sql);
-        $res[list_id]=$refid;
+        $res['list_id']=$refid;
     }
         $out.= "<div class='well columns form-wrap'>
 			<form class='' action='?csrf=$GLOBALS[csrf]&act=save&what=$what' method='post' name='add$what'> 
@@ -31,7 +31,7 @@ if ($what == 'listitems') {
 
 	  ";
       $sql="SELECT id, name FROM lists WHERE id>0 ORDER by name";
-      $input3=$this->html->htlist('list_id', $sql, $res[list_id], '');
+      $input3=$this->html->htlist('list_id', $sql, $res['list_id'], '');
       $out.= "<label>List</label>$input3
 		<label>Qty</label>
 		<input type='text' name='qty' value='$res[qty]' class='span12' placeholder=''/>

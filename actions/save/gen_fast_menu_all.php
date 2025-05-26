@@ -5,7 +5,7 @@ if (!($cur = pg_query($sql))) {$this->html->SQL_error($sql);}
 $rows=pg_num_rows($cur);
 while ($row = pg_fetch_array($cur)) {
 	$i++;
-	$this->data->gen_fast_menu($row[id]);
+	$this->data->gen_fast_menu($row['id']);
 	//$this->livestatus("Generating Menu for GID:$row[id]");
 	echo $this->html->message("Generating Menu for GID:$row[id]");
 	$this->livestatus(str_replace("\"","'",$this->html->draw_progress($i/$rows*100)));

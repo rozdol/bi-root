@@ -24,13 +24,13 @@ $csv.=$this->data->csv($sql);
 while ($row = pg_fetch_array($cur)) {
 	$i++;$n++;
 	$class='';
-	if($row[id]==0)$class='d';
+	if($row['id']==0)$class='d';
 	$out.= "<tr class='$class'>";
 	$out.= "<td>$n</td><td id='$what:$row[id]' class='cart-selectable' reference='$what'>$row[id]</td>";
-	$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\" onClick=\" this.className='blackout'; ajaxFunction('childs_','?csrf=$GLOBALS[csrf]&act=append&what=listitems&list_id=".$row[id]."&refid=".$row[id]."');\">$row[name]</td>";
+	$out.= "<td onMouseover=\"showhint('$row[descr]', this, event, '400px');\" onClick=\" this.className='blackout'; ajaxFunction('childs_','?csrf=$GLOBALS[csrf]&act=append&what=listitems&list_id=".$row['id']."&refid=".$row['id']."');\">$row[name]</td>";
 	$out.= "<td>$row[alias]</td>\n";
-	//$out.= "<td>$somevalue</td><td class='n'>".$this->html->money($row[qty])."</td>";
-	$out.=$this->html->HT_editicons($what, $row[id]);
+	//$out.= "<td>$somevalue</td><td class='n'>".$this->html->money($row['qty'])."</td>";
+	$out.=$this->html->HT_editicons($what, $row['id']);
 	$out.= "</tr>";
 	
 	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];				
