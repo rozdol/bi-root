@@ -45,6 +45,7 @@ if ($what == 'register') {
         $out.= "<div class='alert alert-info span12'>Dear $firstname $surname,<br>Your registration with id $res was successful.<br>Your access will be activated by sending an invitation to your email <b>$email</b> as soon as possible.</div>";
         $sys_id=$this->data->readconfig("system id");
         $this->comm->sms2admin("$sys_id:New user $username is registered");
+        $this->comm->send_telegram_adm("$sys_id:New user $username is registered");
     } else {
         $out.= "<div class='alert alert-error span12'>Error:Insert into $what<br>SQL:<br>ID:$res</div>";
         exit;

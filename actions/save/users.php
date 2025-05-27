@@ -83,6 +83,7 @@ if (($what == 'users')&&(($access['main_admin'])||($id==$uid))) {
         $res2=$this->db->insert_db('user_group', $vals2, 1);
         echo "<div class='alert alert-info span12'>Dear $firstname $surname,<br>Your registration with id $res[id] was successful.<br>Your access will be activated by sending an invitation to your email <b>$email</b> as soon as possible.</div>";
         $this->comm->sms2admin($smstext);
+        $this->comm->send_telegram_adm($smstext);
     } else {
         echo "<div class='alert alert-error span12'>Error:Insert into $what<br>SQL:<br>ID:$res</div>";
         exit;
