@@ -56,7 +56,7 @@ if ($what == 'profile') {
             $result = $this->db->GetVar($query);
             $smstext=APP_NAME.": $username had changed his password ($firstname $surname).";
             $this->comm->sms2admin($smstext);
-            $this->comm->send_telegram_adm($$smstext);
+            $this->comm->send_telegram_adm($smstext);
         }
     }
     if ($err>0) {
