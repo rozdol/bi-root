@@ -1,12 +1,28 @@
 <?php
     //Show messages
+// echo $this->html->pre_display($_POST,"_POST");
     if($sortby==''){$sortby="id desc";}
 
     $tmp=$this->html->readRQcsv('ids');
     if ($tmp!=''){$sql.=" and id in ($tmp)";}
 
-    $tmp=$this->html->readRQn('list_id');
-    if ($tmp>0){$sql.=" and list_id=$tmp";}
+    $tmp=$this->html->readRQn('type_id');
+    if ($tmp>0){$sql.=" and type_id=$tmp";}
+
+    $tmp = $this->html->readRQ("text");
+    if ($tmp <> '') {
+        $sql = "$sql and lower(message) like lower('%$tmp%')";
+    }
+
+    $tmp = $this->html->readRQ("attachment");
+    if ($tmp <> '') {
+        $sql = "$sql and lower(attachments) like lower('%$tmp%')";
+    }
+
+    $tmp = $this->html->readRQ("destination");
+    if ($tmp <> '') {
+        $sql = "$sql and lower(destination) like lower('%$tmp%')";
+    }
 
     $sql1="select *";
     $sql=" from $what a where id>0 $sql";
@@ -14,6 +30,7 @@
     $sql = "$sql order by $sortby";
     $sql2=" limit $limit offset $offset;";
     $sql=$sql1.$sql.$sql2;
+    // echo $this->html->pre_display($sql,"sql");
     //$out.= $sql;
     $fields=['id','name','date','time','type','status','source','destination','subject','attachments','function','user','message'];
     //$sort= $fields;
