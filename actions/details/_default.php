@@ -7,7 +7,7 @@ if ($what == $tablename) {
         $this->html->SQL_error($sql);
     }
     $res=$this->db->GetRow("select * from $what where id=$id; -- default details");
-    //$partner=$this->data->detalize('partners', $res[partner_id]);
+    //$partner=$this->data->detalize('partners', $res['partner_id']);
     $date=$this->dates->F_date($this->html->readRQ('date'), 1);
     $out.= "<h1>$res[name]</h1>\n";
     $out.=$this->data->details_bar($what, $id);
@@ -33,7 +33,7 @@ if ($what == $tablename) {
     }
 
     $out.="</table>";
-    if ($res[descr]) {
+    if ($res['descr']) {
         $out.= "Description:<br><pre>$res[descr]</pre>";
     }
 
@@ -44,11 +44,11 @@ if ($what == $tablename) {
         $out.=$this->show_docs2obj($id, $what);
     }
     
-    $_POST[noadd]='';
+    $_POST['noadd']='';
 
-    $_POST[tablename]=$what;
-    $_POST[refid]=$id;
-    $_POST[reffinfo]="&tablename=$what&refid=$id";
+    $_POST['tablename']=$what;
+    $_POST['refid']=$id;
+    $_POST['reffinfo']="&tablename=$what&refid=$id";
     if ($this->data->table_exists('schedules')) {
         $out.=$this->show('schedules');
     }
@@ -56,8 +56,8 @@ if ($what == $tablename) {
         $out.=$this->show('comments');
     }
     
-    $_POST[tablename]=$what;
-    $_POST[ref_id]=$id;
+    $_POST['tablename']=$what;
+    $_POST['ref_id']=$id;
     
     
     //$out.= $this->html->show_hide('Table Access', "?act=show&what=tableaccess&plain=1&tablename=$what&refid=$id");

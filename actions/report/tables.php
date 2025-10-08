@@ -9,7 +9,7 @@ if (($what == 'tables')&&($access['main_admin'])) {
         $this->html->SQL_error($sql);
     }
 
-    $fields=array('table','','','');
+    $fields=array('table','show','download','records');
     $out.=$this->html->tablehead($what, $qry, $order, $addbutton, $fields, $sort);
     $nbrow=0;   //Local variable to count number of rows
 
@@ -30,10 +30,10 @@ if (($what == 'tables')&&($access['main_admin'])) {
         $out.= "\t</tr>\n";
         $totqty+=$row[1];
         $totamount+=$row[3];
-        $tables[]=$row[0];
+        $tables[]="$row[0]\t$count";
     }
     $out.= "</table>";
-    $csv=implode(',', $tables);
+    $csv=implode("\n", $tables);
     $out.=$this->utils->exportcsv($csv);
 }
 
