@@ -76,10 +76,10 @@ if (!($cur = pg_query($sql))) {
 $nbrow=0;
 $tbl="";
 while ($row = pg_fetch_array($cur)) {
-    $value=$row[access];
-    $name=$row[name];
-    $groupid=$row[groupid];
-    $accid=$row[id];
+    $value=$row['access'];
+    $name=$row['name'];
+    $groupid=$row['groupid'];
+    $accid=$row['id'];
     //if ($value) {$value=0;} else {$value=1;}
     $tblnow=substr($name, strpos($name, "_")+1, strlen($name)-strpos($name, "_"));
     if ($tblnow<>$tbl) {

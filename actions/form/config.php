@@ -8,17 +8,17 @@
 //          }else{
 //          $id='';
 //          $configname="";
-//          $res[name]="Value";
+//          $res['name']="Value";
 //          $newrecord="<label>Variable Name<span class='small'>New value</span></label><input type='text' name='name' id='textfield' value=''/>";
 //          }
 //  $out.= "
 //      <div id='stylized' class='well'>
-//        <form id='form1' name='form1' method='post' action='?csrf=$GLOBALS[csrf]&act=save&what=$what' method='post' name='directory'>
+//        <form id='form1' name='form1' method='post' action='?csrf=$GLOBALS['csrf']&act=save&what=$what' method='post' name='directory'>
 //       $configname
 //          <h1>$action System Settings</h1>
 //          <p>Manage System variables</p>
 //      $newrecord
-//      <label>$res[name]<span class='small'><br>Changing value</span></label><textarea></textarea><input type='text' name='value' id='textfield' value='$res[value]'/>
+//      <label>$res['name']<span class='small'><br>Changing value</span></label><textarea></textarea><input type='text' name='value' id='textfield' value='$res['value']'/>
 
 //          ".$this->html->form_confirmations()."
 //              <button type='submit' name='act' value='save' id='button' class='btn btn-primary'  onClick='document.getElementById(\"button\").innerHTML=\"Wait...\";'>Save</button>
@@ -39,7 +39,7 @@ if ($act=='edit') {
 } else {
     $id='';
     $configname="";
-    $res[name]="Value";
+    $res['name']="Value";
     $newrecord="<label>Variable Name<span class='small'>New value</span></label><input type='text' name='name' id='textfield' value=''/>";
 }
 $form_opt['well_class']="span11 columns form-wrap";
@@ -52,8 +52,8 @@ $out.=$this->html->form_hidden('id', $id);
 $out.=$this->html->form_hidden('reference', $reference);
 $out.=$this->html->form_hidden('refid', $refid);
 
-$out.=$this->html->form_text('name', $res[name], 'Name', '', 0, 'span12');
-$out.=$this->html->form_textarea('value', $res[value], 'Value', '', 0, 0, 'span12');
+$out.=$this->html->form_text('name', $res['name'], 'Name', '', 0, 'span12');
+$out.=$this->html->form_textarea('value', $res['value'], 'Value', '', 0, 0, 'span12');
 
 
 $out.=$this->html->form_confirmations();

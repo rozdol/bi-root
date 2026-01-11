@@ -31,16 +31,16 @@ $rows=pg_num_rows($cur);if($rows>0)$csv.=$this->data->csv($sql);
 while ($row = pg_fetch_array($cur)) {
 	$i++;
 	$class='';
-	//if($row[id]==0)$class='d';
+	//if($row['id']==0)$class='d';
 	
 	$out.= "<tr class='$class'>";
 	$out.= "<td>$i</td>";
 	$out.= "<td onMouseover=\"showhint('$row[value]', this, event, '400px');\">$row[name]</td>";
-	$row[value]=$this->utf8->utf8_cutByPixel($row[value], 400, false);
+	$row['value']=$this->utf8->utf8_cutByPixel($row['value'], 400, false);
 	$out.= "<td><a href=''>$row[value]</td>";
-	$out.=$this->html->HT_editicons($what, $row[id]);
+	$out.=$this->html->HT_editicons($what, $row['id']);
 	$out.= "</tr>";
-	$totals[2]+=$row[qty];
+	$totals[2] = (float) $totals[2] + (float) $$row['qty'];
 	if ($allids) $allids.=','.$what.':'.$row['id']; else $allids.=$what.':'.$row['id'];			
 	$this->livestatus(str_replace("\"","'",$this->html->draw_progress($i/$rows*100)));	
 }

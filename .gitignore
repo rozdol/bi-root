@@ -20,6 +20,7 @@
 *.tar
 *.zip
 *.php.bkp
+*.php.bkp.*
 
 # Logs and databases #
 ######################
